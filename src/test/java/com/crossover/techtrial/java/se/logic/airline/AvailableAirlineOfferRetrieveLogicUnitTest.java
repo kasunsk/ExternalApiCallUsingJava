@@ -64,8 +64,7 @@ public class AvailableAirlineOfferRetrieveLogicUnitTest {
 
     private OfferRequest getOfferRequest() {
         OfferRequest offerRequest = new OfferRequest();
-        offerRequest.setApplicantId("12");
-        offerRequest.setStatus(AirlineOffer.AirlineOfferStatus.AVAILABLE);
+        offerRequest.setUserId("12");
         return offerRequest;
     }
 }

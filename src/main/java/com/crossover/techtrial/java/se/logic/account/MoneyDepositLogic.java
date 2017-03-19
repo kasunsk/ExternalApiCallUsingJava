@@ -33,7 +33,7 @@ public class MoneyDepositLogic extends StatelessServiceLogic<BankAccount, Deposi
         validate(depositRequest);
         BankAccount account = accountHibernateDao.loadAccountById(Long.parseLong(depositRequest.getAccountId()));
         Double newBalance = getNewBalance(depositRequest, account);
-        account.setAvailableAmount(newBalance);
+       // account.setAvailableAmount(newBalance);
         accountHibernateDao.updateAccount(account);
         return account;
     }
@@ -49,23 +49,24 @@ public class MoneyDepositLogic extends StatelessServiceLogic<BankAccount, Deposi
 
     private double getNewBalance(DepositRequest depositRequest, BankAccount account) {
 
-        if (account == null) {
-            throw new ServiceRuntimeException(ErrorCode.ACCOUNT_NOT_EXIST, "Invalid Account");
-        }
-
-        Price depositPrice = depositRequest.getPrice();
-
-        //Provide currency exchange if necessary
-        if (!account.getCurrency().equals(depositPrice.getCurrency())) {
-            CurrencyExchangeRequest exchangeRequest = new CurrencyExchangeRequest();
-            exchangeRequest.setTargetCurrency(account.getCurrency());
-            exchangeRequest.setMonetaryAmount(depositPrice);
-            depositPrice = accountService.exchangeCurrency(new ServiceRequest<>(exchangeRequest)).getPayload();
-        }
-
-        BigDecimal newBalance = BigDecimal.valueOf(account.getAvailableAmount()).add(BigDecimal
-                .valueOf(depositPrice.getPrice()));
-
-        return newBalance.doubleValue();
+//        if (account == null) {
+//            throw new ServiceRuntimeException(ErrorCode.ACCOUNT_NOT_EXIST, "Invalid Account");
+//        }
+//
+//        Price depositPrice = depositRequest.getPrice();
+//
+//        //Provide currency exchange if necessary
+//        if (!account.getCurrency().equals(depositPrice.getCurrency())) {
+//            CurrencyExchangeRequest exchangeRequest = new CurrencyExchangeRequest();
+//            exchangeRequest.setTargetCurrency(account.getCurrency());
+//            exchangeRequest.setMonetaryAmount(depositPrice);
+//            depositPrice = accountService.exchangeCurrency(new ServiceRequest<>(exchangeRequest)).getPayload();
+//        }
+//
+//        BigDecimal newBalance = BigDecimal.valueOf(account.getAvailableAmount()).add(BigDecimal
+//                .valueOf(depositPrice.getPrice()));
+//
+//        return newBalance.doubleValue();
+        return 0D;
     }
 }

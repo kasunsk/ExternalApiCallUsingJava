@@ -4,6 +4,7 @@ import com.crossover.techtrial.java.se.common.dto.*;
 import com.crossover.techtrial.java.se.common.dto.Void;
 import com.crossover.techtrial.java.se.common.service.RequestAssembler;
 import com.crossover.techtrial.java.se.dao.account.AccountDao;
+import com.crossover.techtrial.java.se.dto.account.AccountRequest;
 import com.crossover.techtrial.java.se.dto.account.DepositRequest;
 import com.crossover.techtrial.java.se.dto.account.MoneyTransferRequest;
 import com.crossover.techtrial.java.se.logic.account.*;
@@ -48,9 +49,9 @@ public class AccountServiceImpl implements AccountService {
     private CurrencyExchangeLogic currencyExchangeLogic;
 
     @Override
-    public ServiceResponse<BankAccount> createAccount(ServiceRequest<BankAccount> bankAccount) {
+    public ServiceResponse<Account> createAccount(ServiceRequest<AccountCreateCriteria> criteria) {
 
-        return RequestAssembler.assemble(accountCreateLogic, bankAccount);
+        return RequestAssembler.assemble(accountCreateLogic, criteria);
     }
 
     @Override

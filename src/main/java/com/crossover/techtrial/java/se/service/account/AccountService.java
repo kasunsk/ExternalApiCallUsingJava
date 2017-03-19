@@ -2,8 +2,11 @@ package com.crossover.techtrial.java.se.service.account;
 
 import com.crossover.techtrial.java.se.common.dto.*;
 import com.crossover.techtrial.java.se.common.dto.Void;
+import com.crossover.techtrial.java.se.dto.account.AccountRequest;
 import com.crossover.techtrial.java.se.dto.account.DepositRequest;
 import com.crossover.techtrial.java.se.dto.account.MoneyTransferRequest;
+import com.crossover.techtrial.java.se.logic.account.Account;
+import com.crossover.techtrial.java.se.logic.account.AccountCreateCriteria;
 import com.crossover.techtrial.java.se.model.account.BankAccount;
 
 import java.util.List;
@@ -15,10 +18,10 @@ public interface AccountService {
 
     /**
      *
-     * @param bankAccount
+     * @param accountCreateCriteria
      * @return Created BankAccount
      */
-    ServiceResponse<BankAccount> createAccount(ServiceRequest<BankAccount> bankAccount);
+    ServiceResponse<Account> createAccount(ServiceRequest<AccountCreateCriteria> accountCreateCriteria);
 
     /**
      *

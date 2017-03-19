@@ -27,11 +27,11 @@ public class AirlineController {
     @Autowired
     private EmailService emailService;
 
-    @RequestMapping(value = "/{applicantId}/gammaairlines/offers", method = RequestMethod.GET)
+    @RequestMapping(value = "/{userId}/gammaairlines/offers", method = RequestMethod.GET)
     @ResponseBody
-    public List<GammaAirlineOffer> retrieveAvailableOffers(@PathVariable("applicantId") String applicantId) {
+    public List<GammaAirlineOffer> retrieveAvailableOffers(@PathVariable("userId") String userId) {
         OfferRequest offerRequest = new OfferRequest();
-        offerRequest.setApplicantId(applicantId);
+        offerRequest.setUserId(userId);
         ServiceResponse<List<GammaAirlineOffer>> response = airlineService.retrieveAvailableAirlineOffers(new ServiceRequest<>(offerRequest));
         return response.getPayload();
     }

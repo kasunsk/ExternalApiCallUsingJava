@@ -15,6 +15,9 @@ public class ApplicationProperties {
     @Value("${applicant.id}")
     private String applicantId;
 
+    @Value("${base.api.url}")
+    private String baseAPIUrl;
+
     @Value("${initial.deposit.amount}")
     private String initialDepositAmount;
 
@@ -23,6 +26,10 @@ public class ApplicationProperties {
 
     public String getApplicantId() {
         return applicantId;
+    }
+
+    public String getBaseAPIUrl() {
+        return baseAPIUrl;
     }
 
     public Double getInitialDepositAmount() {

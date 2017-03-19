@@ -42,23 +42,23 @@ public class AirlineTicketBuyingLogic extends StatelessServiceLogic<UserTicket, 
     public UserTicket invoke(TicketBuy request) {
 
         validateTicketBuyingRequest(request);
-        TicketBuyingRequest ticketBuyingRequest = request.getTicketBuyingRequest();
-        BankAccount applicantBankAccount = accountDao.loadAccountById(Long.parseLong(ticketBuyingRequest.getAccountId()));
-
-        if (applicantBankAccount == null) {
-            throw new ServiceRuntimeException(ErrorCode.ACCOUNT_NOT_EXIST, "Invalid bank account");
-        }
-        Double availableAmount = applicantBankAccount.getAvailableAmount();
-        AirlineOfferModel airlineOffer = helper.loadOfferByRout(ticketBuyingRequest.getAirlineRout());
-        validateAirlineOfferInventoryAvailability(airlineOffer, ticketBuyingRequest);
-        Price offerPrice = getConvertedOfferPrice(airlineOffer, applicantBankAccount.getCurrency());
-        Price price = calculatePaymentAmount(availableAmount, offerPrice, ticketBuyingRequest.getTicketAmount());
-        processPayment(price, applicantBankAccount);
-
-        UserTicket userTicket = getUserTicket(request.getApplicantId(), airlineOffer, ticketBuyingRequest);
-        accountDao.saveUserTicket(userTicket);
-        updateInventory(airlineOffer, ticketBuyingRequest);
-        return userTicket;
+//        TicketBuyingRequest ticketBuyingRequest = request.getTicketBuyingRequest();
+//        BankAccount applicantBankAccount = accountDao.loadAccountById(Long.parseLong(ticketBuyingRequest.getAccountId()));
+//
+//        if (applicantBankAccount == null) {
+//            throw new ServiceRuntimeException(ErrorCode.ACCOUNT_NOT_EXIST, "Invalid bank account");
+//        }
+//       // Double availableAmount = applicantBankAccount.getAvailableAmount();
+//        AirlineOfferModel airlineOffer = helper.loadOfferByRout(ticketBuyingRequest.getAirlineRout());
+//        validateAirlineOfferInventoryAvailability(airlineOffer, ticketBuyingRequest);
+//        Price offerPrice = getConvertedOfferPrice(airlineOffer, applicantBankAccount.getCurrency());
+//        Price price = calculatePaymentAmount(availableAmount, offerPrice, ticketBuyingRequest.getTicketAmount());
+//        processPayment(price, applicantBankAccount);
+//
+//        UserTicket userTicket = getUserTicket(request.getApplicantId(), airlineOffer, ticketBuyingRequest);
+//        accountDao.saveUserTicket(userTicket);
+//        updateInventory(airlineOffer, ticketBuyingRequest);
+        return null;
     }
 
     private void validateTicketBuyingRequest(TicketBuy request) {
@@ -111,9 +111,9 @@ public class AirlineTicketBuyingLogic extends StatelessServiceLogic<UserTicket, 
 
     private void processPayment(Price price, BankAccount applicantBankAccount) {
 
-        Double newAccountBalance = applicantBankAccount.getAvailableAmount() - price.getPrice();
-        applicantBankAccount.setAvailableAmount(newAccountBalance);
-        accountDao.updateAccount(applicantBankAccount);
+//        Double newAccountBalance = applicantBankAccount.getAvailableAmount() - price.getPrice();
+//        applicantBankAccount.setAvailableAmount(newAccountBalance);
+//        accountDao.updateAccount(applicantBankAccount);
     }
 
     private UserTicket getUserTicket(String applicantId, AirlineOfferModel airlineOffer, TicketBuyingRequest request) {

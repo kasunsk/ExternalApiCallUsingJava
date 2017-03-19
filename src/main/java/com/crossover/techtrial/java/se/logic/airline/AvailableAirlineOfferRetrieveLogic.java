@@ -2,6 +2,7 @@ package com.crossover.techtrial.java.se.logic.airline;
 
 import com.crossover.techtrial.java.se.adapter.airline.AirlineOfferAdapter;
 import com.crossover.techtrial.java.se.common.service.StatelessServiceLogic;
+import com.crossover.techtrial.java.se.configuration.ApplicationProperties;
 import com.crossover.techtrial.java.se.dao.airline.AirlineDao;
 import com.crossover.techtrial.java.se.dto.airline.AirlineOffer;
 import com.crossover.techtrial.java.se.dto.airline.GammaAirlineOffer;
@@ -23,15 +24,8 @@ import java.util.List;
 public class AvailableAirlineOfferRetrieveLogic extends StatelessServiceLogic<List<GammaAirlineOffer>, OfferRequest> {
 
     @Autowired
-    private AirlineDao airlineDao;
+    private ApplicationProperties applicationProperties;
 
-    @Autowired
-    private AirlineOfferAdapter offerAdapter;
-
-    @Autowired
-    private AirlineOfferLogicHelper logicHelper;
-
-    @Transactional
     @Override
     public List<GammaAirlineOffer> invoke(OfferRequest offerRequest) {
 
@@ -39,7 +33,7 @@ public class AvailableAirlineOfferRetrieveLogic extends StatelessServiceLogic<Li
         RestTemplate restTemplate = new RestTemplate();
 
         String availableOfferUrl
-                = "https://api-forest.crossover.com/jEL7J14/gammaairlines/offers";
+                = applicationProperties.getBaseAPIUrl() + applicationProperties.getApplicantId() + "/gammaairlines/offers";
 
         ResponseEntity<GammaAirlineOffer[]> responseEntity = restTemplate.getForEntity(availableOfferUrl, GammaAirlineOffer[].class);
         GammaAirlineOffer[] airlineOffers = responseEntity.getBody();
@@ -49,6 +43,6 @@ public class AvailableAirlineOfferRetrieveLogic extends StatelessServiceLogic<Li
     private void validateOfferRequest(OfferRequest offerRequest) {
 
         ValidationUtil.validate(offerRequest,"Invalid request");
-        ValidationUtil.validate(offerRequest.getApplicantId(), "Invalid applicant id");
+        ValidationUtil.validate(offerRequest.getUserId(), "Invalid applicant id");
     }
 }

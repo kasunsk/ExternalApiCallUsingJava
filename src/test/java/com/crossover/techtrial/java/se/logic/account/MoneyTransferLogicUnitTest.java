@@ -80,8 +80,8 @@ public class MoneyTransferLogicUnitTest {
     public void invokeTest() {
 
         BankAccount bankAccount = new BankAccount();
-        bankAccount.setAvailableAmount(25000D);
-        bankAccount.setCurrency(Currency.USD);
+       // bankAccount.setAvailableAmount(25000D);
+        //bankAccount.setCurrency(Currency.USD);
 
         when(accountDao.loadAccountById(25L)).thenReturn(bankAccount);
         MoneyTransferRequest request = new MoneyTransferRequest();

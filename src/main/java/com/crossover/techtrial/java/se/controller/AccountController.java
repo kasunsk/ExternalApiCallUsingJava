@@ -100,7 +100,7 @@ public class AccountController {
 
         BankAccount bankAccount = new BankAccount();
         bankAccount.setUser(user);
-        bankAccount.setCurrency(accountRequest.getCurrency());
+      //  bankAccount.setCurrency(accountRequest.getCurrency());
         return bankAccount;
     }
 

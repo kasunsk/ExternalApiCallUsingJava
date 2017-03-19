@@ -98,7 +98,7 @@ public class MoneyDepositLogicUnitTest {
     public void invokeMoneyExchangeTest() {
 
         BankAccount bankAccount = getBankAccount();
-        bankAccount.setCurrency(Currency.USD);
+        //bankAccount.setCurrency(Currency.USD);
         DepositRequest depositRequest = getDepositRequest();
 
         when(accountHibernateDao.loadAccountById(12L)).thenReturn(bankAccount);
@@ -122,8 +122,8 @@ public class MoneyDepositLogicUnitTest {
 
     private BankAccount getBankAccount() {
         BankAccount bankAccount = new BankAccount();
-        bankAccount.setCurrency(Currency.AUD);
-        bankAccount.setAvailableAmount(1000D);
+        //bankAccount.setCurrency(Currency.AUD);
+       // bankAccount.setAvailableAmount(1000D);
         return bankAccount;
     }
 

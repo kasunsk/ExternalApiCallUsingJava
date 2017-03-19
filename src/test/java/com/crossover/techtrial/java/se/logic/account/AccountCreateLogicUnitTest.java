@@ -56,7 +56,7 @@ public class AccountCreateLogicUnitTest  {
     public void invokeTest() {
 
         BankAccount bankAccount = new BankAccount();
-        bankAccount.setCurrency(Currency.AUD);
+       // bankAccount.setCurrency(Currency.AUD);
         when(accountHibernateDao.createAccount(bankAccount)).thenReturn(bankAccount);
         when(environment.getRequiredProperty("initial.deposit.amount")).thenReturn("1000");
         when(environment.getRequiredProperty("initial.deposit.currency")).thenReturn("USD");
@@ -76,8 +76,8 @@ public class AccountCreateLogicUnitTest  {
     public void invokeNotEmptyAvailableMoneyTest() {
 
         BankAccount bankAccount = new BankAccount();
-        bankAccount.setCurrency(Currency.USD);
-        bankAccount.setAvailableAmount(2000D);
+        //bankAccount.setCurrency(Currency.USD);
+        //bankAccount.setAvailableAmount(2000D);
         bankAccount.setUser(new User());
         when(accountHibernateDao.createAccount(bankAccount)).thenReturn(bankAccount);
         BankAccount resultAccount = logic.invoke(bankAccount);

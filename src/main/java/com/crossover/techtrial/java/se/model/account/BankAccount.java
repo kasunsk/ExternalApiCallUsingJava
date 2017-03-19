@@ -28,12 +28,9 @@ public class BankAccount extends AbstractTrackableEntity {
     @ManyToOne(cascade= CascadeType.ALL, fetch = FetchType.LAZY)
     private User user;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "CURRENCY", nullable = false)
-    private Currency currency;
+    @Column(name = "ACCOUNT_NUMBER", nullable = false)
+    private String accountNumber;
 
-    @Column(name = "AVAILABLE_AMOUNT", nullable = false)
-    private Double availableAmount;
 
     public Long getAccountId() {
         return accountId;
@@ -51,19 +48,11 @@ public class BankAccount extends AbstractTrackableEntity {
         this.user = user;
     }
 
-    public Currency getCurrency() {
-        return currency;
+    public String getAccountNumber() {
+        return accountNumber;
     }
 
-    public void setCurrency(Currency currency) {
-        this.currency = currency;
-    }
-
-    public Double getAvailableAmount() {
-        return availableAmount;
-    }
-
-    public void setAvailableAmount(Double availableAmount) {
-        this.availableAmount = availableAmount;
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
     }
 }

@@ -23,28 +23,28 @@ public class MoneyTransferLogic extends StatelessServiceLogic<Boolean, MoneyTran
     public Boolean invoke(MoneyTransferRequest request) {
 
         validateRequest(request);
-        BankAccount bankAccount = accountHibernateDao.loadAccountById(Long.parseLong(request.getAccountNumber()));
-
-        if (bankAccount == null) {
-            throw new ServiceRuntimeException(ErrorCode.ACCOUNT_NOT_EXIST, "Account not exist");
-        }
-        Double newAmount;
-
-        //TODO currency exchange should apply here
-        if (request.getTransferType().equals(MoneyTransferRequest.TransferType.DEPOSIT)) {
-            newAmount = bankAccount.getAvailableAmount() + request.getTransferAmount();
-
-        } else {
-            newAmount = bankAccount.getAvailableAmount() - request.getTransferAmount();
-        }
-
-        if (newAmount >= 0) {
-            bankAccount.setAvailableAmount(newAmount);
-        } else {
-            return false;
-        }
-
-        accountHibernateDao.updateAccount(bankAccount);
+//        BankAccount bankAccount = accountHibernateDao.loadAccountById(Long.parseLong(request.getAccountNumber()));
+//
+//        if (bankAccount == null) {
+//            throw new ServiceRuntimeException(ErrorCode.ACCOUNT_NOT_EXIST, "Account not exist");
+//        }
+//        Double newAmount;
+//
+//        //TODO currency exchange should apply here
+//        if (request.getTransferType().equals(MoneyTransferRequest.TransferType.DEPOSIT)) {
+//         //   newAmount = bankAccount.getAvailableAmount() + request.getTransferAmount();
+//
+//        } else {
+//           // newAmount = bankAccount.getAvailableAmount() - request.getTransferAmount();
+//        }
+//
+//        if (newAmount >= 0) {
+//            bankAccount.setAvailableAmount(newAmount);
+//        } else {
+//            return false;
+//        }
+//
+//        accountHibernateDao.updateAccount(bankAccount);
         return true;
     }
 
