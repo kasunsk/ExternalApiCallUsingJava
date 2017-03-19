@@ -28,7 +28,7 @@ public interface AccountService {
      * @param depositRequest
      * @return updated BankAccount
      */
-    ServiceResponse<BankAccount> deposit(ServiceRequest<DepositRequest> depositRequest);
+    ServiceResponse<Account> deposit(ServiceRequest<MoneyTransferRequest> depositRequest);
 
     /**
      *
@@ -49,7 +49,7 @@ public interface AccountService {
      * @param applicantId
      * @return List of all BankAccount of applicant
      */
-    ServiceResponse<List<BankAccount>> loadAllAccounts(ServiceRequest<String> applicantId);
+    ServiceResponse<List<Account>> loadAllAccounts(ServiceRequest<String> applicantId);
 
     /**
      *

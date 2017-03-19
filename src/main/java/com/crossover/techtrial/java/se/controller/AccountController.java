@@ -6,6 +6,7 @@ import com.crossover.techtrial.java.se.common.dto.Price;
 import com.crossover.techtrial.java.se.common.dto.ServiceRequest;
 import com.crossover.techtrial.java.se.dto.account.AccountRequest;
 import com.crossover.techtrial.java.se.dto.account.DepositRequest;
+import com.crossover.techtrial.java.se.logic.account.Account;
 import com.crossover.techtrial.java.se.model.account.BankAccount;
 import com.crossover.techtrial.java.se.model.user.User;
 import com.crossover.techtrial.java.se.service.account.AccountService;
@@ -32,23 +33,23 @@ public class AccountController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/{applicantId}/paypallets/account", method = RequestMethod.POST,
-            consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    @ResponseBody
-    public BankAccount createAccount(@PathVariable("applicantId") String applicantId, @RequestBody AccountRequest accountRequest) {
-
-        BankAccount bankAccount = buildAccountCreateRequest(applicantId, accountRequest);
-        return accountService.createAccount(new ServiceRequest<>(bankAccount)).getPayload();
-    }
-
-    @RequestMapping(value = "/{applicantId}/paypallets/account/deposit", method = RequestMethod.POST,
-            consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    @ResponseBody
-    public BankAccount deposits(@PathVariable("applicantId") String applicantId, @RequestBody DepositRequest depositRequest) {
-
-        validateUser(applicantId);
-        return accountService.deposit(new ServiceRequest<>(depositRequest)).getPayload();
-    }
+//    @RequestMapping(value = "/{applicantId}/paypallets/account", method = RequestMethod.POST,
+//            consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    @ResponseBody
+//    public BankAccount createAccount(@PathVariable("applicantId") String applicantId, @RequestBody AccountRequest accountRequest) {
+//
+//        BankAccount bankAccount = buildAccountCreateRequest(applicantId, accountRequest);
+//        return accountService.createAccount(new ServiceRequest<>(bankAccount)).getPayload();
+//    }
+//
+//    @RequestMapping(value = "/{applicantId}/paypallets/account/deposit", method = RequestMethod.POST,
+//            consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    @ResponseBody
+//    public BankAccount deposits(@PathVariable("applicantId") String applicantId, @RequestBody DepositRequest depositRequest) {
+//
+//        validateUser(applicantId);
+//        return accountService.deposit(new ServiceRequest<>(depositRequest)).getPayload();
+//    }
 
     @RequestMapping(value = "/{applicantId}/paypallets/account/withdraw", method = RequestMethod.POST,
             consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -59,11 +60,11 @@ public class AccountController {
         return accountService.withdraw(new ServiceRequest<>(depositRequest)).getPayload();
     }
 
-    @RequestMapping(value = "/{applicantId}/paypallets/account/all", method = RequestMethod.GET)
+    @RequestMapping(value = "/{userId}/paypallets/account/all", method = RequestMethod.GET)
     @ResponseBody
-    public List<BankAccount> viewAllAccounts(@PathVariable("applicantId") String applicantId) {
+    public List<Account> viewAllAccounts(@PathVariable("userId") String userId) {
 
-        return accountService.loadAllAccounts(new ServiceRequest<>(applicantId)).getPayload();
+        return accountService.loadAllAccounts(new ServiceRequest<>(userId)).getPayload();
     }
 
     @RequestMapping(value = "/{applicantId}/paypallets/account/remove/{accountId}", method = RequestMethod.GET)

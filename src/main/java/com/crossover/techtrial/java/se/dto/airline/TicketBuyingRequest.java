@@ -2,11 +2,13 @@ package com.crossover.techtrial.java.se.dto.airline;
 
 import com.crossover.techtrial.java.se.model.airline.Route;
 
-public class TicketBuyingRequest {
+import java.io.Serializable;
+
+public class TicketBuyingRequest implements Serializable{
 
     private String accountId;
-    private Integer ticketAmount;
-    private Route airlineRout;
+    private Integer amount;
+    private Route route;
 
     public String getAccountId() {
         return accountId;
@@ -16,19 +18,19 @@ public class TicketBuyingRequest {
         this.accountId = accountId;
     }
 
-    public Integer getTicketAmount() {
-        return ticketAmount;
+    public Integer getAmount() {
+        return amount;
     }
 
-    public void setTicketAmount(Integer ticketAmount) {
-        this.ticketAmount = ticketAmount;
+    public void setAmount(Integer amount) {
+        this.amount = amount;
     }
 
-    public Route getAirlineRout() {
-        return airlineRout;
+    public Route getRoute() {
+        return route;
     }
 
-    public void setAirlineRout(Route airlineRout) {
-        this.airlineRout = airlineRout;
+    public void setRoute(Route route) {
+        this.route = route;
     }
 }

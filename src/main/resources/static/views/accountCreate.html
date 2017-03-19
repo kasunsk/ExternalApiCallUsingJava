@@ -12,7 +12,7 @@
     <div data-ng-init="accountList();">
         <table class="table">
             <tr class="tr">
-                <th>Index</th>
+                <th>ID</th>
                 <th>Available Amount</th>
                 <th>Currency</th>
                 <th>Deposit</th>
@@ -20,9 +20,9 @@
             </tr>
             <tbody data-ng-repeat="account in allAccounts">
             <tr>
-                <td>{{$index + 1}}</td>
-                <td>{{account.availableAmount}}</td>
-                <td>{{account.currency}}</td>
+                <td>{{account.id}}</td>
+                <td>{{account.balance.amount}}</td>
+                <td>{{account.balance.currency}}</td>
                 <td>
                     <button class="btn btn-primary" data-ng-click="showInput($index);">Deposit</button>
                 </td>

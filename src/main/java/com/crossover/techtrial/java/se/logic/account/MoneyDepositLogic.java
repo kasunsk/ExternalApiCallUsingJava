@@ -1,24 +1,27 @@
 package com.crossover.techtrial.java.se.logic.account;
 
-import com.crossover.techtrial.java.se.common.dto.CurrencyExchangeRequest;
-import com.crossover.techtrial.java.se.common.dto.Price;
-import com.crossover.techtrial.java.se.common.dto.ServiceRequest;
+import com.crossover.techtrial.java.se.common.dto.*;
+import com.crossover.techtrial.java.se.common.dto.Void;
 import com.crossover.techtrial.java.se.common.execption.ErrorCode;
 import com.crossover.techtrial.java.se.common.execption.ServiceRuntimeException;
 import com.crossover.techtrial.java.se.common.service.StatelessServiceLogic;
+import com.crossover.techtrial.java.se.configuration.ApplicationProperties;
 import com.crossover.techtrial.java.se.dao.account.AccountDao;
 import com.crossover.techtrial.java.se.dto.account.DepositRequest;
+import com.crossover.techtrial.java.se.dto.account.MoneyTransferRequest;
 import com.crossover.techtrial.java.se.model.account.BankAccount;
 import com.crossover.techtrial.java.se.service.account.AccountService;
 import com.crossover.techtrial.java.se.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 
 @Component
-public class MoneyDepositLogic extends StatelessServiceLogic<BankAccount, DepositRequest> {
+public class MoneyDepositLogic extends StatelessServiceLogic<Account, MoneyTransferRequest> {
 
     @Autowired
     private AccountDao accountHibernateDao;
@@ -26,25 +29,27 @@ public class MoneyDepositLogic extends StatelessServiceLogic<BankAccount, Deposi
     @Autowired
     private AccountService accountService;
 
-    @Transactional
+    @Autowired
+    private ApplicationProperties applicationProperties;
+
     @Override
-    public BankAccount invoke(DepositRequest depositRequest) {
+    public Account invoke(MoneyTransferRequest depositRequest) {
 
         validate(depositRequest);
-        BankAccount account = accountHibernateDao.loadAccountById(Long.parseLong(depositRequest.getAccountId()));
-        Double newBalance = getNewBalance(depositRequest, account);
-       // account.setAvailableAmount(newBalance);
-        accountHibernateDao.updateAccount(account);
-        return account;
+        String depositUrl = applicationProperties.getBaseAPIUrl() + applicationProperties.getApplicantId()
+                + "/paypallets/account/deposit";
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<Account> response = restTemplate.postForEntity(depositUrl, depositRequest, Account.class);
+        return response.getBody();
     }
 
-    private void validate(DepositRequest depositRequest) {
+    private void validate(MoneyTransferRequest depositRequest) {
 
         ValidationUtil.validate(depositRequest, "Deposit request is null");
         ValidationUtil.validate(depositRequest.getAccountId(), "Account id is null");
-        ValidationUtil.validate(depositRequest.getPrice(), "Price is null");
-        ValidationUtil.validate(depositRequest.getPrice().getCurrency(), "Currency is null");
-        ValidationUtil.validate(depositRequest.getPrice().getPrice(), "Price amount is null");
+        ValidationUtil.validate(depositRequest.getMonetaryAmount(), "Price is null");
+        ValidationUtil.validate(depositRequest.getMonetaryAmount().getCurrency(), "Currency is null");
+        ValidationUtil.validate(depositRequest.getMonetaryAmount().getAmount(), "Price amount is null");
     }
 
     private double getNewBalance(DepositRequest depositRequest, BankAccount account) {

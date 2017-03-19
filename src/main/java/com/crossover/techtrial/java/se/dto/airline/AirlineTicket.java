@@ -5,22 +5,22 @@ package com.crossover.techtrial.java.se.dto.airline;
  */
 public class AirlineTicket {
 
-    private Integer ticketsAmount;
-    private AirlineOffer airlineOffer;
+    private Integer amount;
+    private GammaAirlineOffer details;
 
-    public Integer getTicketsAmount() {
-        return ticketsAmount;
+    public Integer getAmount() {
+        return amount;
     }
 
-    public void setTicketsAmount(Integer ticketsAmount) {
-        this.ticketsAmount = ticketsAmount;
+    public void setAmount(Integer amount) {
+        this.amount = amount;
     }
 
-    public AirlineOffer getAirlineOffer() {
-        return airlineOffer;
+    public GammaAirlineOffer getDetails() {
+        return details;
     }
 
-    public void setAirlineOffer(AirlineOffer airlineOffer) {
-        this.airlineOffer = airlineOffer;
+    public void setDetails(GammaAirlineOffer details) {
+        this.details = details;
     }
 }

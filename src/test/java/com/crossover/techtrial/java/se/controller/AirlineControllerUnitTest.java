@@ -4,6 +4,7 @@ package com.crossover.techtrial.java.se.controller;
 import com.crossover.techtrial.java.se.common.dto.ServiceRequest;
 import com.crossover.techtrial.java.se.common.dto.ServiceResponse;
 import com.crossover.techtrial.java.se.dto.airline.AirlineOffer;
+import com.crossover.techtrial.java.se.dto.airline.AirlineTicket;
 import com.crossover.techtrial.java.se.dto.airline.GammaAirlineOffer;
 import com.crossover.techtrial.java.se.dto.airline.TicketBuyingRequest;
 import com.crossover.techtrial.java.se.model.airline.Airport;
@@ -60,8 +61,8 @@ public class AirlineControllerUnitTest {
     @Test
     public void buyOfferTest() {
 
-        ServiceResponse<UserTicket> response = new ServiceResponse<>();
-        UserTicket userTicket = new UserTicket();
+        ServiceResponse<AirlineTicket> response = new ServiceResponse<>();
+        AirlineTicket userTicket = new AirlineTicket();
         response.setPayload(userTicket);
         when(airlineService.buyAirlineTicket(Matchers.<ServiceRequest>any())).thenReturn(response);
         TicketBuyingRequest ticketBuyingRequest = new TicketBuyingRequest();
@@ -72,8 +73,8 @@ public class AirlineControllerUnitTest {
     @Test
     public void retrieveApplicantTicketsTest() {
 
-        ServiceResponse<List<UserTicket>> response = new ServiceResponse<>();
-        List<UserTicket> userTickets = new ArrayList<>();
+        ServiceResponse<List<AirlineTicket>> response = new ServiceResponse<>();
+        List<AirlineTicket> userTickets = new ArrayList<>();
         response.setPayload(userTickets);
         when(airlineService.retrieveApplicantTickets(Matchers.<ServiceRequest>any())).thenReturn(response);
         assertEquals(userTickets, controller.retrieveApplicantTickets("12"));
@@ -110,8 +111,8 @@ public class AirlineControllerUnitTest {
     @Test
     public void loadUsersTickersTest() {
 
-        ServiceResponse<List<UserTicket>> response = new ServiceResponse<>();
-        List<UserTicket> userTickets = new ArrayList<>();
+        ServiceResponse<List<AirlineTicket>> response = new ServiceResponse<>();
+        List<AirlineTicket> userTickets = new ArrayList<>();
         response.setPayload(userTickets);
         when(airlineService.retrieveApplicantTickets(Matchers.<ServiceRequest>any())).thenReturn(response);
         assertEquals(userTickets, controller.loadUsersTickers("12", "23"));

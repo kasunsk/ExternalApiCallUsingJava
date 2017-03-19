@@ -50,10 +50,10 @@ public class MoneyTransferLogic extends StatelessServiceLogic<Boolean, MoneyTran
 
     private void validateRequest(MoneyTransferRequest request) {
 
-        ValidationUtil.validate(request, "Invalid money transfer request");
-        ValidationUtil.validate(request.getAccountNumber(), "Invalid account number");
-        ValidationUtil.validate(request.getTransferAmount(), "Transfer amount is null");
-        ValidationUtil.validate(request.getCurrency(), "Currency is null");
-        ValidationUtil.validate(request.getTransferType(), "Transfer type is empty");
+//        ValidationUtil.validate(request, "Invalid money transfer request");
+//        ValidationUtil.validate(request.getAccountId(), "Invalid account number");
+//        ValidationUtil.validate(request.getTransferAmount(), "Transfer amount is null");
+//        ValidationUtil.validate(request.getCurrency(), "Currency is null");
+//        ValidationUtil.validate(request.getTransferType(), "Transfer type is empty");
     }
 }

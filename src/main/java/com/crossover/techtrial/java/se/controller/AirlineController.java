@@ -45,22 +45,22 @@ public class AirlineController {
         return Boolean.TRUE;
     }
 
-    @RequestMapping(value = "/{applicantId}/gammaairlines/tickets", method = RequestMethod.GET)
+    @RequestMapping(value = "/{userId}/gammaairlines/tickets", method = RequestMethod.GET)
     @ResponseBody
-    public List<UserTicket> retrieveApplicantTickets(@PathVariable("applicantId") String applicantId) {
+    public List<AirlineTicket> retrieveApplicantTickets(@PathVariable("userId") String userId) {
 
-        return airlineService.retrieveApplicantTickets(new ServiceRequest<>(applicantId)).getPayload();
+        return airlineService.retrieveApplicantTickets(new ServiceRequest<>(userId)).getPayload();
     }
 
 
-    @RequestMapping(value = "/{applicantId}/gammaairlines/offers/buy", method = RequestMethod.POST,
+    @RequestMapping(value = "/{userId}/gammaairlines/offers/buy", method = RequestMethod.POST,
             consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
-    public UserTicket buyOffer(@PathVariable("applicantId") String applicantId, @RequestBody TicketBuyingRequest buyingRequest) {
+    public AirlineTicket buyOffer(@PathVariable("userId") String userId, @RequestBody TicketBuyingRequest buyingRequest) {
 
         TicketBuy ticketBuy = new TicketBuy();
         ticketBuy.setTicketBuyingRequest(buyingRequest);
-        ticketBuy.setApplicantId(applicantId);
+        ticketBuy.setApplicantId(userId);
         ServiceRequest<TicketBuy> serviceRequest = new ServiceRequest<>(ticketBuy);
         return airlineService.buyAirlineTicket(serviceRequest).getPayload();
     }
@@ -97,7 +97,7 @@ public class AirlineController {
 
     @RequestMapping(value = "/{applicantId}/gammaairlines/tickets/{userId}", method = RequestMethod.GET)
     @ResponseBody
-    public List<UserTicket> loadUsersTickers(@PathVariable("applicantId") String applicantId, @PathVariable("userId") String userId) {
+    public List<AirlineTicket> loadUsersTickers(@PathVariable("applicantId") String applicantId, @PathVariable("userId") String userId) {
 
         return airlineService.retrieveApplicantTickets(new ServiceRequest<>(userId)).getPayload();
     }

@@ -26,10 +26,10 @@
     <div>
         <label for="account">Account</label>
         <select name="account" id="account" data-ng-model="account" class="small_select"
-                data-ng-options="account as account.availableAmount +' '+ account.currency for account in allAccounts"></select>
-        <label for="ticketAmount">Number of Tickets</label>
-        <input type="text" name="ticketAmount" id="ticketAmount"
-               data-ng-model="buyingRequest.ticketAmount"/>
+                data-ng-options="account as account.balance.amount +' '+ account.balance.currency for account in allAccounts"></select>
+        <label for="amount">Number of Tickets</label>
+        <input type="text" name="amount" id="amount"
+               data-ng-model="buyingRequest.amount"/>
         <br>
         <button class="button" data-ng-click="buy(account, buyingRequest);">Buy</button>
     </div>

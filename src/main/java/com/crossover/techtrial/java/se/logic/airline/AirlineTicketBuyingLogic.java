@@ -4,17 +4,22 @@ import com.crossover.techtrial.java.se.common.dto.*;
 import com.crossover.techtrial.java.se.common.execption.ErrorCode;
 import com.crossover.techtrial.java.se.common.execption.ServiceRuntimeException;
 import com.crossover.techtrial.java.se.common.service.StatelessServiceLogic;
+import com.crossover.techtrial.java.se.configuration.ApplicationProperties;
 import com.crossover.techtrial.java.se.dao.account.AccountDao;
 import com.crossover.techtrial.java.se.dao.airline.AirlineDao;
+import com.crossover.techtrial.java.se.dto.airline.AirlineTicket;
 import com.crossover.techtrial.java.se.dto.airline.TicketBuy;
 import com.crossover.techtrial.java.se.dto.airline.TicketBuyingRequest;
+import com.crossover.techtrial.java.se.logic.account.Account;
 import com.crossover.techtrial.java.se.model.account.BankAccount;
 import com.crossover.techtrial.java.se.model.airline.AirlineOfferModel;
 import com.crossover.techtrial.java.se.model.user.UserTicket;
 import com.crossover.techtrial.java.se.service.account.AccountService;
 import com.crossover.techtrial.java.se.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
@@ -23,7 +28,7 @@ import java.math.BigDecimal;
  * This class provide logic of buying airline tickets
  */
 @Component
-public class AirlineTicketBuyingLogic extends StatelessServiceLogic<UserTicket, TicketBuy> {
+public class AirlineTicketBuyingLogic extends StatelessServiceLogic<AirlineTicket, TicketBuy> {
 
     @Autowired
     private AccountDao accountDao;
@@ -35,30 +40,21 @@ public class AirlineTicketBuyingLogic extends StatelessServiceLogic<UserTicket, 
     private AirlineOfferLogicHelper helper;
 
     @Autowired
+    private ApplicationProperties applicationProperties;
+
+    @Autowired
     private AirlineDao airlineDao;
 
     @Transactional
     @Override
-    public UserTicket invoke(TicketBuy request) {
+    public AirlineTicket invoke(TicketBuy request) {
 
         validateTicketBuyingRequest(request);
-//        TicketBuyingRequest ticketBuyingRequest = request.getTicketBuyingRequest();
-//        BankAccount applicantBankAccount = accountDao.loadAccountById(Long.parseLong(ticketBuyingRequest.getAccountId()));
-//
-//        if (applicantBankAccount == null) {
-//            throw new ServiceRuntimeException(ErrorCode.ACCOUNT_NOT_EXIST, "Invalid bank account");
-//        }
-//       // Double availableAmount = applicantBankAccount.getAvailableAmount();
-//        AirlineOfferModel airlineOffer = helper.loadOfferByRout(ticketBuyingRequest.getAirlineRout());
-//        validateAirlineOfferInventoryAvailability(airlineOffer, ticketBuyingRequest);
-//        Price offerPrice = getConvertedOfferPrice(airlineOffer, applicantBankAccount.getCurrency());
-//        Price price = calculatePaymentAmount(availableAmount, offerPrice, ticketBuyingRequest.getTicketAmount());
-//        processPayment(price, applicantBankAccount);
-//
-//        UserTicket userTicket = getUserTicket(request.getApplicantId(), airlineOffer, ticketBuyingRequest);
-//        accountDao.saveUserTicket(userTicket);
-//        updateInventory(airlineOffer, ticketBuyingRequest);
-        return null;
+        RestTemplate restTemplate = new RestTemplate();
+        String accountCreateUrl
+                = applicationProperties.getBaseAPIUrl() + applicationProperties.getApplicantId() + "/gammaairlines/tickets/buy";
+        ResponseEntity<AirlineTicket> response = restTemplate.postForEntity(accountCreateUrl, request.getTicketBuyingRequest(), AirlineTicket.class);
+        return response.getBody();
     }
 
     private void validateTicketBuyingRequest(TicketBuy request) {
@@ -67,17 +63,15 @@ public class AirlineTicketBuyingLogic extends StatelessServiceLogic<UserTicket, 
         ValidationUtil.validate(request.getApplicantId(), "Applicant Id is null");
         ValidationUtil.validate(request.getTicketBuyingRequest(), "Buying request is null");
         ValidationUtil.validate(request.getTicketBuyingRequest().getAccountId(), "Account id is null");
-        ValidationUtil.validate(request.getTicketBuyingRequest().getAirlineRout(), "Route is null");
-        ValidationUtil.validate(request.getTicketBuyingRequest().getTicketAmount(), "Ticket amount is null");
     }
 
     private void validateAirlineOfferInventoryAvailability(AirlineOfferModel airlineOffer, TicketBuyingRequest request) {
 
         Integer availableInventory = airlineOffer.getAvailbaleInventory();
 
-        if (availableInventory < request.getTicketAmount()) {
-            throw new ServiceRuntimeException(ErrorCode.NO_ENOUGH_INV, "No enough inventory for Airline Offer ");
-        }
+//        if (availableInventory < request.getTicketAmount()) {
+//            throw new ServiceRuntimeException(ErrorCode.NO_ENOUGH_INV, "No enough inventory for Airline Offer ");
+//        }
     }
 
     private Price getConvertedOfferPrice(AirlineOfferModel airlineOffer, Currency accountCurrency) {
@@ -125,15 +119,15 @@ public class AirlineTicketBuyingLogic extends StatelessServiceLogic<UserTicket, 
         userTicket.setOrigin(airlineOffer.getOrigin());
         userTicket.setPrice(airlineOffer.getPrice());
         userTicket.setCurrency(airlineOffer.getCurrency());
-        userTicket.setTicketsAmount(request.getTicketAmount());
+//        userTicket.setTicketsAmount(request.getTicketAmount());
         return userTicket;
     }
 
     private void updateInventory(AirlineOfferModel airlineOffer, TicketBuyingRequest request) {
 
-        Integer newAvailableInventory = airlineOffer.getAvailbaleInventory() - request.getTicketAmount();
-        airlineOffer.setAvailbaleInventory(newAvailableInventory);
-        airlineDao.updateAirlineOffer(airlineOffer);
+//        Integer newAvailableInventory = airlineOffer.getAvailbaleInventory() - request.getTicketAmount();
+//        airlineOffer.setAvailbaleInventory(newAvailableInventory);
+//        airlineDao.updateAirlineOffer(airlineOffer);
 
     }
 }

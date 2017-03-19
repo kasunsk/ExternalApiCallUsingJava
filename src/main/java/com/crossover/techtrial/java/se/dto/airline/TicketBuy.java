@@ -6,7 +6,6 @@ package com.crossover.techtrial.java.se.dto.airline;
 public class TicketBuy {
 
     private TicketBuyingRequest ticketBuyingRequest;
-
     private String applicantId;
 
     public TicketBuyingRequest getTicketBuyingRequest() {

@@ -3,10 +3,7 @@ package com.crossover.techtrial.java.se.service.airline;
 import com.crossover.techtrial.java.se.common.dto.*;
 import com.crossover.techtrial.java.se.common.dto.Void;
 import com.crossover.techtrial.java.se.common.service.RequestAssembler;
-import com.crossover.techtrial.java.se.dto.airline.AirlineOffer;
-import com.crossover.techtrial.java.se.dto.airline.GammaAirlineOffer;
-import com.crossover.techtrial.java.se.dto.airline.OfferRequest;
-import com.crossover.techtrial.java.se.dto.airline.TicketBuy;
+import com.crossover.techtrial.java.se.dto.airline.*;
 import com.crossover.techtrial.java.se.logic.airline.*;
 import com.crossover.techtrial.java.se.model.airline.Airport;
 import com.crossover.techtrial.java.se.model.user.UserTicket;
@@ -61,14 +58,14 @@ public class AirlineServiceImpl implements AirlineService {
     }
 
     @Override
-    public ServiceResponse<List<UserTicket>> retrieveApplicantTickets(ServiceRequest<String> applicantId) {
+    public ServiceResponse<List<AirlineTicket>> retrieveApplicantTickets(ServiceRequest<String> applicantId) {
 
         return RequestAssembler.assemble(applicantTicketsRetrieveLogic, applicantId);
     }
 
 
     @Override
-    public ServiceResponse<UserTicket> buyAirlineTicket(ServiceRequest<TicketBuy> request) {
+    public ServiceResponse<AirlineTicket> buyAirlineTicket(ServiceRequest<TicketBuy> request) {
 
         return RequestAssembler.assemble(airlineTicketBuyingLogic, request);
     }

@@ -114,7 +114,7 @@ app.controller('ticketsController', ['$scope', '$http', '$cookies', '$window', f
 
     $scope.init = function () {
         var userTicketObj = JSON.parse($cookies.get('selectedTicket'));
-        $scope.userTicket = userTicketObj;
+        $scope.airlineTicket = userTicketObj;
     };
 
     var applicantId = $cookies.get('applicantId');
@@ -142,9 +142,9 @@ app.controller('ticketsController', ['$scope', '$http', '$cookies', '$window', f
     $scope.viewTicket = function (idx) {
 
         if ($scope.myTickets != null) {
-            $scope.userTicket = $scope.myTickets[idx];
+            $scope.airlineTicket = $scope.myTickets[idx];
         } else {
-            $scope.userTicket = $scope.usersTickets[idx];
+            $scope.airlineTicket = $scope.usersTickets[idx];
         }
 
         var jsonUserTicket = JSON.stringify($scope.userTicket);
@@ -451,10 +451,10 @@ app.controller('airlineOfferController', ['$scope', '$http', '$cookies', '$windo
 
         var rout_to_buy = $scope.offer_to_buy.route;
         var applicantId = $cookies.get('applicantId');
-        var accountId = '' + account.accountId;
+        var accountId = account.id;
 
         buyingRequest.accountId = accountId;
-        buyingRequest.airlineRout = rout_to_buy;
+        buyingRequest.route = rout_to_buy;
 
         var buyingRequestUrl = '/' + applicantId + '/gammaairlines/offers/buy';
 
@@ -465,9 +465,9 @@ app.controller('airlineOfferController', ['$scope', '$http', '$cookies', '$windo
             data: buyingRequest
         }).success(function (data) {
             $scope.submitting = false;
-            $scope.userTicket = data;
+            $scope.airlineTicket = data;
 
-            var jsonUserTicket = JSON.stringify($scope.userTicket);
+            var jsonUserTicket = JSON.stringify($scope.airlineTicket);
             $cookies.put("selectedTicket", jsonUserTicket);
 
             this.detail = data;
@@ -556,7 +556,7 @@ app.controller('usersTicketsController', ['$scope', '$http', '$cookies', '$windo
 
     $scope.loadUserTickets = function (userId) {
 
-        var userTicketsUrl = '/' + applicantId + '/gammaairlines/tickets/' + userId;
+        var userTicketsUrl = '/' + applicantId + 'gammaairlines/tickets';
 
         $scope.submitting = true;
         $http({

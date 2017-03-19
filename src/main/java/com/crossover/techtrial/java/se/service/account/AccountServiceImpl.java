@@ -55,7 +55,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public ServiceResponse<BankAccount> deposit(ServiceRequest<DepositRequest> depositRequest) {
+    public ServiceResponse<Account> deposit(ServiceRequest<MoneyTransferRequest> depositRequest) {
 
         return RequestAssembler.assemble(moneyDepositLogic, depositRequest);
     }
@@ -73,9 +73,9 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public ServiceResponse<List<BankAccount>> loadAllAccounts(ServiceRequest<String> applicantId) {
+    public ServiceResponse<List<Account>> loadAllAccounts(ServiceRequest<String> userId) {
 
-        return RequestAssembler.assemble(allAccountsLoadingLogic, applicantId);
+        return RequestAssembler.assemble(allAccountsLoadingLogic, userId);
     }
 
     @Override

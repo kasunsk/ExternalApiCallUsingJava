@@ -9,26 +9,19 @@ import com.crossover.techtrial.java.se.configuration.ApplicationProperties;
 import com.crossover.techtrial.java.se.dao.account.AccountDao;
 import com.crossover.techtrial.java.se.dao.user.UserDao;
 import com.crossover.techtrial.java.se.dto.account.AccountRequest;
+import com.crossover.techtrial.java.se.dto.account.MoneyTransferRequest;
+import com.crossover.techtrial.java.se.dto.airline.Price;
 import com.crossover.techtrial.java.se.dto.user.UserRole;
 import com.crossover.techtrial.java.se.logic.account.Account;
 import com.crossover.techtrial.java.se.logic.account.AccountCreateCriteria;
-import com.crossover.techtrial.java.se.model.account.BankAccount;
 import com.crossover.techtrial.java.se.model.user.User;
 import com.crossover.techtrial.java.se.service.account.AccountService;
 import com.crossover.techtrial.java.se.service.security.SecurityService;
 import com.crossover.techtrial.java.se.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
-import java.util.Arrays;
 
 @Component
 public class UserSaveLogic extends StatelessServiceLogic<String, User> {
@@ -38,9 +31,6 @@ public class UserSaveLogic extends StatelessServiceLogic<String, User> {
 
     @Autowired
     private SecurityService securityService;
-
-    @Autowired
-    private AccountDao accountDao;
 
     @Autowired
     private AccountService accountService;
@@ -53,18 +43,32 @@ public class UserSaveLogic extends StatelessServiceLogic<String, User> {
     public String invoke(User user) {
         validateUser(user);
         encryptUserPassword(user);
-        createInitialAccountForUser(user);
+        Account account = createInitialAccountForUser(user);
+        depositInitialAmount(account);
         userHibernateDao.saveUser(user);
         return user.getName();
     }
 
-    private void createInitialAccountForUser(User user) {
+    private void depositInitialAmount(Account account) {
+
+        Price price = new Price();
+        price.setAmount(applicationProperties.getInitialDepositAmount());
+        price.setCurrency(applicationProperties.getInitialDepositCurrency());
+
+        MoneyTransferRequest moneyTransferRequest = new MoneyTransferRequest();
+        moneyTransferRequest.setAccountId(account.getId());
+        moneyTransferRequest.setMonetaryAmount(price);
+
+        accountService.deposit(new ServiceRequest<>(moneyTransferRequest));
+    }
+
+    private Account createInitialAccountForUser(User user) {
         AccountRequest accountRequest = new AccountRequest();
-        accountRequest.setCurrency(Currency.USD);
+        accountRequest.setCurrency(applicationProperties.getInitialDepositCurrency());
         AccountCreateCriteria createCriteria = new AccountCreateCriteria();
         createCriteria.setAccountRequest(accountRequest);
         createCriteria.setUser(user);
-        accountService.createAccount(new ServiceRequest<>(createCriteria));
+        return accountService.createAccount(new ServiceRequest<>(createCriteria)).getPayload();
     }
 
     protected void encryptUserPassword(User user) {

@@ -2,10 +2,7 @@ package com.crossover.techtrial.java.se.service.airline;
 
 import com.crossover.techtrial.java.se.common.dto.*;
 import com.crossover.techtrial.java.se.common.dto.Void;
-import com.crossover.techtrial.java.se.dto.airline.AirlineOffer;
-import com.crossover.techtrial.java.se.dto.airline.GammaAirlineOffer;
-import com.crossover.techtrial.java.se.dto.airline.OfferRequest;
-import com.crossover.techtrial.java.se.dto.airline.TicketBuy;
+import com.crossover.techtrial.java.se.dto.airline.*;
 import com.crossover.techtrial.java.se.model.airline.Airport;
 import com.crossover.techtrial.java.se.model.user.UserTicket;
 
@@ -42,14 +39,14 @@ public interface AirlineService {
      * @param applicantId
      * @return List of UserTicket
      */
-    ServiceResponse<List<UserTicket>> retrieveApplicantTickets(ServiceRequest<String> applicantId);
+    ServiceResponse<List<AirlineTicket>> retrieveApplicantTickets(ServiceRequest<String> applicantId);
 
     /**
      *
      * @param ticketBuyRequest
      * @return UserTicket
      */
-    ServiceResponse<UserTicket> buyAirlineTicket(ServiceRequest<TicketBuy> ticketBuyRequest);
+    ServiceResponse<AirlineTicket> buyAirlineTicket(ServiceRequest<TicketBuy> ticketBuyRequest);
 
     /**
      *

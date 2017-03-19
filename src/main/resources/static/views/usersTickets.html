@@ -19,22 +19,20 @@
     <div>
         <table class="table">
             <tr class="tr" data-ng-show="true">
-                <th>Offer Id</th>
+                <th>Index</th>
                 <th>Origin</th>
                 <th>Destination</th>
                 <th>Price</th>
                 <th>Amount</th>
-                <th>Status</th>
                 <th>View</th>
             </tr>
-            <tbody data-ng-repeat="userTicket in usersTickets">
+            <tbody data-ng-repeat="airlineTicket in usersTickets">
             <tr>
-                <td>{{userTicket.offerId}}</td>
-                <td>{{userTicket.origin}}</td>
-                <td>{{userTicket.destination}}</td>
-                <td>{{userTicket.price}} {{userTicket.currency}}</td>
-                <td>{{userTicket.ticketsAmount}}</td>
-                <td>{{userTicket.status}}</td>
+                <td>{{$index + 1}}</td>
+                <td>{{airlineTicket.details.route.from}}</td>
+                <td>{{airlineTicket.details.route.to}}</td>
+                <td>{{airlineTicket.details.price.amount}} {{airlineTicket.details.price.currency}}</td>
+                <td>{{airlineTicket.amount}}</td>
                 <td>
                     <button class="btn btn-primary" data-ng-controller="ticketController"
                             data-ng-click="viewTicket($index);">View

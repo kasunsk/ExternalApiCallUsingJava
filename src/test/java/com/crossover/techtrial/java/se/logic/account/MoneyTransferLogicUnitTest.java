@@ -41,7 +41,7 @@ public class MoneyTransferLogicUnitTest {
     public void requestTransferAmountValidateNullTest() {
 
         MoneyTransferRequest request = new MoneyTransferRequest();
-        request.setAccountNumber("25");
+        request.setAccountId("25");
         logic.invoke(request);
     }
 
@@ -49,8 +49,7 @@ public class MoneyTransferLogicUnitTest {
     public void requestCurrencyValidateNullTest() {
 
         MoneyTransferRequest request = new MoneyTransferRequest();
-        request.setAccountNumber("25");
-        request.setTransferAmount(200D);
+        request.setAccountId("25");
         logic.invoke(request);
     }
 
@@ -58,9 +57,9 @@ public class MoneyTransferLogicUnitTest {
     public void requestTransferTypeValidateNullTest() {
 
         MoneyTransferRequest request = new MoneyTransferRequest();
-        request.setAccountNumber("25");
-        request.setTransferAmount(200D);
-        request.setCurrency(Currency.AUD);
+//        request.setAccountNumber("25");
+//        request.setTransferAmount(200D);
+//        request.setCurrency(Currency.AUD);
         logic.invoke(request);
     }
 
@@ -68,10 +67,10 @@ public class MoneyTransferLogicUnitTest {
     public void accountNotAvailableTest() {
 
         MoneyTransferRequest request = new MoneyTransferRequest();
-        request.setAccountNumber("25");
-        request.setTransferAmount(200D);
-        request.setCurrency(Currency.AUD);
-        request.setTransferType(MoneyTransferRequest.TransferType.DEPOSIT);
+//        request.setAccountNumber("25");
+//        request.setTransferAmount(200D);
+//        request.setCurrency(Currency.AUD);
+//        request.setTransferType(MoneyTransferRequest.TransferType.DEPOSIT);
         when(accountDao.loadAccountById(25L)).thenReturn(null);
         logic.invoke(request);
     }
@@ -85,10 +84,10 @@ public class MoneyTransferLogicUnitTest {
 
         when(accountDao.loadAccountById(25L)).thenReturn(bankAccount);
         MoneyTransferRequest request = new MoneyTransferRequest();
-        request.setAccountNumber("25");
-        request.setTransferAmount(200D);
-        request.setCurrency(Currency.AUD);
-        request.setTransferType(MoneyTransferRequest.TransferType.DEPOSIT);
+//        request.setAccountNumber("25");
+//        request.setTransferAmount(200D);
+//        request.setCurrency(Currency.AUD);
+//        request.setTransferType(MoneyTransferRequest.TransferType.DEPOSIT);
         logic.invoke(request);
     }
 

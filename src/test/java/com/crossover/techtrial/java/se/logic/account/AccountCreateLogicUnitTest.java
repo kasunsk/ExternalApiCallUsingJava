@@ -45,42 +45,42 @@ public class AccountCreateLogicUnitTest  {
     public void validateAccountNullTest() {
         logic.invoke(null);
     }
-
-    @Test(expectedExceptions = ServiceRuntimeException.class)
-    public void validateCurrencyNullTest() {
-        logic.invoke(new BankAccount());
-    }
-
-    @SuppressWarnings("unchecked")
-    @Test
-    public void invokeTest() {
-
-        BankAccount bankAccount = new BankAccount();
-       // bankAccount.setCurrency(Currency.AUD);
-        when(accountHibernateDao.createAccount(bankAccount)).thenReturn(bankAccount);
-        when(environment.getRequiredProperty("initial.deposit.amount")).thenReturn("1000");
-        when(environment.getRequiredProperty("initial.deposit.currency")).thenReturn("USD");
-
-        ServiceResponse<Price> response = new ServiceResponse<>();
-        Price price = new Price();
-        price.setCurrency(Currency.AUD);
-        price.setPrice(200D);
-        response.setPayload(price);
-        when(accountService.exchangeCurrency(Matchers.<ServiceRequest>any())).thenReturn(response);
-        BankAccount resultAccount = logic.invoke(bankAccount);
-        assertEquals(resultAccount, bankAccount);
-    }
-
-
-    @Test
-    public void invokeNotEmptyAvailableMoneyTest() {
-
-        BankAccount bankAccount = new BankAccount();
-        //bankAccount.setCurrency(Currency.USD);
-        //bankAccount.setAvailableAmount(2000D);
-        bankAccount.setUser(new User());
-        when(accountHibernateDao.createAccount(bankAccount)).thenReturn(bankAccount);
-        BankAccount resultAccount = logic.invoke(bankAccount);
-        assertEquals(resultAccount, bankAccount);
-    }
+//
+//    @Test(expectedExceptions = ServiceRuntimeException.class)
+//    public void validateCurrencyNullTest() {
+//        logic.invoke(new BankAccount());
+//    }
+//
+//    @SuppressWarnings("unchecked")
+//    @Test
+//    public void invokeTest() {
+//
+//        BankAccount bankAccount = new BankAccount();
+//       // bankAccount.setCurrency(Currency.AUD);
+//        when(accountHibernateDao.createAccount(bankAccount)).thenReturn(bankAccount);
+//        when(environment.getRequiredProperty("initial.deposit.amount")).thenReturn("1000");
+//        when(environment.getRequiredProperty("initial.deposit.currency")).thenReturn("USD");
+//
+//        ServiceResponse<Price> response = new ServiceResponse<>();
+//        Price price = new Price();
+//        price.setCurrency(Currency.AUD);
+//        price.setPrice(200D);
+//        response.setPayload(price);
+//        when(accountService.exchangeCurrency(Matchers.<ServiceRequest>any())).thenReturn(response);
+//        BankAccount resultAccount = logic.invoke(bankAccount);
+//        assertEquals(resultAccount, bankAccount);
+//    }
+//
+//
+//    @Test
+//    public void invokeNotEmptyAvailableMoneyTest() {
+//
+//        BankAccount bankAccount = new BankAccount();
+//        //bankAccount.setCurrency(Currency.USD);
+//        //bankAccount.setAvailableAmount(2000D);
+//        bankAccount.setUser(new User());
+//        when(accountHibernateDao.createAccount(bankAccount)).thenReturn(bankAccount);
+//        BankAccount resultAccount = logic.invoke(bankAccount);
+//        assertEquals(resultAccount, bankAccount);
+//    }
 }
