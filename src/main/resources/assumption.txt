@@ -1,0 +1,11 @@
+
+Assumptions
+===========
+
+* One airline offer per Rout. Its unable to add new offer for a new route. If want to add, then admin should remove previous offer.
+
+* Airline offer has limited inventory, Admin can change this inventory. Inventory will be reduced when passenger reserve a ticket.
+
+* Admin has privilege to remove offers / users and add new offers.
+
+* 1000 USD will be saved when create a new account, Initial amount can be configured in application properties.

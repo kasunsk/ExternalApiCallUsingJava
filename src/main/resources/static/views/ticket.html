@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div class="section">
+    <h3>E Ticket</h3>
+    <!--data-ng-init="getTicketDetail();-->
+    <div data-ng-init="init();">
+
+        <table class="table">
+            <tr>
+                <td>Ticket Number :</td>
+                <td>{{userTicket.id}}</td>
+            </tr>
+            <tr>
+                <td>Price :</td>
+                <td>{{userTicket.price}} {{userTicket.currency}}</td>
+            </tr>
+            <tr>
+                <td>Origin :</td>
+                <td>{{userTicket.origin}}</td>
+            </tr>
+            <tr>
+                <td>Destination :</td>
+                <td>{{userTicket.destination}}</td>
+            </tr>
+            <tr>
+                <td>Amount :</td>
+                <td>{{userTicket.ticketsAmount}}</td>
+            </tr>
+            <tr>
+                <td>Status :</td>
+                <td>{{userTicket.status}}</td>
+            </tr>
+            <tr>
+                <td>
+                    <button class="btn btn-primary" data-ng-click="emailTicket(userTicket.id);">Email</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

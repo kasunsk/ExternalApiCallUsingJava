@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>
+<html lang="en" data-ng-app="app" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html lang="en" data-ng-app="app" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html lang="en" data-ng-app="app" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html lang="en" data-ng-app="app" class="no-js"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Spring boot and Angularjs Tutorial</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+<div data-ng-controller="homeController">
+<h2>Home</h2>
+    <p>Hello {{applicantName}}</p>
+<button margin-lef="10%" type="submit" data-ng-controller="loginController" data-ng-click="logout()">Sign out</button>
+</div>
+
+<div class="home-section">
+    <ul class="menu-list">
+        <li data-ng-show="isAdmin" data-ng-controller="homeController"><a href="#/users">Users</a></li>
+        <li data-ng-show="isAdmin" data-ng-controller="homeController"><a href="#/usersTickets">Users Tickets</a></li>
+        <li><a href="#/airlineOffer">Airline Offers</a></li>
+        <li><a href="#/accountCreate">My Accounts</a></li>
+        <li><a href="#/myTickets">My Tickets</a></li>
+        <li><a href="#/moneyExchange">Money Exchange</a></li>
+    </ul>
+</div>
+<div data-ng-view></div>
+<script src="/webjars/angularjs/1.4.9/angular.js"></script>
+<script src="/webjars/angularjs/1.4.9/angular-resource.js"></script>
+<script src="/webjars/angularjs/1.4.9/angular-route.js"></script>
+<script src="/webjars/angularjs/1.4.9/angular-cookies.js"></script>
+<script src="/webjars/angularjs/1.4.9/angular-cookies.min.js"></script>
+<script src="/js/app.js"></script>
+<script src="/js/controller.js"></script>
+<link rel="stylesheet" href="/webjars/bootstrap/3.3.6/css/bootstrap.css">
+</body>
+</body>
+</html>

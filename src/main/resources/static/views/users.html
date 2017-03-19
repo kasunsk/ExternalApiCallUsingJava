@@ -1,0 +1,41 @@
+<div class="section">
+    <h3>{{headingTitle}}</h3>
+
+    <div class="section" data-ng-controller="usersController">
+        <h4>User Search</h4>
+
+        <label for="email">Email</label>
+        <input type="text" name="email" id="email" data-ng-model="userSearchCriteria.email"
+               required/>
+        <label for="name">Name</label>
+        <input type="text" name="name" id="name" data-ng-model="userSearchCriteria.name"
+               required/>
+        <label for="userId">User Id</label>
+        <input type="text" name="userId" id="userId" data-ng-model="userSearchCriteria.userId"
+        required/>
+        <button class="btn btn-primary" data-ng-click="searchUsers(userSearchCriteria);">Search</button>
+    </div>
+
+    <div data-ng-controller="usersController" data-ng-init="userList();">
+        <table class="table">
+            <tr class="tr" data-ng-show="clicked">
+                <th>Index</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Delete</th>
+            </tr>
+            <tbody data-ng-repeat="user in allUsers">
+            <tr>
+                <td>{{$index + 1}}</td>
+                <td>{{user.name}}</td>
+                <td>{{user.email}}</td>
+                <td>{{user.role}}</td>
+                <td>
+                    <button class="btn btn-primary" data-ng-click="deleteUser($index);">Delete</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

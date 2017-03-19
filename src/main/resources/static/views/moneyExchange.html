@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div class="section">
+    <h2>{{headingTitle}}</h2>
+    <div class="section_div" data-ng-init="init();">
+        <label for="moneyAmount">Money Amount</label>
+        <input type="text" name="moneyAmount" id="moneyAmount"
+               data-ng-model="exchangeRequest.monetaryAmount.price"/>
+        <span class="error" data-ng-show="myForm.input.$error.required">Required!</span>
+        <label for="currency">Currency</label>
+        <select name="currency" id="currency" data-ng-model="exchangeRequest.monetaryAmount.currency" class="small_select"
+                data-ng-options="currency for currency in currencies"></select>
+        <label for="targetCurrency">To Currency</label>
+        <select name="targetCurrency" id="targetCurrency" data-ng-model="exchangeRequest.targetCurrency" class="small_select"
+                data-ng-options="currency for currency in currencies"></select>
+        <button class="btn btn-primary" data-ng-click="exchange();">Convert</button>
+    </div>
+    <div>
+        <label>Result : {{exchangeResult.price}} {{exchangeResult.currency}}</label>
+    </div>
+</div>
+</body>
+</html>

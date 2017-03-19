@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div class="section">
+    <h2>{{headingTitle}}</h2>
+
+    <div class="section_div" data-ng-controller="usersController" data-ng-init="userList();">
+        <div>
+        <label for="user">Select User</label>
+        <select name="user" id="user" data-ng-model="user" data-ng-change="loadUserTickets(user.userId);"
+                data-ng-options="user as user.name for user in allUsers"></select>
+        </div>
+    </div>
+
+    <div>
+        <table class="table">
+            <tr class="tr" data-ng-show="true">
+                <th>Offer Id</th>
+                <th>Origin</th>
+                <th>Destination</th>
+                <th>Price</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>View</th>
+            </tr>
+            <tbody data-ng-repeat="userTicket in usersTickets">
+            <tr>
+                <td>{{userTicket.offerId}}</td>
+                <td>{{userTicket.origin}}</td>
+                <td>{{userTicket.destination}}</td>
+                <td>{{userTicket.price}} {{userTicket.currency}}</td>
+                <td>{{userTicket.ticketsAmount}}</td>
+                <td>{{userTicket.status}}</td>
+                <td>
+                    <button class="btn btn-primary" data-ng-controller="ticketController"
+                            data-ng-click="viewTicket($index);">View
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

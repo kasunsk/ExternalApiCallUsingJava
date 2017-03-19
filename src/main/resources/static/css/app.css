@@ -1,0 +1,122 @@
+.menu-list {
+    padding-left: 30px;
+    padding-top: 20px;
+}
+
+.home-section {
+    float: left;
+    width: 10%;
+}
+
+.section {
+    margin-left: 10%;
+    float: left;
+    color: #000;
+}
+
+.photo {
+    padding-right: 5px;
+}
+
+.form-control {
+    float: left;
+    width: 10%;
+}
+
+.form-group {
+    margin-left: 10%;
+    width: 20%;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2
+}
+
+th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.select {
+    background-repeat: no-repeat;
+    background-position: 300px;
+    width: 20%;
+    padding: 12%;
+    margin-top: 8px;
+    font-family: Cursive;
+    line-height: 1;
+    border-radius: 5px;
+    background-color: #A2AB58;
+    color: #ff0;
+    font-size: 20px;
+    -webkit-appearance: none;
+    box-shadow: inset 0 0 10px 0 rgba(0, 0, 0, 0.6);
+    outline: none
+}
+
+.small_select {
+    width: 20%;
+    background-color: #A2AB58;
+}
+
+.offer {
+    border-radius: 5px;
+    background-color: greenyellow;
+    text-decoration-color: black;
+    border: 1px solid black;
+    margin: 10px;
+}
+
+.container {
+    margin-left: 10%;
+    float: left;
+    width: 70%;
+    background: #eee;
+    position: relative;
+    text-align: center;
+}
+
+.section_div {
+    margin-left: 10%;
+    width: 70%;
+    text-align: center;
+    position: relative;
+}
+
+.block {
+    background: greenyellow;
+    height: 20%;
+    width: 20%;
+    display: inline-block;
+    margin: 20px;
+    border: 1px solid black;
+}
+
+.button {
+    display: inline-block;
+    padding: 5px 15px;
+    font-size: 10px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 3px #999;
+}
+
+.logout {
+    margin-right: 10%;
+}
