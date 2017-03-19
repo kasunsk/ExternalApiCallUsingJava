@@ -4,6 +4,7 @@ import com.crossover.techtrial.java.se.common.dto.*;
 import com.crossover.techtrial.java.se.common.dto.Void;
 import com.crossover.techtrial.java.se.common.service.RequestAssembler;
 import com.crossover.techtrial.java.se.dto.airline.AirlineOffer;
+import com.crossover.techtrial.java.se.dto.airline.GammaAirlineOffer;
 import com.crossover.techtrial.java.se.dto.airline.OfferRequest;
 import com.crossover.techtrial.java.se.dto.airline.TicketBuy;
 import com.crossover.techtrial.java.se.logic.airline.*;
@@ -54,7 +55,7 @@ public class AirlineServiceImpl implements AirlineService {
 
 
     @Override
-    public ServiceResponse<List<AirlineOffer>> retrieveAvailableAirlineOffers(ServiceRequest<OfferRequest> offerRequest) {
+    public ServiceResponse<List<GammaAirlineOffer>> retrieveAvailableAirlineOffers(ServiceRequest<OfferRequest> offerRequest) {
 
         return RequestAssembler.assemble(availableAirlineOfferRetrieveLogic, offerRequest);
     }

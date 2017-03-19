@@ -4,6 +4,7 @@ package com.crossover.techtrial.java.se.controller;
 import com.crossover.techtrial.java.se.common.dto.ServiceRequest;
 import com.crossover.techtrial.java.se.common.dto.ServiceResponse;
 import com.crossover.techtrial.java.se.dto.airline.AirlineOffer;
+import com.crossover.techtrial.java.se.dto.airline.GammaAirlineOffer;
 import com.crossover.techtrial.java.se.dto.airline.TicketBuyingRequest;
 import com.crossover.techtrial.java.se.model.airline.Airport;
 import com.crossover.techtrial.java.se.model.user.UserTicket;
@@ -43,8 +44,8 @@ public class AirlineControllerUnitTest {
     @Test
     public void retrieveAvailableOffersTest() {
 
-        List<AirlineOffer> airlineOffers = new ArrayList<>();
-        ServiceResponse<List<AirlineOffer>> response = new ServiceResponse<>();
+        List<GammaAirlineOffer> airlineOffers = new ArrayList<>();
+        ServiceResponse<List<GammaAirlineOffer>> response = new ServiceResponse<>();
         response.setPayload(airlineOffers);
         when(airlineService.retrieveAvailableAirlineOffers(Matchers.<ServiceRequest>any())).thenReturn(response);
         assertEquals(airlineOffers, controller.retrieveAvailableOffers("23"));

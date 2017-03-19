@@ -2,10 +2,7 @@ package com.crossover.techtrial.java.se.controller;
 
 import com.crossover.techtrial.java.se.common.dto.*;
 import com.crossover.techtrial.java.se.common.dto.Void;
-import com.crossover.techtrial.java.se.dto.airline.AirlineOffer;
-import com.crossover.techtrial.java.se.dto.airline.OfferRequest;
-import com.crossover.techtrial.java.se.dto.airline.TicketBuy;
-import com.crossover.techtrial.java.se.dto.airline.TicketBuyingRequest;
+import com.crossover.techtrial.java.se.dto.airline.*;
 import com.crossover.techtrial.java.se.dto.email.EmailParam;
 import com.crossover.techtrial.java.se.model.airline.Airport;
 import com.crossover.techtrial.java.se.model.user.UserTicket;
@@ -32,10 +29,10 @@ public class AirlineController {
 
     @RequestMapping(value = "/{applicantId}/gammaairlines/offers", method = RequestMethod.GET)
     @ResponseBody
-    public List<AirlineOffer> retrieveAvailableOffers(@PathVariable("applicantId") String applicantId) {
+    public List<GammaAirlineOffer> retrieveAvailableOffers(@PathVariable("applicantId") String applicantId) {
         OfferRequest offerRequest = new OfferRequest();
         offerRequest.setApplicantId(applicantId);
-        ServiceResponse<List<AirlineOffer>> response = airlineService.retrieveAvailableAirlineOffers(new ServiceRequest<>(offerRequest));
+        ServiceResponse<List<GammaAirlineOffer>> response = airlineService.retrieveAvailableAirlineOffers(new ServiceRequest<>(offerRequest));
         return response.getPayload();
     }
 

@@ -11,45 +11,16 @@
 <div class="container" data-ng-init="availableAirlineOffers();">
 
     <div class="block" data-ng-repeat="offer in availableOffers">
-        <label>Offer Price : {{offer.price.price}} {{offer.price.currency}}</label>
+        <label>Offer Price : {{offer.price.amount}} {{offer.price.currency}}</label>
         <br>
         <label>From : {{offer.route.from}}</label>
         <br>
         <label>To : {{offer.route.to}}</label>
         <br>
-        <label>Available Inv : {{offer.availableInventory}}</label>
-        <br>
         <button class="button" data-ng-click="select($index);">Select</button>
         <button class="button" data-ng-show="isAdmin" data-ng-click="remove($index);">Remove</button>
     </div>
 </div>
-<div class="section_div" data-ng-show="isAdmin">
-    <label>Add new offer</label>
-
-    <div data-ng-init="init();">
-        <div>
-            <label for="price">Price</label>
-            <input type="text" name="price" id="price" data-ng-model="offer.price.price"
-                   required/>
-            <label for="currency">Currency</label>
-            <select name="currency" id="currency" data-ng-model="offer.price.currency" class="small_select"
-                    data-ng-options="currency for currency in currencies"></select>
-            <label for="from">From</label>
-            <select name="from" id="from" data-ng-model="offer.route.from" class="small_select"
-                    data-ng-options="airport.airportCode as airport.airportCode for airport in availableAirports"></select>
-            <label for="to">To</label>
-            <select name="to" id="to" data-ng-model="offer.route.to" class="small_select"
-                    data-ng-options="airport.airportCode as airport.airportCode for airport in availableAirports"></select>
-            <label for="availableInventory">Available Inv</label>
-            <input type="text" name="availableInventory" id="availableInventory"
-                   data-ng-model="offer.availableInventory"/>
-            <span class="error" data-ng-show="myForm.input.$error.required">Required!</span>
-            <span class="error" data-ng-show="myForm.input.$error.number">Not valid number!</span>
-            <button class="btn btn-primary" data-ng-click="addAirlineOffer(offer);">Add</button>
-        </div>
-    </div>
-</div>
-
 <div class="section_div" data-ng-controller="accountCreateController" data-ng-show="displayAccounts"
      data-ng-init="accountList();">
     <div>

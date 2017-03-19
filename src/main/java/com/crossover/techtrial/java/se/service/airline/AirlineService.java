@@ -3,6 +3,7 @@ package com.crossover.techtrial.java.se.service.airline;
 import com.crossover.techtrial.java.se.common.dto.*;
 import com.crossover.techtrial.java.se.common.dto.Void;
 import com.crossover.techtrial.java.se.dto.airline.AirlineOffer;
+import com.crossover.techtrial.java.se.dto.airline.GammaAirlineOffer;
 import com.crossover.techtrial.java.se.dto.airline.OfferRequest;
 import com.crossover.techtrial.java.se.dto.airline.TicketBuy;
 import com.crossover.techtrial.java.se.model.airline.Airport;
@@ -34,7 +35,7 @@ public interface AirlineService {
      * @param offerRequest
      * @return List of AirlineOffer
      */
-    ServiceResponse<List<AirlineOffer>> retrieveAvailableAirlineOffers(ServiceRequest<OfferRequest> offerRequest);
+    ServiceResponse<List<GammaAirlineOffer>> retrieveAvailableAirlineOffers(ServiceRequest<OfferRequest> offerRequest);
 
     /**
      *

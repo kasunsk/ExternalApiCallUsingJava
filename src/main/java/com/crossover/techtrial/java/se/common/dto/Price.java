@@ -1,6 +1,8 @@
 package com.crossover.techtrial.java.se.common.dto;
 
-public class Price {
+import java.io.Serializable;
+
+public class Price implements Serializable {
 
     private Double price;
     private Currency currency;

@@ -4,10 +4,12 @@ package com.crossover.techtrial.java.se.dto.airline;
 import com.crossover.techtrial.java.se.common.dto.Price;
 import com.crossover.techtrial.java.se.model.airline.Route;
 
+import java.io.Serializable;
+
 /**
  * Created by kasun on 2/4/17.
  */
-public class AirlineOffer {
+public class AirlineOffer implements Serializable {
 
     public enum AirlineOfferStatus {
         AVAILABLE, NOT_AVAILABLE, CANCELED, FINISHED

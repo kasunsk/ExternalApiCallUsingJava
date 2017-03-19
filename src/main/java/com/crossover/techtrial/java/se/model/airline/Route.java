@@ -1,9 +1,11 @@
 package com.crossover.techtrial.java.se.model.airline;
 
+import java.io.Serializable;
+
 /**
  * Created by kasun on 2/4/17.
  */
-public class Route {
+public class Route implements Serializable{
 
     private String from;
     private String to;
