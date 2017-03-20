@@ -31,7 +31,7 @@ public class UserSaveLogicUnitTest {
     UserSaveLogic userSaveLogic = new UserSaveLogic();
 
     @Mock
-    UserDao userHibernateDao;
+    UserDao userDao;
 
     @Mock
     SecurityService securityService;
@@ -82,7 +82,7 @@ public class UserSaveLogicUnitTest {
         User user = getCompletedUser();
         user.setRole(UserRole.ADMIN);
 
-        when(userHibernateDao.loadUserByEmail("test@email.com")).thenReturn(new User());
+        when(userDao.loadUserByEmail("test@email.com")).thenReturn(new User());
         userSaveLogic.validateUser(user);
     }
 
@@ -90,7 +90,7 @@ public class UserSaveLogicUnitTest {
     @Test
     public void userAlreadyExistValidateSuccessTest() throws Exception {
         User user = getCompletedUser();
-        when(userHibernateDao.loadUserByEmail("test@email.com")).thenReturn(null);
+        when(userDao.loadUserByEmail("test@email.com")).thenReturn(null);
 
         try {
             userSaveLogic.validateUser(user);
@@ -126,7 +126,7 @@ public class UserSaveLogicUnitTest {
     @Test
     public void invokeTest() {
         User user = getCompletedUser();
-        when(userHibernateDao.loadUserByEmail("test@email.com")).thenReturn(null);
+        when(userDao.loadUserByEmail("test@email.com")).thenReturn(null);
         ServiceResponse<String> response = new ServiceResponse<>();
         response.setPayload("encryptedTest");
         when(applicationProperties.getInitialDepositAmount()).thenReturn(1000D);
