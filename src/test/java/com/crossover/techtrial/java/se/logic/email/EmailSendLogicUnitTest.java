@@ -36,7 +36,7 @@ public class EmailSendLogicUnitTest {
         EmailParam param = new EmailParam();
         param.setContent("Please enjoy our service");
         param.setSubject("Ticket Details");
-        param.setReceiverAddress("sunethefac@gmail.com");
+        param.setReceiverAddress("akeerawella@isa.ae");
         logic.invoke(param);
     }
 
