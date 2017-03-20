@@ -10,4 +10,10 @@ Set up Gide
 
 * Import db.sql into mysql database
 
+* run : mvn clean install
+
+* run : java -jar target/trial-0.0.1-SNAPSHOT.jar
+
+* Acces Url : http://localhost:8080/index.html
+
 
