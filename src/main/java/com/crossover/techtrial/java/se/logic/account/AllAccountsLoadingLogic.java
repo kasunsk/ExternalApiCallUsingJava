@@ -5,7 +5,7 @@ import com.crossover.techtrial.java.se.common.execption.ServiceRuntimeException;
 import com.crossover.techtrial.java.se.common.service.StatelessServiceLogic;
 import com.crossover.techtrial.java.se.configuration.ApplicationProperties;
 import com.crossover.techtrial.java.se.dao.account.AccountDao;
-import com.crossover.techtrial.java.se.dto.airline.GammaAirlineOffer;
+import com.crossover.techtrial.java.se.dto.account.Account;
 import com.crossover.techtrial.java.se.model.account.BankAccount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

@@ -1,26 +1,18 @@
 package com.crossover.techtrial.java.se.logic.airline;
 
-import com.crossover.techtrial.java.se.common.dto.*;
 import com.crossover.techtrial.java.se.common.execption.ErrorCode;
 import com.crossover.techtrial.java.se.common.execption.ServiceRuntimeException;
 import com.crossover.techtrial.java.se.common.service.StatelessServiceLogic;
 import com.crossover.techtrial.java.se.configuration.ApplicationProperties;
 import com.crossover.techtrial.java.se.dao.account.AccountDao;
-import com.crossover.techtrial.java.se.dao.airline.AirlineDao;
 import com.crossover.techtrial.java.se.dto.airline.AirlineTicket;
 import com.crossover.techtrial.java.se.dto.airline.TicketBuy;
-import com.crossover.techtrial.java.se.dto.airline.TicketBuyingRequest;
-import com.crossover.techtrial.java.se.logic.account.Account;
-import com.crossover.techtrial.java.se.model.account.BankAccount;
-import com.crossover.techtrial.java.se.model.airline.AirlineOfferModel;
 import com.crossover.techtrial.java.se.model.user.UserTicket;
-import com.crossover.techtrial.java.se.service.account.AccountService;
 import com.crossover.techtrial.java.se.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;

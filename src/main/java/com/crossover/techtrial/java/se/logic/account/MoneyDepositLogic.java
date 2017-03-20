@@ -1,12 +1,9 @@
 package com.crossover.techtrial.java.se.logic.account;
 
-import com.crossover.techtrial.java.se.common.dto.*;
-import com.crossover.techtrial.java.se.common.dto.Void;
-import com.crossover.techtrial.java.se.common.execption.ErrorCode;
-import com.crossover.techtrial.java.se.common.execption.ServiceRuntimeException;
 import com.crossover.techtrial.java.se.common.service.StatelessServiceLogic;
 import com.crossover.techtrial.java.se.configuration.ApplicationProperties;
 import com.crossover.techtrial.java.se.dao.account.AccountDao;
+import com.crossover.techtrial.java.se.dto.account.Account;
 import com.crossover.techtrial.java.se.dto.account.DepositRequest;
 import com.crossover.techtrial.java.se.dto.account.MoneyTransferRequest;
 import com.crossover.techtrial.java.se.model.account.BankAccount;
@@ -16,9 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-
-import javax.transaction.Transactional;
-import java.math.BigDecimal;
 
 @Component
 public class MoneyDepositLogic extends StatelessServiceLogic<Account, MoneyTransferRequest> {

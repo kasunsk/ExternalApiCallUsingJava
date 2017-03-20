@@ -3,6 +3,7 @@ package com.crossover.techtrial.java.se.logic.account;
 import com.crossover.techtrial.java.se.common.execption.ServiceRuntimeException;
 import com.crossover.techtrial.java.se.configuration.ApplicationProperties;
 import com.crossover.techtrial.java.se.dao.account.AccountHibernateDao;
+import com.crossover.techtrial.java.se.dto.account.Account;
 import com.crossover.techtrial.java.se.model.account.BankAccount;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;

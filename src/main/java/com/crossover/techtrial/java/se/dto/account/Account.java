@@ -1,4 +1,4 @@
-package com.crossover.techtrial.java.se.logic.account;
+package com.crossover.techtrial.java.se.dto.account;
 
 
 import com.crossover.techtrial.java.se.dto.airline.Price;

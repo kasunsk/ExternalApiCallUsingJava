@@ -1,16 +1,11 @@
 package com.crossover.techtrial.java.se.controller;
 
 import com.crossover.techtrial.java.se.common.dto.Currency;
-import com.crossover.techtrial.java.se.common.dto.CurrencyExchangeRequest;
-import com.crossover.techtrial.java.se.common.dto.Price;
 import com.crossover.techtrial.java.se.common.dto.ServiceRequest;
 import com.crossover.techtrial.java.se.dto.account.AccountRequest;
-import com.crossover.techtrial.java.se.dto.account.DepositRequest;
 import com.crossover.techtrial.java.se.dto.account.MoneyTransferRequest;
-import com.crossover.techtrial.java.se.logic.account.Account;
-import com.crossover.techtrial.java.se.logic.account.AccountCreateCriteria;
-import com.crossover.techtrial.java.se.model.account.BankAccount;
-import com.crossover.techtrial.java.se.model.user.User;
+import com.crossover.techtrial.java.se.dto.account.Account;
+import com.crossover.techtrial.java.se.dto.account.AccountCreateCriteria;
 import com.crossover.techtrial.java.se.service.account.AccountService;
 import com.crossover.techtrial.java.se.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,14 +50,6 @@ public class AccountController {
         return accountService.deposit(new ServiceRequest<>(depositRequest)).getPayload();
     }
 
-    @RequestMapping(value = "/{applicantId}/paypallets/account/withdraw", method = RequestMethod.POST,
-            consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    @ResponseBody
-    public BankAccount withdraw(@PathVariable("applicantId") String applicantId, @RequestBody DepositRequest depositRequest) {
-
-        validateUser(applicantId);
-        return accountService.withdraw(new ServiceRequest<>(depositRequest)).getPayload();
-    }
 
     @RequestMapping(value = "/{userId}/paypallets/account/all", method = RequestMethod.GET)
     @ResponseBody
@@ -71,22 +58,6 @@ public class AccountController {
         return accountService.loadAllAccounts(new ServiceRequest<>(userId)).getPayload();
     }
 
-    @RequestMapping(value = "/{applicantId}/paypallets/account/remove/{accountId}", method = RequestMethod.GET)
-    @ResponseBody
-    public Boolean removeAccount(@PathVariable("applicantId") String applicantId, @PathVariable("accountId") String accountId) {
-
-        accountService.removeAccount(new ServiceRequest<>(accountId));
-        return Boolean.TRUE;
-    }
-
-    @RequestMapping(value = "/{applicantId}/moneyexchange/exchange", method = RequestMethod.POST,
-            consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    @ResponseBody
-    public Price moneyExchange(@PathVariable("applicantId") String applicantId, @RequestBody CurrencyExchangeRequest exchangeRequest) {
-
-        validateUser(applicantId);
-        return accountService.exchangeCurrency(new ServiceRequest<>(exchangeRequest)).getPayload();
-    }
 
     @RequestMapping(value = "/account/availableCurrency", method = RequestMethod.GET)
     @ResponseBody

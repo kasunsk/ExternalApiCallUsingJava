@@ -4,9 +4,6 @@ import com.crossover.techtrial.java.se.common.dto.Currency;
 
 import java.io.Serializable;
 
-/**
- * Created by kasun on 3/19/17.
- */
 public class Price implements Serializable {
 
     private Double amount;

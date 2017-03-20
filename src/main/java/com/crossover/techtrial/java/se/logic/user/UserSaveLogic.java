@@ -1,19 +1,17 @@
 package com.crossover.techtrial.java.se.logic.user;
 
-import com.crossover.techtrial.java.se.common.dto.Currency;
 import com.crossover.techtrial.java.se.common.dto.ServiceRequest;
 import com.crossover.techtrial.java.se.common.execption.ErrorCode;
 import com.crossover.techtrial.java.se.common.execption.ServiceRuntimeException;
 import com.crossover.techtrial.java.se.common.service.StatelessServiceLogic;
 import com.crossover.techtrial.java.se.configuration.ApplicationProperties;
-import com.crossover.techtrial.java.se.dao.account.AccountDao;
 import com.crossover.techtrial.java.se.dao.user.UserDao;
 import com.crossover.techtrial.java.se.dto.account.AccountRequest;
 import com.crossover.techtrial.java.se.dto.account.MoneyTransferRequest;
 import com.crossover.techtrial.java.se.dto.airline.Price;
 import com.crossover.techtrial.java.se.dto.user.UserRole;
-import com.crossover.techtrial.java.se.logic.account.Account;
-import com.crossover.techtrial.java.se.logic.account.AccountCreateCriteria;
+import com.crossover.techtrial.java.se.dto.account.Account;
+import com.crossover.techtrial.java.se.dto.account.AccountCreateCriteria;
 import com.crossover.techtrial.java.se.model.user.User;
 import com.crossover.techtrial.java.se.service.account.AccountService;
 import com.crossover.techtrial.java.se.service.security.SecurityService;

@@ -2,24 +2,17 @@ package com.crossover.techtrial.java.se.logic.account;
 
 
 import com.crossover.techtrial.java.se.common.dto.Currency;
-import com.crossover.techtrial.java.se.common.dto.Price;
-import com.crossover.techtrial.java.se.common.dto.ServiceRequest;
-import com.crossover.techtrial.java.se.common.dto.ServiceResponse;
 import com.crossover.techtrial.java.se.common.execption.ServiceRuntimeException;
 import com.crossover.techtrial.java.se.configuration.ApplicationProperties;
 import com.crossover.techtrial.java.se.dao.account.AccountDao;
-import com.crossover.techtrial.java.se.dao.account.AccountHibernateDao;
 import com.crossover.techtrial.java.se.dao.user.UserDao;
+import com.crossover.techtrial.java.se.dto.account.Account;
+import com.crossover.techtrial.java.se.dto.account.AccountCreateCriteria;
 import com.crossover.techtrial.java.se.dto.account.AccountRequest;
-import com.crossover.techtrial.java.se.dto.airline.AirlineTicket;
-import com.crossover.techtrial.java.se.model.account.BankAccount;
 import com.crossover.techtrial.java.se.model.user.User;
-import com.crossover.techtrial.java.se.service.account.AccountService;
 import org.mockito.InjectMocks;
-import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;

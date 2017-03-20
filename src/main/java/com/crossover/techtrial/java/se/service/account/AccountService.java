@@ -1,13 +1,9 @@
 package com.crossover.techtrial.java.se.service.account;
 
 import com.crossover.techtrial.java.se.common.dto.*;
-import com.crossover.techtrial.java.se.common.dto.Void;
-import com.crossover.techtrial.java.se.dto.account.AccountRequest;
-import com.crossover.techtrial.java.se.dto.account.DepositRequest;
 import com.crossover.techtrial.java.se.dto.account.MoneyTransferRequest;
-import com.crossover.techtrial.java.se.logic.account.Account;
-import com.crossover.techtrial.java.se.logic.account.AccountCreateCriteria;
-import com.crossover.techtrial.java.se.model.account.BankAccount;
+import com.crossover.techtrial.java.se.dto.account.Account;
+import com.crossover.techtrial.java.se.dto.account.AccountCreateCriteria;
 
 import java.util.List;
 
@@ -32,37 +28,10 @@ public interface AccountService {
 
     /**
      *
-     * @param withdrawRequest
-     * @return updated BankAccount
-     */
-    ServiceResponse<BankAccount> withdraw(ServiceRequest<DepositRequest> withdrawRequest);
-
-    /**
-     *
-     * @param moneyTransferRequest
-     * @return Boolean
-     */
-    ServiceResponse<Boolean> transferMoney(ServiceRequest<MoneyTransferRequest> moneyTransferRequest);
-
-    /**
-     *
      * @param applicantId
      * @return List of all BankAccount of applicant
      */
     ServiceResponse<List<Account>> loadAllAccounts(ServiceRequest<String> applicantId);
 
-    /**
-     *
-     * @param accountId
-     * @return void
-     */
-    ServiceResponse<Void> removeAccount(ServiceRequest<String> accountId);
-
-    /**
-     *
-     * @param exchangeRequest
-     * @return Price object after money exchanged
-     */
-    ServiceResponse<Price> exchangeCurrency(ServiceRequest<CurrencyExchangeRequest> exchangeRequest);
 
 }
