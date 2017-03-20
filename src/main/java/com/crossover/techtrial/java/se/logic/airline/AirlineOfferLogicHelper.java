@@ -21,13 +21,6 @@ public class AirlineOfferLogicHelper {
     @Autowired
     private UserService userService;
 
-    protected AirlineOfferModel loadOfferByRout(Route airlineRout) {
-
-        if (airlineRout == null || airlineRout.getFrom() == null || airlineRout.getTo() == null) {
-            throw new ServiceRuntimeException("Invalid airline route");
-        }
-        return airlineDao.loadOfferByRoute(airlineRout.getFrom(), airlineRout.getTo());
-    }
 
     protected void authenticateApplicant(String applicantId) {
 

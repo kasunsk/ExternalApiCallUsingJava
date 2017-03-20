@@ -2,24 +2,15 @@ package com.crossover.techtrial.java.se.logic.airline;
 
 
 import com.crossover.techtrial.java.se.common.dto.Currency;
-import com.crossover.techtrial.java.se.common.dto.Price;
-import com.crossover.techtrial.java.se.common.dto.ServiceRequest;
-import com.crossover.techtrial.java.se.common.dto.ServiceResponse;
 import com.crossover.techtrial.java.se.common.execption.ServiceRuntimeException;
 import com.crossover.techtrial.java.se.configuration.ApplicationProperties;
 import com.crossover.techtrial.java.se.dao.account.AccountDao;
-import com.crossover.techtrial.java.se.dao.airline.AirlineDao;
 import com.crossover.techtrial.java.se.dto.airline.AirlineTicket;
 import com.crossover.techtrial.java.se.dto.airline.GammaAirlineOffer;
 import com.crossover.techtrial.java.se.dto.airline.TicketBuy;
 import com.crossover.techtrial.java.se.dto.airline.TicketBuyingRequest;
-import com.crossover.techtrial.java.se.model.account.BankAccount;
-import com.crossover.techtrial.java.se.model.airline.AirlineOfferModel;
 import com.crossover.techtrial.java.se.model.airline.Route;
-import com.crossover.techtrial.java.se.model.user.UserTicket;
-import com.crossover.techtrial.java.se.service.account.AccountService;
 import org.mockito.InjectMocks;
-import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
@@ -30,7 +21,6 @@ import org.testng.annotations.Test;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
-import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 
 public class AirlineTicketBuyingLogicUnitTest {

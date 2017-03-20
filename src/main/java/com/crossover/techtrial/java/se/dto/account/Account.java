@@ -5,9 +5,6 @@ import com.crossover.techtrial.java.se.dto.airline.Price;
 
 import java.io.Serializable;
 
-/**
- * Created by kasun on 3/19/17.
- */
 public class Account implements Serializable {
 
     private String id;

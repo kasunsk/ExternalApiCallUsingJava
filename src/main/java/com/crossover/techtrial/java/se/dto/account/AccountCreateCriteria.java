@@ -1,11 +1,6 @@
 package com.crossover.techtrial.java.se.dto.account;
 
-import com.crossover.techtrial.java.se.dto.account.AccountRequest;
-import com.crossover.techtrial.java.se.model.user.User;
 
-/**
- * Created by kasun on 3/19/17.
- */
 public class AccountCreateCriteria {
 
     private AccountRequest accountRequest;

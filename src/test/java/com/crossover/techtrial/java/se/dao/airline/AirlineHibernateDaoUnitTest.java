@@ -40,51 +40,6 @@ public class AirlineHibernateDaoUnitTest {
         MockitoAnnotations.initMocks(this);
     }
 
-    @Test
-    public void saveAirlineOfferTest() {
-
-        when(sessionFactory.getCurrentSession()).thenReturn(session);
-        airlineDao.saveAirlineOffer(new AirlineOfferModel());
-        verify(session, times(1)).save(any());
-    }
-
-    @Test
-    public void loadAirlineOffersWithoutStatusTest() {
-
-        when(sessionFactory.getCurrentSession()).thenReturn(session);
-        when(session.createQuery("from AirlineOfferModel AM")).thenReturn(query);
-        List<AirlineOfferModel> airlineOfferModels = new ArrayList<>();
-        when(query.list()).thenReturn(airlineOfferModels);
-        assertEquals(airlineOfferModels, airlineDao.loadAirlineOffers(null));
-    }
-
-    @Test
-    public void loadAirlineOffersWithStatusTest() {
-
-        when(sessionFactory.getCurrentSession()).thenReturn(session);
-        when(session.createQuery("from AirlineOfferModel AM WHERE airlineOfferStatus=:airlineOfferStatus")).thenReturn(query);
-        List<AirlineOfferModel> airlineOfferModels = new ArrayList<>();
-        when(query.list()).thenReturn(airlineOfferModels);
-        assertEquals(airlineOfferModels, airlineDao.loadAirlineOffers(AirlineOffer.AirlineOfferStatus.AVAILABLE));
-    }
-
-    @Test
-    public void updateAirlineOfferTest() {
-
-        when(sessionFactory.getCurrentSession()).thenReturn(session);
-        airlineDao.updateAirlineOffer(new AirlineOfferModel());
-        verify(session, times(1)).update(any());
-    }
-
-    @Test
-    public void loadOfferByRouteTest() {
-
-        when(sessionFactory.getCurrentSession()).thenReturn(session);
-        when(session.createQuery("from AirlineOfferModel AM where AM.origin=:origin and AM.destination=:destination")).thenReturn(query);
-        AirlineOfferModel airlineOfferModel = new AirlineOfferModel();
-        when(query.uniqueResult()).thenReturn(airlineOfferModel);
-        assertEquals(airlineOfferModel, airlineDao.loadOfferByRoute("origin", "destination"));
-    }
 
     @Test
     public void loadApplicantAirlineOffersTest() {
@@ -106,22 +61,4 @@ public class AirlineHibernateDaoUnitTest {
         assertEquals(userTicket, airlineDao.loadUserTicketById(25L));
     }
 
-    @Test
-    public void loadAllAirportsTest() {
-
-        when(sessionFactory.getCurrentSession()).thenReturn(session);
-        when(session.createQuery("from Airport")).thenReturn(query);
-        List<Airport> airports = new ArrayList<>();
-        when(query.uniqueResult()).thenReturn(airports);
-        assertEquals(airports, airlineDao.loadAllAirports());
-    }
-
-    @Test
-    public void removeTest() {
-        when(sessionFactory.getCurrentSession()).thenReturn(session);
-        when(session.createQuery("from AirlineOfferModel where offerId=:offerId")).thenReturn(query);
-        when(query.uniqueResult()).thenReturn(new AirlineOfferModel());
-        airlineDao.remove("5");
-        verify(session, times(1)).delete(any());
-    }
 }

@@ -62,22 +62,6 @@ public class AccountHibernateDaoUnitTest {
         assertEquals(accountDao.loadAccountById(3L), account);
     }
 
-    @Test
-    public void removeTest() {
-
-        when(sessionFactory.getCurrentSession()).thenReturn(session);
-        when(session.createSQLQuery("delete from BANK_ACCOUNT where ID=:accountId")).thenReturn(sqlQuery);
-        accountDao.removeAccount("2");
-        verify(sqlQuery, times(1)).executeUpdate();
-    }
-
-    @Test
-    public void updateAccountTest() {
-
-        when(sessionFactory.getCurrentSession()).thenReturn(session);
-        accountDao.updateAccount(new BankAccount());
-        verify(session, times(1)).update(any());
-    }
 
     @Test
     public void createAccountTest() {
@@ -87,13 +71,6 @@ public class AccountHibernateDaoUnitTest {
         verify(session, times(1)).save(any());
     }
 
-    @Test
-    public void deleteAccountTest() {
-
-        when(sessionFactory.getCurrentSession()).thenReturn(session);
-        accountDao.deleteAccount(new BankAccount());
-        verify(session, times(1)).delete(any());
-    }
 
     @Test
     public void saveUserTicketTest() {

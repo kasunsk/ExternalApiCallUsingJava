@@ -9,9 +9,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class ApplicationProperties {
 
-    @Autowired
-    private Environment environment;
-
     @Value("${applicant.id}")
     private String applicantId;
 

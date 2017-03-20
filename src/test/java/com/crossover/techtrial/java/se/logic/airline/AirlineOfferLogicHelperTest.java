@@ -33,36 +33,6 @@ public class AirlineOfferLogicHelperTest {
         MockitoAnnotations.initMocks(this);
     }
 
-    @Test(expectedExceptions = ServiceRuntimeException.class)
-    public void loadAirlineOfferByRouteInvalidInputTest() {
-        logicHelper.loadOfferByRout(null);
-    }
-
-    @Test(expectedExceptions = ServiceRuntimeException.class)
-    public void loadAirlineOfferByRouteInvalidInputDestinationTest() {
-        logicHelper.loadOfferByRout(new Route());
-    }
-
-    @Test(expectedExceptions = ServiceRuntimeException.class)
-    public void loadAirlineOfferByRouteInvalidOriginTest() {
-        Route route = getRoute(null, "XXX");
-        logicHelper.loadOfferByRout(route);
-    }
-
-    @Test(expectedExceptions = ServiceRuntimeException.class)
-    public void loadAirlineOfferByRouteInvalidDestinationTest() {
-        Route route = getRoute("YYY", null);
-        logicHelper.loadOfferByRout(route);
-    }
-
-    @Test
-    public void loadAirlineOfferByRouteTest() {
-        Route route = getRoute("YYY", "XXX");
-        AirlineOfferModel airlineOfferModel = new AirlineOfferModel();
-        when(airlineDao.loadOfferByRoute("YYY", "XXX")).thenReturn(airlineOfferModel);
-        AirlineOfferModel resultAirlineOfferModel = logicHelper.loadOfferByRout(route);
-        assertEquals(resultAirlineOfferModel, airlineOfferModel);
-    }
 
     @Test(expectedExceptions = ServiceRuntimeException.class)
     public void authenticateApplicantInputValidateNullTest(){
@@ -85,10 +55,4 @@ public class AirlineOfferLogicHelperTest {
         }
     }
 
-    private Route getRoute(String origin, String destination) {
-        Route route = new Route();
-        route.setTo(destination);
-        route.setFrom(origin);
-        return route;
-    }
 }

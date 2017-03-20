@@ -20,4 +20,6 @@ public interface ErrorCode {
     String ACCOUNT_OR_ROUT_NOT_FOUND = "Account or Route not found";
     String INVALID_ACCOUNT = "Account not valid for the transaction";
     String INVALIDA_LOGIN = "Invalid Login";
+    String AMOUNT_ACCOUNT_EXCHANGE_RATE_NOT_FOUND = "Amount, Account or Exchange rate not found ";
+    String AMOUNT_OR_CURRENCY = "Amount or Currency not valid";
 }

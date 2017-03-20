@@ -15,10 +15,6 @@ import java.util.List;
 @Repository("airlineHibernateDao")
 public class AirlineHibernateDao extends AbstractDao<Long, AirlineOfferModel> implements AirlineDao {
 
-    public void saveAirlineOffer(AirlineOfferModel airlineOffer) {
-        getSession().save(airlineOffer);
-    }
-
     @SuppressWarnings("unchecked")
     public List<AirlineOfferModel> loadAirlineOffers(AirlineOffer.AirlineOfferStatus airlineOfferStatus) {
 
@@ -33,19 +29,6 @@ public class AirlineHibernateDao extends AbstractDao<Long, AirlineOfferModel> im
         return query.list();
     }
 
-    public void updateAirlineOffer(AirlineOfferModel airlineOffer) {
-        getSession().update(airlineOffer);
-    }
-
-    @Override
-    public AirlineOfferModel loadOfferByRoute(String origin, String destination) {
-
-        Query query = getSession().createQuery("from AirlineOfferModel AM where AM.origin=:origin and AM.destination=:destination");
-        query.setParameter("origin", origin);
-        query.setParameter("destination", destination);
-
-        return (AirlineOfferModel) query.uniqueResult();
-    }
 
     @Override
     @SuppressWarnings("unchecked")
@@ -64,19 +47,6 @@ public class AirlineHibernateDao extends AbstractDao<Long, AirlineOfferModel> im
         return (UserTicket) query.uniqueResult();
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public List<Airport> loadAllAirports() {
-
-        Query sqlQuery = getSession().createQuery("from Airport");
-        return sqlQuery.list();
-    }
-
-    @Override
-    public void remove(String airlineOfferId) {
-        AirlineOfferModel airlineOffer = loadAirlineOfferById(airlineOfferId);
-        getSession().delete(airlineOffer);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -118,9 +88,4 @@ public class AirlineHibernateDao extends AbstractDao<Long, AirlineOfferModel> im
         }
     }
 
-    public AirlineOfferModel loadAirlineOfferById(String airlineOfferId) {
-        Query query = getSession().createQuery("from AirlineOfferModel where offerId=:offerId");
-        query.setParameter("offerId", Long.parseLong(airlineOfferId));
-        return (AirlineOfferModel) query.uniqueResult();
-    }
 }

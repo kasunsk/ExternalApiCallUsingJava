@@ -4,11 +4,8 @@ package com.crossover.techtrial.java.se.controller;
 import com.crossover.techtrial.java.se.common.dto.*;
 import com.crossover.techtrial.java.se.dto.account.Account;
 import com.crossover.techtrial.java.se.dto.account.AccountRequest;
-import com.crossover.techtrial.java.se.dto.account.DepositRequest;
 import com.crossover.techtrial.java.se.dto.account.MoneyTransferRequest;
-import com.crossover.techtrial.java.se.dto.airline.*;
 import com.crossover.techtrial.java.se.dto.airline.Price;
-import com.crossover.techtrial.java.se.model.account.BankAccount;
 import com.crossover.techtrial.java.se.model.user.User;
 import com.crossover.techtrial.java.se.service.account.AccountService;
 import com.crossover.techtrial.java.se.service.user.UserService;
@@ -22,7 +19,6 @@ import org.testng.annotations.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.assertEquals;
 

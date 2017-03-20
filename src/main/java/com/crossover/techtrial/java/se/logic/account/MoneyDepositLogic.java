@@ -1,15 +1,14 @@
 package com.crossover.techtrial.java.se.logic.account;
 
+import com.crossover.techtrial.java.se.common.execption.ErrorCode;
+import com.crossover.techtrial.java.se.common.execption.ServiceRuntimeException;
 import com.crossover.techtrial.java.se.common.service.StatelessServiceLogic;
 import com.crossover.techtrial.java.se.configuration.ApplicationProperties;
-import com.crossover.techtrial.java.se.dao.account.AccountDao;
 import com.crossover.techtrial.java.se.dto.account.Account;
-import com.crossover.techtrial.java.se.dto.account.DepositRequest;
 import com.crossover.techtrial.java.se.dto.account.MoneyTransferRequest;
-import com.crossover.techtrial.java.se.model.account.BankAccount;
-import com.crossover.techtrial.java.se.service.account.AccountService;
 import com.crossover.techtrial.java.se.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -18,10 +17,7 @@ import org.springframework.web.client.RestTemplate;
 public class MoneyDepositLogic extends StatelessServiceLogic<Account, MoneyTransferRequest> {
 
     @Autowired
-    private AccountDao accountHibernateDao;
-
-    @Autowired
-    private AccountService accountService;
+    private RestTemplate restTemplate;
 
     @Autowired
     private ApplicationProperties applicationProperties;
@@ -32,8 +28,15 @@ public class MoneyDepositLogic extends StatelessServiceLogic<Account, MoneyTrans
         validate(depositRequest);
         String depositUrl = applicationProperties.getBaseAPIUrl() + applicationProperties.getApplicantId()
                 + "/paypallets/account/deposit";
-        RestTemplate restTemplate = new RestTemplate();
+
         ResponseEntity<Account> response = restTemplate.postForEntity(depositUrl, depositRequest, Account.class);
+
+        if (response.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
+            throw new ServiceRuntimeException(ErrorCode.AMOUNT_ACCOUNT_EXCHANGE_RATE_NOT_FOUND,
+                    "Applicant Amount or Account or Exchange range not found");
+        } else if (response.getStatusCode().equals(HttpStatus.BAD_REQUEST)) {
+            throw new ServiceRuntimeException(ErrorCode.AMOUNT_OR_CURRENCY, "Amount or Currency not valid");
+        }
         return response.getBody();
     }
 
@@ -46,26 +49,4 @@ public class MoneyDepositLogic extends StatelessServiceLogic<Account, MoneyTrans
         ValidationUtil.validate(depositRequest.getMonetaryAmount().getAmount(), "Price amount is null");
     }
 
-    private double getNewBalance(DepositRequest depositRequest, BankAccount account) {
-
-//        if (account == null) {
-//            throw new ServiceRuntimeException(ErrorCode.ACCOUNT_NOT_EXIST, "Invalid Account");
-//        }
-//
-//        Price depositPrice = depositRequest.getPrice();
-//
-//        //Provide currency exchange if necessary
-//        if (!account.getCurrency().equals(depositPrice.getCurrency())) {
-//            CurrencyExchangeRequest exchangeRequest = new CurrencyExchangeRequest();
-//            exchangeRequest.setTargetCurrency(account.getCurrency());
-//            exchangeRequest.setMonetaryAmount(depositPrice);
-//            depositPrice = accountService.exchangeCurrency(new ServiceRequest<>(exchangeRequest)).getPayload();
-//        }
-//
-//        BigDecimal newBalance = BigDecimal.valueOf(account.getAvailableAmount()).add(BigDecimal
-//                .valueOf(depositPrice.getPrice()));
-//
-//        return newBalance.doubleValue();
-        return 0D;
-    }
 }

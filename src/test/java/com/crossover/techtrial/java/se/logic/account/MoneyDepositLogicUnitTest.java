@@ -1,14 +1,9 @@
 package com.crossover.techtrial.java.se.logic.account;
 
 
-import com.crossover.techtrial.java.se.common.dto.Currency;
-import com.crossover.techtrial.java.se.common.dto.Price;
-import com.crossover.techtrial.java.se.common.dto.ServiceResponse;
 import com.crossover.techtrial.java.se.common.execption.ServiceRuntimeException;
 import com.crossover.techtrial.java.se.dao.account.AccountHibernateDao;
-import com.crossover.techtrial.java.se.dto.account.DepositRequest;
 import com.crossover.techtrial.java.se.dto.account.MoneyTransferRequest;
-import com.crossover.techtrial.java.se.model.account.BankAccount;
 import com.crossover.techtrial.java.se.service.account.AccountService;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -16,9 +11,6 @@ import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.*;
-import static org.testng.Assert.assertEquals;
 
 public class MoneyDepositLogicUnitTest {
 
@@ -40,19 +32,19 @@ public class MoneyDepositLogicUnitTest {
     public void validateDepositRequestTest() {
         logic.invoke(null);
     }
-//
-//    @Test(expectedExceptions = ServiceRuntimeException.class)
-//    public void validateAccountIdNullTest() {
-//        logic.invoke(new DepositRequest());
-//    }
-//
-//    @Test(expectedExceptions = ServiceRuntimeException.class)
-//    public void validatePriceNullTest() {
-//
-//        MoneyTransferRequest request = new MoneyTransferRequest();
-//        request.setAccountId("test");
-//        logic.invoke(request);
-//    }
+
+    @Test(expectedExceptions = ServiceRuntimeException.class)
+    public void validateAccountIdNullTest() {
+        logic.invoke(new MoneyTransferRequest());
+    }
+
+    @Test(expectedExceptions = ServiceRuntimeException.class)
+    public void validatePriceNullTest() {
+
+        MoneyTransferRequest request = new MoneyTransferRequest();
+        request.setAccountId("test");
+        logic.invoke(request);
+    }
 //
 //    @Test(expectedExceptions = ServiceRuntimeException.class)
 //    public void validatePriceCurrencyNullTest() {

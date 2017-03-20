@@ -14,13 +14,8 @@ public interface AccountDao {
 
     BankAccount loadAccountById(Long accountId);
 
-    void updateAccount(BankAccount applicantBankAccount);
-
     BankAccount createAccount(BankAccount bankAccount);
     
-    void deleteAccount(BankAccount bankAccount);
-
     void saveUserTicket(UserTicket userTicket);
 
-    void removeAccount(String accountId);
 }

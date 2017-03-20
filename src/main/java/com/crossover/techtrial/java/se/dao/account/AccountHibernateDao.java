@@ -36,21 +36,11 @@ public class AccountHibernateDao extends AbstractDao<Long, BankAccount> implemen
         return (bankAccount);
     }
 
-    public void deleteAccount(BankAccount bankAccount) {
-        getSession().delete(bankAccount);
-    }
 
     @Override
     public void saveUserTicket(UserTicket userTicket) {
         getSession().save(userTicket);
     }
 
-    @Override
-    public void removeAccount(String accountId) {
-
-        Query query = getSession().createSQLQuery("delete from BANK_ACCOUNT where ID=:accountId");
-        query.setParameter("accountId", accountId);
-        query.executeUpdate();
-    }
 
 }

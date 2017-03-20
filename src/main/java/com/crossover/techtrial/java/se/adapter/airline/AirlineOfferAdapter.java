@@ -1,7 +1,7 @@
 package com.crossover.techtrial.java.se.adapter.airline;
 
-import com.crossover.techtrial.java.se.common.dto.Price;
 import com.crossover.techtrial.java.se.dto.airline.AirlineOffer;
+import com.crossover.techtrial.java.se.dto.airline.Price;
 import com.crossover.techtrial.java.se.model.airline.AirlineOfferModel;
 import com.crossover.techtrial.java.se.model.airline.Route;
 import org.springframework.stereotype.Component;
@@ -23,7 +23,7 @@ public class AirlineOfferAdapter {
             airlineOfferModel = new AirlineOfferModel();
             airlineOfferModel.setOrigin(airlineOffer.getRoute().getFrom());
             airlineOfferModel.setDestination(airlineOffer.getRoute().getTo());
-            airlineOfferModel.setPrice(airlineOffer.getPrice().getPrice());
+            airlineOfferModel.setPrice(airlineOffer.getPrice().getAmount());
             airlineOfferModel.setCurrency(airlineOffer.getPrice().getCurrency());
             airlineOfferModel.setStatus(AirlineOffer.AirlineOfferStatus.AVAILABLE);
             airlineOfferModel.setAvailbaleInventory(airlineOffer.getAvailableInventory());
@@ -42,7 +42,7 @@ public class AirlineOfferAdapter {
 
         airlineOffer.setOfferId(offerModel.getOfferId());
         Price price = new Price();
-        price.setPrice(offerModel.getPrice());
+        price.setAmount(offerModel.getPrice());
         price.setCurrency(offerModel.getCurrency());
         airlineOffer.setPrice(price);
 

@@ -1,5 +1,7 @@
 package com.crossover.techtrial.java.se.common.dto;
 
+import com.crossover.techtrial.java.se.dto.airline.Price;
+
 public class CurrencyExchangeRequest {
 
     private Price monetaryAmount;
