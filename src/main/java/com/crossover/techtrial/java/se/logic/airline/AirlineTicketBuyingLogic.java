@@ -38,30 +38,29 @@ public class AirlineTicketBuyingLogic extends StatelessServiceLogic<UserTicket, 
     @Autowired
     private ApplicationProperties applicationProperties;
 
+    @Autowired
+    RestTemplate restTemplate;
+
     @Transactional
     @Override
     public UserTicket invoke(TicketBuy request) {
 
         validateTicketBuyingRequest(request);
-        RestTemplate restTemplate = new RestTemplate();
-        String accountCreateUrl
+        String ticketBiyUrl
                 = applicationProperties.getBaseAPIUrl() + applicationProperties.getApplicantId() + "/gammaairlines/tickets/buy";
 
         UserTicket userTicket = null;
-        try {
-            ResponseEntity<AirlineTicket> response = restTemplate.postForEntity(accountCreateUrl, request.getTicketBuyingRequest(), AirlineTicket.class);
-            AirlineTicket airlineTicket = response.getBody();
-            userTicket = getUserTicket(request, airlineTicket);
-            accountDao.saveUserTicket(userTicket);
-            return userTicket;
-        } catch (HttpClientErrorException ex) {
+        ResponseEntity<AirlineTicket> response = restTemplate.postForEntity(ticketBiyUrl, request.getTicketBuyingRequest(), AirlineTicket.class);
 
-            if (ex.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
-                throw new ServiceRuntimeException(ErrorCode.ACCOUNT_OR_ROUT_NOT_FOUND, "Account or route not found");
-            } else if (ex.getStatusCode().equals(HttpStatus.BAD_REQUEST)) {
-                throw new ServiceRuntimeException(ErrorCode.INVALID_ACCOUNT, "Invalid account / Money not enough");
-            }
+        if (response.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
+            throw new ServiceRuntimeException(ErrorCode.ACCOUNT_OR_ROUT_NOT_FOUND, "Account or route not found");
+        } else if (response.getStatusCode().equals(HttpStatus.BAD_REQUEST)) {
+            throw new ServiceRuntimeException(ErrorCode.INVALID_ACCOUNT, "Invalid account / Money not enough");
         }
+
+        AirlineTicket airlineTicket = response.getBody();
+        userTicket = getUserTicket(request, airlineTicket);
+        accountDao.saveUserTicket(userTicket);
         return userTicket;
     }
 
@@ -91,5 +90,7 @@ public class AirlineTicketBuyingLogic extends StatelessServiceLogic<UserTicket, 
         ValidationUtil.validate(request.getUserId(), "Applicant Id is null");
         ValidationUtil.validate(request.getTicketBuyingRequest(), "Buying request is null");
         ValidationUtil.validate(request.getTicketBuyingRequest().getAccountId(), "Account id is null");
+        ValidationUtil.validate(request.getTicketBuyingRequest().getRoute(), "Route is empty");
+        ValidationUtil.validate(request.getTicketBuyingRequest().getAmount(), "Ticket amount is null");
     }
 }

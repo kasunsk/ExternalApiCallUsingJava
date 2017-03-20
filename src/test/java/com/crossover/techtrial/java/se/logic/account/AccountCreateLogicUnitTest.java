@@ -6,7 +6,12 @@ import com.crossover.techtrial.java.se.common.dto.Price;
 import com.crossover.techtrial.java.se.common.dto.ServiceRequest;
 import com.crossover.techtrial.java.se.common.dto.ServiceResponse;
 import com.crossover.techtrial.java.se.common.execption.ServiceRuntimeException;
+import com.crossover.techtrial.java.se.configuration.ApplicationProperties;
+import com.crossover.techtrial.java.se.dao.account.AccountDao;
 import com.crossover.techtrial.java.se.dao.account.AccountHibernateDao;
+import com.crossover.techtrial.java.se.dao.user.UserDao;
+import com.crossover.techtrial.java.se.dto.account.AccountRequest;
+import com.crossover.techtrial.java.se.dto.airline.AirlineTicket;
 import com.crossover.techtrial.java.se.model.account.BankAccount;
 import com.crossover.techtrial.java.se.model.user.User;
 import com.crossover.techtrial.java.se.service.account.AccountService;
@@ -15,9 +20,17 @@ import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
 
@@ -27,14 +40,17 @@ public class AccountCreateLogicUnitTest  {
     AccountCreateLogic logic = new AccountCreateLogic();
 
     @Mock
-    AccountHibernateDao accountHibernateDao;
+    AccountDao accountDao;
 
     @Mock
-    AccountService accountService;
-
+    RestTemplate restTemplate;
 
     @Mock
-    Environment environment;
+    ApplicationProperties applicationProperties;
+
+    @Mock
+    UserDao userDao;
+
 
     @BeforeMethod(alwaysRun=true)
     public void init() {
@@ -45,42 +61,82 @@ public class AccountCreateLogicUnitTest  {
     public void validateAccountNullTest() {
         logic.invoke(null);
     }
-//
-//    @Test(expectedExceptions = ServiceRuntimeException.class)
-//    public void validateCurrencyNullTest() {
-//        logic.invoke(new BankAccount());
-//    }
-//
-//    @SuppressWarnings("unchecked")
-//    @Test
-//    public void invokeTest() {
-//
-//        BankAccount bankAccount = new BankAccount();
-//       // bankAccount.setCurrency(Currency.AUD);
-//        when(accountHibernateDao.createAccount(bankAccount)).thenReturn(bankAccount);
-//        when(environment.getRequiredProperty("initial.deposit.amount")).thenReturn("1000");
-//        when(environment.getRequiredProperty("initial.deposit.currency")).thenReturn("USD");
-//
-//        ServiceResponse<Price> response = new ServiceResponse<>();
-//        Price price = new Price();
-//        price.setCurrency(Currency.AUD);
-//        price.setPrice(200D);
-//        response.setPayload(price);
-//        when(accountService.exchangeCurrency(Matchers.<ServiceRequest>any())).thenReturn(response);
-//        BankAccount resultAccount = logic.invoke(bankAccount);
-//        assertEquals(resultAccount, bankAccount);
-//    }
-//
-//
-//    @Test
-//    public void invokeNotEmptyAvailableMoneyTest() {
-//
-//        BankAccount bankAccount = new BankAccount();
-//        //bankAccount.setCurrency(Currency.USD);
-//        //bankAccount.setAvailableAmount(2000D);
-//        bankAccount.setUser(new User());
-//        when(accountHibernateDao.createAccount(bankAccount)).thenReturn(bankAccount);
-//        BankAccount resultAccount = logic.invoke(bankAccount);
-//        assertEquals(resultAccount, bankAccount);
-//    }
+
+    @Test(expectedExceptions = ServiceRuntimeException.class)
+    public void validateRequestNullTest() {
+        logic.invoke(null);
+    }
+
+    @Test(expectedExceptions = ServiceRuntimeException.class)
+    public void validateUserIdNullTest() {
+        logic.invoke(new AccountCreateCriteria());
+    }
+
+    @Test(expectedExceptions = ServiceRuntimeException.class)
+    public void validateAccountRequestNullTest() {
+        AccountCreateCriteria criteria = new AccountCreateCriteria();
+        criteria.setUserId("5");
+        logic.invoke(criteria);
+    }
+
+    @Test(expectedExceptions = ServiceRuntimeException.class)
+    public void validateCurrencyNullTest() {
+
+        AccountCreateCriteria criteria = new AccountCreateCriteria();
+        criteria.setUserId("5");
+        criteria.setAccountRequest(new AccountRequest());
+        logic.invoke(criteria);
+    }
+
+    @Test(expectedExceptions = ServiceRuntimeException.class)
+    public void invokeBadRequestFailTest() {
+
+        AccountCreateCriteria criteria = new AccountCreateCriteria();
+        criteria.setUserId("5");
+        AccountRequest accountRequest = new AccountRequest();
+        accountRequest.setCurrency(Currency.AED);
+        criteria.setAccountRequest(accountRequest);
+
+        ResponseEntity<Account> response = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        when(restTemplate.postForEntity(anyString(), any(), eq(Account.class))).thenReturn(response);
+        logic.invoke(criteria);
+
+    }
+
+    @Test(expectedExceptions = ServiceRuntimeException.class)
+    public void invokeNotFoundFailTest() {
+
+        AccountCreateCriteria criteria = new AccountCreateCriteria();
+        criteria.setUserId("5");
+        AccountRequest accountRequest = new AccountRequest();
+        accountRequest.setCurrency(Currency.AED);
+        criteria.setAccountRequest(accountRequest);
+
+        ResponseEntity<Account> response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        when(restTemplate.postForEntity(anyString(), any(), eq(Account.class))).thenReturn(response);
+        logic.invoke(criteria);
+
+    }
+
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void invokeTest() {
+
+        AccountCreateCriteria criteria = new AccountCreateCriteria();
+        criteria.setUserId("5");
+        AccountRequest accountRequest = new AccountRequest();
+        accountRequest.setCurrency(Currency.AED);
+        criteria.setAccountRequest(accountRequest);
+
+        Account account = new Account();
+        ResponseEntity<Account> response = new ResponseEntity<>(account, HttpStatus.OK);
+        when(restTemplate.postForEntity(anyString(), any(), eq(Account.class))).thenReturn(response);
+        User user = new User();
+        when(userDao.loadUserById("5")).thenReturn(user);
+        assertEquals(logic.invoke(criteria), account);
+        verify(accountDao, times(1)).createAccount(any());
+
+    }
+
 }

@@ -99,15 +99,4 @@ public class AccountController {
         userService.authenticateUser(new ServiceRequest<>(applicantId));
     }
 
-    private BankAccount buildAccountCreateRequest(String applicantId, AccountRequest accountRequest) {
-
-        User user = userService.loadUserById(new ServiceRequest<>(applicantId)).getPayload();
-
-        BankAccount bankAccount = new BankAccount();
-        bankAccount.setUser(user);
-      //  bankAccount.setCurrency(accountRequest.getCurrency());
-        return bankAccount;
-    }
-
-
 }
