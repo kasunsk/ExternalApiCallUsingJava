@@ -84,11 +84,38 @@ public class AirlineHibernateDao extends AbstractDao<Long, AirlineOfferModel> im
 
         Query query;
 
-        if (userId == null && origin == null && destination == null){
+        if (userId == null && origin == null && destination == null) {
             query = getSession().createQuery("from UserTicket");
             return query.list();
+        } else if (userId != null && origin == null && destination == null) {
+            query = getSession().createQuery("from UserTicket where userId=:userId");
+            query.setParameter("userId", userId);
+            return query.list();
+        } else if (userId != null && origin != null && destination == null) {
+            query = getSession().createQuery("from UserTicket where userId=:userId and origin=:origin");
+            query.setParameter("userId", userId);
+            query.setParameter("origin", origin);
+            return query.list();
+        } else if (userId == null && origin != null && destination != null) {
+            query = getSession().createQuery("from UserTicket where origin=:origin and destination=:destination");
+            query.setParameter("origin", origin);
+            query.setParameter("destination", destination);
+            return query.list();
+        } else if (userId != null && origin != null) {
+            query = getSession().createQuery("from UserTicket where userId=:userId and origin=:origin and destination=:destination");
+            query.setParameter("userId", userId);
+            query.setParameter("origin", origin);
+            query.setParameter("destination", destination);
+            return query.list();
+        } else if (userId == null && origin == null) {
+            query = getSession().createQuery("from UserTicket where destination=:destination");
+            query.setParameter("destination", destination);
+            return query.list();
+        } else {
+            query = getSession().createQuery("from UserTicket where userId=:userId and destination=:destination");
+            query.setParameter("destination", destination);
+            return query.list();
         }
-        return new ArrayList<>();
     }
 
     public AirlineOfferModel loadAirlineOfferById(String airlineOfferId) {
