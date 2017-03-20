@@ -23,6 +23,10 @@ public class AllAccountsLoadingLogic extends StatelessServiceLogic<List<Account>
     @Autowired
     private AccountDao accountDao;
 
+
+    @Autowired
+    private RestTemplate restTemplate;
+
     @Autowired
     private ApplicationProperties applicationProperties;
 
@@ -31,7 +35,6 @@ public class AllAccountsLoadingLogic extends StatelessServiceLogic<List<Account>
     public List<Account> invoke(String userId) {
 
         validateInput(userId);
-        RestTemplate restTemplate = new RestTemplate();
 
         String availableOfferUrl
                 = applicationProperties.getBaseAPIUrl() + applicationProperties.getApplicantId() + "/paypallets/accounts";

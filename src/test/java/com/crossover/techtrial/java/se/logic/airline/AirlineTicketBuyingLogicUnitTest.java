@@ -99,13 +99,6 @@ public class AirlineTicketBuyingLogicUnitTest {
         logic.invoke(ticketBuy);
     }
 
-    @Test(expectedExceptions = ServiceRuntimeException.class)
-    public void invalidBankAccountTest() {
-        TicketBuy ticketBuy = getTicketBuy();
-        when(accountDao.loadAccountById(12L)).thenReturn(null);
-        logic.invoke(ticketBuy);
-    }
-
 
     @Test(expectedExceptions = ServiceRuntimeException.class)
     public void invokeFailBadRequestTest() {

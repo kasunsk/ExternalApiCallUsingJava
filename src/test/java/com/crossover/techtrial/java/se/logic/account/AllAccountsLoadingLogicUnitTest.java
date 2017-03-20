@@ -1,19 +1,27 @@
 package com.crossover.techtrial.java.se.logic.account;
 
 import com.crossover.techtrial.java.se.common.execption.ServiceRuntimeException;
+import com.crossover.techtrial.java.se.configuration.ApplicationProperties;
 import com.crossover.techtrial.java.se.dao.account.AccountHibernateDao;
 import com.crossover.techtrial.java.se.model.account.BankAccount;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.fail;
 
 public class AllAccountsLoadingLogicUnitTest {
@@ -23,6 +31,12 @@ public class AllAccountsLoadingLogicUnitTest {
 
     @Mock
     AccountHibernateDao accountDao;
+
+    @Mock
+    ApplicationProperties applicationProperties;
+
+    @Mock
+    RestTemplate restTemplate;
 
     @BeforeMethod(alwaysRun=true)
     public void init() {
@@ -40,27 +54,24 @@ public class AllAccountsLoadingLogicUnitTest {
     }
 
     @Test
-    public void validateTest() {
-        try {
-            logic.invoke("applicantId");
-            when(accountDao.loadAccountByApplicantId("applicantId")).thenReturn(new ArrayList<>());
-        } catch (ServiceRuntimeException ex) {
-            fail();
-        }
-    }
-
-    @Test
     public void invokeTest() {
 
         List<BankAccount> accounts = new ArrayList<>();
-        when(accountDao.loadAccountByApplicantId("applicantId")).thenReturn(accounts);
-        assertEquals(accounts, logic.invoke("applicantId"));
+        BankAccount bankAccount = new BankAccount();
+        bankAccount.setAccountNumber("aaaa");
+        accounts.add(bankAccount);
+
+        Account account = new Account();
+        account.setId("aaaa");
+        Account[] accountArray = new Account[] {account};
+        ResponseEntity<Account[]> responseEntity = new ResponseEntity<>(accountArray, HttpStatus.OK);
+        when(applicationProperties.getBaseAPIUrl()).thenReturn("baseUrl");
+        when(applicationProperties.getApplicantId()).thenReturn("aaaa");
+        when(restTemplate.getForEntity(anyString(), eq(Account[].class))).thenReturn(responseEntity);
+        when(accountDao.loadAccountByApplicantId("5")).thenReturn(accounts);
+        List<Account> result = logic.invoke("5");
+        assertNotNull(result);
+        assertEquals(result.size(), 1);
     }
 
-    @Test
-    public void invokeNullTest() {
-
-        when(accountDao.loadAccountByApplicantId("applicantId")).thenReturn(null);
-        assertEquals(logic.invoke("applicantId").size(), 0);
-    }
 }

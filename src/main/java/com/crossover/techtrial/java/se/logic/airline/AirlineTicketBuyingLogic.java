@@ -49,7 +49,7 @@ public class AirlineTicketBuyingLogic extends StatelessServiceLogic<UserTicket, 
         String ticketBiyUrl
                 = applicationProperties.getBaseAPIUrl() + applicationProperties.getApplicantId() + "/gammaairlines/tickets/buy";
 
-        UserTicket userTicket = null;
+        UserTicket userTicket;
         ResponseEntity<AirlineTicket> response = restTemplate.postForEntity(ticketBiyUrl, request.getTicketBuyingRequest(), AirlineTicket.class);
 
         if (response.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
