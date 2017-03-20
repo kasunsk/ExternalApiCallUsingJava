@@ -1,6 +1,7 @@
 package com.crossover.techtrial.java.se.logic.user;
 
 import com.crossover.techtrial.java.se.common.dto.ServiceRequest;
+import com.crossover.techtrial.java.se.common.execption.ErrorCode;
 import com.crossover.techtrial.java.se.common.execption.ServiceRuntimeException;
 import com.crossover.techtrial.java.se.common.service.StatelessServiceLogic;
 import com.crossover.techtrial.java.se.dto.user.LoginRequest;
@@ -26,7 +27,12 @@ public class UserLoginLogic extends StatelessServiceLogic<User, LoginRequest> {
     public User invoke(LoginRequest loginRequest) {
 
         validateLoginRequest(loginRequest);
-        User user = logicHelper.loadUser(loginRequest.getEmail());
+        User user;
+        try {
+            user = logicHelper.loadUser(loginRequest.getEmail());
+        } catch (ServiceRuntimeException ex) {
+            throw new ServiceRuntimeException(ErrorCode.INVALIDA_LOGIN, "Invalid Login");
+        }
         validateLogin(loginRequest, user);
         user.setUserBankAccounts(null);
         return user;
@@ -44,7 +50,7 @@ public class UserLoginLogic extends StatelessServiceLogic<User, LoginRequest> {
         String encryptedPassword = securityService.encrypt(new ServiceRequest<>(loginRequest.getPassword())).getPayload();
 
         if (!user.getPassword().equals(encryptedPassword)) {
-            throw new ServiceRuntimeException("Login invalid");
+            throw new ServiceRuntimeException(ErrorCode.INVALIDA_LOGIN, "Login invalid");
         }
     }
 }

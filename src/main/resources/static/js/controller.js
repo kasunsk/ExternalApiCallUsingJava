@@ -204,6 +204,7 @@ app.controller('loginController', ['$scope', '$http', '$cookies', '$window', fun
 
         }).error(function (data, status) {
             $scope.submitting = false;
+            $scope.error = data.message;
             if (status === 400)
                 $scope.badRequest = data;
             else if (status === 409)
@@ -243,6 +244,7 @@ app.controller('registerController', ['$scope', '$http', '$window', function ($s
 
         }).error(function (data, status) {
             $scope.submitting = false;
+            $scope.error = data.message;
             if (status === 400)
                 $scope.badRequest = data;
             else if (status === 409)
@@ -474,6 +476,7 @@ app.controller('airlineOfferController', ['$scope', '$http', '$cookies', '$windo
 
         }).error(function (data, status) {
             $scope.submitting = false;
+            $scope.error = data.message;
             if (status === 400)
                 $scope.badRequest = data;
             else if (status === 409)
@@ -567,12 +570,37 @@ app.controller('usersTicketsController', ['$scope', '$http', '$cookies', '$windo
 
         }).error(function (data, status) {
             $scope.submitting = false;
+
             if (status === 400)
                 $scope.badRequest = data;
             else if (status === 409)
                 $scope.badRequest = '';
         });
     };
+
+    $scope.userTicketSearchCriteria  =  {
+    };
+
+
+    $scope.searchUsersTickets = function (userTicketSearchCriteria) {
+
+        var emailTicketUrl = '/' + applicantId + '/gammaairlines/userTicket/search/';
+
+        $scope.submitting = true;
+        $http({
+            method: 'POST',
+            url: emailTicketUrl,
+            data:userTicketSearchCriteria
+        }).success(function (data) {
+            $scope.usersTickets = data;
+        }).error(function (data, status) {
+            $scope.submitting = false;
+            if (status === 400)
+                $scope.badRequest = data;
+            else if (status === 409)
+                $scope.badRequest = 'Email sending fail';
+        });
+    }
 
 }]);
 

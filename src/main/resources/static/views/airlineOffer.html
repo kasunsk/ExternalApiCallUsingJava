@@ -9,7 +9,6 @@
 <h3>{{headingTitle}}</h3>
 
 <div class="container" data-ng-init="availableAirlineOffers();">
-
     <div class="block" data-ng-repeat="offer in availableOffers">
         <label>Offer Price : {{offer.price.amount}} {{offer.price.currency}}</label>
         <br>
@@ -18,12 +17,12 @@
         <label>To : {{offer.route.to}}</label>
         <br>
         <button class="button" data-ng-click="select($index);">Select</button>
-        <button class="button" data-ng-show="isAdmin" data-ng-click="remove($index);">Remove</button>
     </div>
 </div>
 <div class="section_div" data-ng-controller="accountCreateController" data-ng-show="displayAccounts"
      data-ng-init="accountList();">
     <div>
+        <div class="section_div"><div data-ng-show="error" class="alert alert-danger">{{error}}</div></div>
         <label for="account">Account</label>
         <select name="account" id="account" data-ng-model="account" class="small_select"
                 data-ng-options="account as account.balance.amount +' '+ account.balance.currency for account in allAccounts"></select>

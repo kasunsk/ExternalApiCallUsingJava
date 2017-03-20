@@ -4,6 +4,7 @@ import com.crossover.techtrial.java.se.common.dto.*;
 import com.crossover.techtrial.java.se.common.dto.Void;
 import com.crossover.techtrial.java.se.common.service.RequestAssembler;
 import com.crossover.techtrial.java.se.dto.airline.*;
+import com.crossover.techtrial.java.se.dto.user.UserTicketSearchCriteria;
 import com.crossover.techtrial.java.se.logic.airline.*;
 import com.crossover.techtrial.java.se.model.airline.Airport;
 import com.crossover.techtrial.java.se.model.user.UserTicket;
@@ -28,6 +29,9 @@ public class AirlineServiceImpl implements AirlineService {
     @Autowired
     private UserTicketEmailSendingLogic userTicketEmailSendingLogic;
 
+    @Autowired
+    private UserTicketSearchLogic userTicketSearchLogic;
+
     @Override
     public ServiceResponse<List<GammaAirlineOffer>> retrieveAvailableAirlineOffers(ServiceRequest<OfferRequest> offerRequest) {
 
@@ -51,6 +55,12 @@ public class AirlineServiceImpl implements AirlineService {
     public ServiceResponse<Boolean> sendUserTicketEmail(ServiceRequest<String> userTicketId) {
 
         return RequestAssembler.assemble(userTicketEmailSendingLogic, userTicketId);
+    }
+
+    @Override
+    public ServiceResponse<List<UserTicket>> searchUserTicket(ServiceRequest<UserTicketSearchCriteria> criteria) {
+
+        return RequestAssembler.assemble(userTicketSearchLogic, criteria);
     }
 
 }

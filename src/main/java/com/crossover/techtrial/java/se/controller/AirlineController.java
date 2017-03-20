@@ -4,6 +4,7 @@ import com.crossover.techtrial.java.se.common.dto.*;
 import com.crossover.techtrial.java.se.common.dto.Void;
 import com.crossover.techtrial.java.se.dto.airline.*;
 import com.crossover.techtrial.java.se.dto.email.EmailParam;
+import com.crossover.techtrial.java.se.dto.user.UserTicketSearchCriteria;
 import com.crossover.techtrial.java.se.model.airline.Airport;
 import com.crossover.techtrial.java.se.model.user.UserTicket;
 import com.crossover.techtrial.java.se.service.airline.AirlineService;
@@ -54,6 +55,15 @@ public class AirlineController {
         ticketBuy.setUserId(userId);
         ServiceRequest<TicketBuy> serviceRequest = new ServiceRequest<>(ticketBuy);
         return airlineService.buyAirlineTicket(serviceRequest).getPayload();
+    }
+
+    @RequestMapping(value = "/{userId}/gammaairlines/userTicket/search/", method = RequestMethod.POST,
+            consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @ResponseBody
+    public List<UserTicket> search(@PathVariable("userId") String userId, @RequestBody UserTicketSearchCriteria userTicketSearchCriteria) {
+
+        ServiceRequest<UserTicketSearchCriteria> serviceRequest = new ServiceRequest<>(userTicketSearchCriteria);
+        return airlineService.searchUserTicket(serviceRequest).getPayload();
     }
 
 

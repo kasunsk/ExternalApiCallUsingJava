@@ -5,15 +5,22 @@
     <title></title>
 </head>
 <body>
-<div class="section">
+<div class="section" data-ng-init="searchUsersTickets(userTicketSearchCriteria);">
     <h2>{{headingTitle}}</h2>
 
-    <div class="section_div" data-ng-controller="usersController" data-ng-init="userList();">
-        <div>
-        <label for="user">Select User</label>
-        <select name="user" id="user" data-ng-model="user" data-ng-change="loadUserTickets(user.userId);"
-                data-ng-options="user as user.name for user in allUsers"></select>
-        </div>
+    <div class="section_div">
+        <h4>User Ticket Search</h4>
+
+        <label for="email">Email</label>
+        <input type="text" name="email" id="email" data-ng-model="userTicketSearchCriteria.email"
+               required/>
+        <label for="origin">Origin</label>
+        <input type="text" name="origin" id="origin" data-ng-model="userTicketSearchCriteria.origin"
+               required/>
+        <label for="destination"></label>
+        <input type="text" name="destination" id="destination" data-ng-model="userTicketSearchCriteria.destination"
+               required/>
+        <button class="btn btn-primary" data-ng-click="searchUsersTickets(userTicketSearchCriteria);">Search</button>
     </div>
 
     <div>
@@ -26,13 +33,13 @@
                 <th>Amount</th>
                 <th>View</th>
             </tr>
-            <tbody data-ng-repeat="airlineTicket in usersTickets">
+            <tbody data-ng-repeat="userTicket in usersTickets">
             <tr>
                 <td>{{$index + 1}}</td>
-                <td>{{airlineTicket.details.route.from}}</td>
-                <td>{{airlineTicket.details.route.to}}</td>
-                <td>{{airlineTicket.details.price.amount}} {{airlineTicket.details.price.currency}}</td>
-                <td>{{airlineTicket.amount}}</td>
+                <td>{{userTicket.origin}}</td>
+                <td>{{userTicket.destination}}</td>
+                <td>{{userTicket.price}} {{userTicket.currency}}</td>
+                <td>{{userTicket.ticketsAmount}}</td>
                 <td>
                     <button class="btn btn-primary" data-ng-controller="ticketController"
                             data-ng-click="viewTicket($index);">View

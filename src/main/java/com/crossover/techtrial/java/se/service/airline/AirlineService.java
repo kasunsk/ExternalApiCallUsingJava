@@ -3,6 +3,7 @@ package com.crossover.techtrial.java.se.service.airline;
 import com.crossover.techtrial.java.se.common.dto.*;
 import com.crossover.techtrial.java.se.common.dto.Void;
 import com.crossover.techtrial.java.se.dto.airline.*;
+import com.crossover.techtrial.java.se.dto.user.UserTicketSearchCriteria;
 import com.crossover.techtrial.java.se.model.airline.Airport;
 import com.crossover.techtrial.java.se.model.user.UserTicket;
 
@@ -40,4 +41,11 @@ public interface AirlineService {
      * @return
      */
     ServiceResponse<Boolean> sendUserTicketEmail(ServiceRequest<String> userTicketId);
+
+    /**
+     *
+     * @param criteria
+     * @return
+     */
+    ServiceResponse<List<UserTicket>> searchUserTicket(ServiceRequest<UserTicketSearchCriteria> criteria);
 }

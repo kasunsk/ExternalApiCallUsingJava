@@ -19,4 +19,5 @@ public interface ErrorCode {
     String FAIL_TO_BUY_TICKET = "Fail to buy ticket";
     String ACCOUNT_OR_ROUT_NOT_FOUND = "Account or Route not found";
     String INVALID_ACCOUNT = "Account not valid for the transaction";
+    String INVALIDA_LOGIN = "Invalid Login";
 }

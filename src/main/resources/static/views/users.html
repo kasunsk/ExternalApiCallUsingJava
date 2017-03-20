@@ -1,7 +1,7 @@
-<div class="section">
+<div class="section" data-ng-controller="usersController" data-ng-init="userList();">
     <h3>{{headingTitle}}</h3>
 
-    <div class="section" data-ng-controller="usersController">
+    <div class="section_div">
         <h4>User Search</h4>
 
         <label for="email">Email</label>
@@ -16,7 +16,7 @@
         <button class="btn btn-primary" data-ng-click="searchUsers(userSearchCriteria);">Search</button>
     </div>
 
-    <div data-ng-controller="usersController" data-ng-init="userList();">
+    <div>
         <table class="table">
             <tr class="tr" data-ng-show="clicked">
                 <th>Index</th>

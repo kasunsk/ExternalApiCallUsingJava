@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
@@ -45,16 +46,22 @@ public class AirlineTicketBuyingLogic extends StatelessServiceLogic<UserTicket, 
         RestTemplate restTemplate = new RestTemplate();
         String accountCreateUrl
                 = applicationProperties.getBaseAPIUrl() + applicationProperties.getApplicantId() + "/gammaairlines/tickets/buy";
-        ResponseEntity<AirlineTicket> response = restTemplate.postForEntity(accountCreateUrl, request.getTicketBuyingRequest(), AirlineTicket.class);
-        AirlineTicket airlineTicket = response.getBody();
 
-        if (response.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
-            throw new ServiceRuntimeException(ErrorCode.ACCOUNT_OR_ROUT_NOT_FOUND, "Account or route not found");
-        } else if (response.getStatusCode().equals(HttpStatus.BAD_REQUEST)) {
-            throw new ServiceRuntimeException(ErrorCode.INVALID_ACCOUNT, "Invalid account / Money not enough");
+        UserTicket userTicket = null;
+        try {
+            ResponseEntity<AirlineTicket> response = restTemplate.postForEntity(accountCreateUrl, request.getTicketBuyingRequest(), AirlineTicket.class);
+            AirlineTicket airlineTicket = response.getBody();
+            userTicket = getUserTicket(request, airlineTicket);
+            accountDao.saveUserTicket(userTicket);
+            return userTicket;
+        } catch (HttpClientErrorException ex) {
+
+            if (ex.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
+                throw new ServiceRuntimeException(ErrorCode.ACCOUNT_OR_ROUT_NOT_FOUND, "Account or route not found");
+            } else if (ex.getStatusCode().equals(HttpStatus.BAD_REQUEST)) {
+                throw new ServiceRuntimeException(ErrorCode.INVALID_ACCOUNT, "Invalid account / Money not enough");
+            }
         }
-        UserTicket userTicket = getUserTicket(request, airlineTicket);
-        accountDao.saveUserTicket(userTicket);
         return userTicket;
     }
 

@@ -8,6 +8,7 @@ import com.crossover.techtrial.java.se.model.user.UserTicket;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -75,6 +76,19 @@ public class AirlineHibernateDao extends AbstractDao<Long, AirlineOfferModel> im
     public void remove(String airlineOfferId) {
         AirlineOfferModel airlineOffer = loadAirlineOfferById(airlineOfferId);
         getSession().delete(airlineOffer);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<UserTicket> searchUserTicket(Long userId, String origin, String destination) {
+
+        Query query;
+
+        if (userId == null && origin == null && destination == null){
+            query = getSession().createQuery("from UserTicket");
+            return query.list();
+        }
+        return new ArrayList<>();
     }
 
     public AirlineOfferModel loadAirlineOfferById(String airlineOfferId) {
