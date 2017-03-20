@@ -6,7 +6,7 @@ package com.crossover.techtrial.java.se.dto.airline;
 public class TicketBuy {
 
     private TicketBuyingRequest ticketBuyingRequest;
-    private String applicantId;
+    private String userId;
 
     public TicketBuyingRequest getTicketBuyingRequest() {
         return ticketBuyingRequest;
@@ -16,11 +16,11 @@ public class TicketBuy {
         this.ticketBuyingRequest = ticketBuyingRequest;
     }
 
-    public String getApplicantId() {
-        return applicantId;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setApplicantId(String applicantId) {
-        this.applicantId = applicantId;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

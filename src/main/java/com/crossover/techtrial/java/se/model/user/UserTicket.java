@@ -1,7 +1,6 @@
 package com.crossover.techtrial.java.se.model.user;
 
 import com.crossover.techtrial.java.se.common.dto.Currency;
-import com.crossover.techtrial.java.se.common.dto.UserTicketStatus;
 import com.crossover.techtrial.java.se.model.AbstractTrackableEntity;
 
 import javax.persistence.*;
@@ -17,9 +16,6 @@ public class UserTicket extends AbstractTrackableEntity {
 
     @Column(name = "USER_ID", nullable = false)
     private Long userId;
-
-    @Column(name = "OFFER_ID", nullable = false)
-    private Long offerId;
 
     @Column(name = "ORIGIN", nullable = false)
     private String origin;
@@ -37,10 +33,6 @@ public class UserTicket extends AbstractTrackableEntity {
     @Column(name = "TICKETS_AMOUNT", nullable = false)
     private Integer ticketsAmount;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "STATUS", nullable = false)
-    private UserTicketStatus status;
-
     public Long getId() {
         return id;
     }
@@ -55,14 +47,6 @@ public class UserTicket extends AbstractTrackableEntity {
 
     public void setUserId(Long userId) {
         this.userId = userId;
-    }
-
-    public Long getOfferId() {
-        return offerId;
-    }
-
-    public void setOfferId(Long offerId) {
-        this.offerId = offerId;
     }
 
     public String getOrigin() {
@@ -105,11 +89,4 @@ public class UserTicket extends AbstractTrackableEntity {
         this.ticketsAmount = ticketsAmount;
     }
 
-    public UserTicketStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(UserTicketStatus status) {
-        this.status = status;
-    }
 }

@@ -17,13 +17,7 @@ import java.util.List;
 public class AirlineServiceImpl implements AirlineService {
 
     @Autowired
-    private AirlineOfferCreateLogic airlineOfferCreateLogic;
-
-    @Autowired
     private AvailableAirlineOfferRetrieveLogic availableAirlineOfferRetrieveLogic;
-
-    @Autowired
-    private AirlineOfferRemoveLogic airlineOfferRemoveLogic;
 
     @Autowired
     private ApplicantTicketsRetrieveLogic applicantTicketsRetrieveLogic;
@@ -32,24 +26,7 @@ public class AirlineServiceImpl implements AirlineService {
     private AirlineTicketBuyingLogic airlineTicketBuyingLogic;
 
     @Autowired
-    private AllAirportsLoadingLogic allAirportsLoadingLogic;
-
-    @Autowired
     private UserTicketEmailSendingLogic userTicketEmailSendingLogic;
-
-    @Override
-    public ServiceResponse<Void> createAirlineOffer(ServiceRequest<AirlineOffer> airlineOffer) {
-
-       return RequestAssembler.assemble(airlineOfferCreateLogic, airlineOffer);
-    }
-
-
-    @Override
-    public ServiceResponse<Void> removeAirlineOffer(ServiceRequest<String> airlineOfferId) {
-
-        return RequestAssembler.assemble(airlineOfferRemoveLogic, airlineOfferId);
-    }
-
 
     @Override
     public ServiceResponse<List<GammaAirlineOffer>> retrieveAvailableAirlineOffers(ServiceRequest<OfferRequest> offerRequest) {
@@ -58,22 +35,16 @@ public class AirlineServiceImpl implements AirlineService {
     }
 
     @Override
-    public ServiceResponse<List<AirlineTicket>> retrieveApplicantTickets(ServiceRequest<String> applicantId) {
+    public ServiceResponse<List<UserTicket>> retrieveUserTickets(ServiceRequest<String> userId) {
 
-        return RequestAssembler.assemble(applicantTicketsRetrieveLogic, applicantId);
+        return RequestAssembler.assemble(applicantTicketsRetrieveLogic, userId);
     }
 
 
     @Override
-    public ServiceResponse<AirlineTicket> buyAirlineTicket(ServiceRequest<TicketBuy> request) {
+    public ServiceResponse<UserTicket> buyAirlineTicket(ServiceRequest<TicketBuy> request) {
 
         return RequestAssembler.assemble(airlineTicketBuyingLogic, request);
-    }
-
-    @Override
-    public ServiceResponse<List<Airport>> loadAllAirports(ServiceRequest<Void> voidServiceRequest) {
-
-        return RequestAssembler.assemble(allAirportsLoadingLogic, voidServiceRequest);
     }
 
     @Override

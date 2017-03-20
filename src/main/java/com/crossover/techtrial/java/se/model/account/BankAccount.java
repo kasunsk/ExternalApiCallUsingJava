@@ -14,7 +14,7 @@ import javax.persistence.*;
  * Created by kasun on 2/4/17.
  */
 @Entity
-@Table(name="BANK_ACCOUNT")
+@Table(name="USER_ACCOUNT")
 public class BankAccount extends AbstractTrackableEntity {
 
     @Id

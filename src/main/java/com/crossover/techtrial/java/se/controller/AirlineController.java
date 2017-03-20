@@ -36,49 +36,26 @@ public class AirlineController {
         return response.getPayload();
     }
 
-    @RequestMapping(value = "/gammaairlines/offers/save", method = RequestMethod.POST,
-            consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    @ResponseBody
-    public Boolean createOffers(@RequestBody AirlineOffer airlineOffer) {
-
-        airlineService.createAirlineOffer(new ServiceRequest<>(airlineOffer));
-        return Boolean.TRUE;
-    }
-
     @RequestMapping(value = "/{userId}/gammaairlines/tickets", method = RequestMethod.GET)
     @ResponseBody
-    public List<AirlineTicket> retrieveApplicantTickets(@PathVariable("userId") String userId) {
+    public List<UserTicket> retrieveApplicantTickets(@PathVariable("userId") String userId) {
 
-        return airlineService.retrieveApplicantTickets(new ServiceRequest<>(userId)).getPayload();
+        return airlineService.retrieveUserTickets(new ServiceRequest<>(userId)).getPayload();
     }
 
 
     @RequestMapping(value = "/{userId}/gammaairlines/offers/buy", method = RequestMethod.POST,
             consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
-    public AirlineTicket buyOffer(@PathVariable("userId") String userId, @RequestBody TicketBuyingRequest buyingRequest) {
+    public UserTicket buyOffer(@PathVariable("userId") String userId, @RequestBody TicketBuyingRequest buyingRequest) {
 
         TicketBuy ticketBuy = new TicketBuy();
         ticketBuy.setTicketBuyingRequest(buyingRequest);
-        ticketBuy.setApplicantId(userId);
+        ticketBuy.setUserId(userId);
         ServiceRequest<TicketBuy> serviceRequest = new ServiceRequest<>(ticketBuy);
         return airlineService.buyAirlineTicket(serviceRequest).getPayload();
     }
 
-    @RequestMapping(value = "/gammaairlines/country/all", method = RequestMethod.GET)
-    @ResponseBody
-    public List<Airport> loadAllAirports() {
-
-        return airlineService.loadAllAirports(new ServiceRequest<>(new Void())).getPayload();
-    }
-
-    @RequestMapping(value = "/gammaairlines/offer/remove/{offerId}", method = RequestMethod.GET)
-    @ResponseBody
-    public Boolean removeOffer(@PathVariable("offerId") String offerId) {
-
-        airlineService.removeAirlineOffer(new ServiceRequest<>(offerId));
-        return Boolean.TRUE;
-    }
 
     @RequestMapping(value = "/gammaairlines/userTicket/email/send/{userTicketId}", method = RequestMethod.GET)
     @ResponseBody
@@ -97,10 +74,9 @@ public class AirlineController {
 
     @RequestMapping(value = "/{applicantId}/gammaairlines/tickets/{userId}", method = RequestMethod.GET)
     @ResponseBody
-    public List<AirlineTicket> loadUsersTickers(@PathVariable("applicantId") String applicantId, @PathVariable("userId") String userId) {
+    public List<UserTicket> loadUsersTickers(@PathVariable("applicantId") String userTicket, @PathVariable("userId") String userId) {
 
-        return airlineService.retrieveApplicantTickets(new ServiceRequest<>(userId)).getPayload();
+        return airlineService.retrieveUserTickets(new ServiceRequest<>(userId)).getPayload();
     }
-
 
 }

@@ -7,6 +7,7 @@ import com.crossover.techtrial.java.se.common.dto.ServiceRequest;
 import com.crossover.techtrial.java.se.dto.account.AccountRequest;
 import com.crossover.techtrial.java.se.dto.account.DepositRequest;
 import com.crossover.techtrial.java.se.logic.account.Account;
+import com.crossover.techtrial.java.se.logic.account.AccountCreateCriteria;
 import com.crossover.techtrial.java.se.model.account.BankAccount;
 import com.crossover.techtrial.java.se.model.user.User;
 import com.crossover.techtrial.java.se.service.account.AccountService;
@@ -33,14 +34,16 @@ public class AccountController {
     @Autowired
     private UserService userService;
 
-//    @RequestMapping(value = "/{applicantId}/paypallets/account", method = RequestMethod.POST,
-//            consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-//    @ResponseBody
-//    public BankAccount createAccount(@PathVariable("applicantId") String applicantId, @RequestBody AccountRequest accountRequest) {
-//
-//        BankAccount bankAccount = buildAccountCreateRequest(applicantId, accountRequest);
-//        return accountService.createAccount(new ServiceRequest<>(bankAccount)).getPayload();
-//    }
+    @RequestMapping(value = "/{userId}/paypallets/account", method = RequestMethod.POST,
+            consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @ResponseBody
+    public Account createAccount(@PathVariable("userId") String userId, @RequestBody AccountRequest accountRequest) {
+
+        AccountCreateCriteria accountCreateCriteria = new AccountCreateCriteria();
+        accountCreateCriteria.setUserId(userId);
+        accountCreateCriteria.setAccountRequest(accountRequest);
+        return accountService.createAccount(new ServiceRequest<>(accountCreateCriteria)).getPayload();
+    }
 //
 //    @RequestMapping(value = "/{applicantId}/paypallets/account/deposit", method = RequestMethod.POST,
 //            consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})

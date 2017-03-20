@@ -62,14 +62,14 @@ public class AirlineTicketBuyingLogicUnitTest {
     @Test(expectedExceptions = ServiceRuntimeException.class)
     public void buyingRequestNullTest() {
         TicketBuy ticketBuy = new TicketBuy();
-        ticketBuy.setApplicantId("ApplicantId");
+        ticketBuy.setUserId("2");
         logic.invoke(ticketBuy);
     }
 
     @Test(expectedExceptions = ServiceRuntimeException.class)
     public void accountIdNullTest() {
         TicketBuy ticketBuy = new TicketBuy();
-        ticketBuy.setApplicantId("ApplicantId");
+        ticketBuy.setUserId("2");
         ticketBuy.setTicketBuyingRequest(new TicketBuyingRequest());
         logic.invoke(ticketBuy);
     }
@@ -77,7 +77,7 @@ public class AirlineTicketBuyingLogicUnitTest {
     @Test(expectedExceptions = ServiceRuntimeException.class)
     public void routNullTest() {
         TicketBuy ticketBuy = new TicketBuy();
-        ticketBuy.setApplicantId("ApplicantId");
+        ticketBuy.setUserId("3");
         TicketBuyingRequest buyingRequest = new TicketBuyingRequest();
         buyingRequest.setAccountId("accountId");
         ticketBuy.setTicketBuyingRequest(buyingRequest);
@@ -87,7 +87,7 @@ public class AirlineTicketBuyingLogicUnitTest {
     @Test(expectedExceptions = ServiceRuntimeException.class)
     public void amountNullTest() {
         TicketBuy ticketBuy = new TicketBuy();
-        ticketBuy.setApplicantId("ApplicantId");
+        ticketBuy.setUserId("2");
         TicketBuyingRequest buyingRequest = new TicketBuyingRequest();
         buyingRequest.setAccountId("accountId");
 //        buyingRequest.setAirlineRout(new Route());
@@ -170,7 +170,7 @@ public class AirlineTicketBuyingLogicUnitTest {
 
     private TicketBuy getTicketBuy() {
         TicketBuy ticketBuy = new TicketBuy();
-        ticketBuy.setApplicantId("5");
+        ticketBuy.setUserId("5");
         TicketBuyingRequest buyingRequest = new TicketBuyingRequest();
         buyingRequest.setAccountId("12");
 //        buyingRequest.setAirlineRout(new Route());

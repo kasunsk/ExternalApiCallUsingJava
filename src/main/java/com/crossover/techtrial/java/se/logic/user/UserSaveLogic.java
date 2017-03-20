@@ -67,7 +67,7 @@ public class UserSaveLogic extends StatelessServiceLogic<String, User> {
         accountRequest.setCurrency(applicationProperties.getInitialDepositCurrency());
         AccountCreateCriteria createCriteria = new AccountCreateCriteria();
         createCriteria.setAccountRequest(accountRequest);
-        createCriteria.setUser(user);
+        createCriteria.setUserId(user.getUserId().toString());
         return accountService.createAccount(new ServiceRequest<>(createCriteria)).getPayload();
     }
 

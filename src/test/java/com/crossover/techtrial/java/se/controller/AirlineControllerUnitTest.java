@@ -52,17 +52,12 @@ public class AirlineControllerUnitTest {
         assertEquals(airlineOffers, controller.retrieveAvailableOffers("23"));
     }
 
-    @Test
-    public void createOffersTest() {
-        assertTrue(controller.createOffers(new AirlineOffer()));
-    }
-
     @SuppressWarnings("unchecked")
     @Test
     public void buyOfferTest() {
 
-        ServiceResponse<AirlineTicket> response = new ServiceResponse<>();
-        AirlineTicket userTicket = new AirlineTicket();
+        ServiceResponse<UserTicket> response = new ServiceResponse<>();
+        UserTicket userTicket = new UserTicket();
         response.setPayload(userTicket);
         when(airlineService.buyAirlineTicket(Matchers.<ServiceRequest>any())).thenReturn(response);
         TicketBuyingRequest ticketBuyingRequest = new TicketBuyingRequest();
@@ -73,28 +68,11 @@ public class AirlineControllerUnitTest {
     @Test
     public void retrieveApplicantTicketsTest() {
 
-        ServiceResponse<List<AirlineTicket>> response = new ServiceResponse<>();
-        List<AirlineTicket> userTickets = new ArrayList<>();
+        ServiceResponse<List<UserTicket>> response = new ServiceResponse<>();
+        List<UserTicket> userTickets = new ArrayList<>();
         response.setPayload(userTickets);
-        when(airlineService.retrieveApplicantTickets(Matchers.<ServiceRequest>any())).thenReturn(response);
+        when(airlineService.retrieveUserTickets(Matchers.<ServiceRequest>any())).thenReturn(response);
         assertEquals(userTickets, controller.retrieveApplicantTickets("12"));
-    }
-
-    @Test
-    public void removeOfferTest() {
-
-        assertTrue(controller.removeOffer("12"));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Test
-    public void loadAllAirportsTest() {
-
-        List<Airport> airports = new ArrayList<>();
-        ServiceResponse<List<Airport>> response = new ServiceResponse<>();
-        response.setPayload(airports);
-        when(airlineService.loadAllAirports(Matchers.<ServiceRequest>any())).thenReturn(response);
-        controller.loadAllAirports();
     }
 
     @SuppressWarnings("unchecked")
@@ -111,10 +89,10 @@ public class AirlineControllerUnitTest {
     @Test
     public void loadUsersTickersTest() {
 
-        ServiceResponse<List<AirlineTicket>> response = new ServiceResponse<>();
-        List<AirlineTicket> userTickets = new ArrayList<>();
+        ServiceResponse<List<UserTicket>> response = new ServiceResponse<>();
+        List<UserTicket> userTickets = new ArrayList<>();
         response.setPayload(userTickets);
-        when(airlineService.retrieveApplicantTickets(Matchers.<ServiceRequest>any())).thenReturn(response);
+        when(airlineService.retrieveUserTickets(Matchers.<ServiceRequest>any())).thenReturn(response);
         assertEquals(userTickets, controller.loadUsersTickers("12", "23"));
     }
 

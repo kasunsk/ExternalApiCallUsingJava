@@ -2,6 +2,7 @@ package com.crossover.techtrial.java.se.logic.airline;
 
 import com.crossover.techtrial.java.se.common.service.StatelessServiceLogic;
 import com.crossover.techtrial.java.se.configuration.ApplicationProperties;
+import com.crossover.techtrial.java.se.dao.account.AccountDao;
 import com.crossover.techtrial.java.se.dao.airline.AirlineDao;
 import com.crossover.techtrial.java.se.dto.airline.AirlineTicket;
 import com.crossover.techtrial.java.se.dto.airline.GammaAirlineOffer;
@@ -17,7 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Component
-public class ApplicantTicketsRetrieveLogic extends StatelessServiceLogic<List<AirlineTicket>, String> {
+public class ApplicantTicketsRetrieveLogic extends StatelessServiceLogic<List<UserTicket>, String> {
 
     @Autowired
     private AirlineDao airlineDao;
@@ -27,9 +28,9 @@ public class ApplicantTicketsRetrieveLogic extends StatelessServiceLogic<List<Ai
 
     @Transactional
     @Override
-    public List<AirlineTicket> invoke(String applicantId) {
+    public List<UserTicket> invoke(String userId) {
 
-        ValidationUtil.validate(applicantId, "Applicant id is null");
+        ValidationUtil.validate(userId, "Applicant id is null");
         RestTemplate restTemplate = new RestTemplate();
 
         String availableOfferUrl
@@ -37,6 +38,9 @@ public class ApplicantTicketsRetrieveLogic extends StatelessServiceLogic<List<Ai
 
         ResponseEntity<AirlineTicket[]> responseEntity = restTemplate.getForEntity(availableOfferUrl, AirlineTicket[].class);
         AirlineTicket[] airlineTickets = responseEntity.getBody();
-        return Arrays.asList(airlineTickets);
+
+        List<UserTicket> userTickets = airlineDao.loadApplicantAirlineOffers(Long.parseLong(userId));
+
+        return userTickets;
     }
 }

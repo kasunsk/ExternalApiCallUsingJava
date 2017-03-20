@@ -15,20 +15,6 @@ public interface AirlineService {
 
     /**
      *
-     * @param airlineOffer
-     * @return void
-     */
-    ServiceResponse<Void> createAirlineOffer(ServiceRequest<AirlineOffer> airlineOffer);
-
-    /**
-     *
-     * @param airlineOfferId
-     * @return void
-     */
-    ServiceResponse<Void> removeAirlineOffer(ServiceRequest<String> airlineOfferId);
-
-    /**
-     *
      * @param offerRequest
      * @return List of AirlineOffer
      */
@@ -39,21 +25,19 @@ public interface AirlineService {
      * @param applicantId
      * @return List of UserTicket
      */
-    ServiceResponse<List<AirlineTicket>> retrieveApplicantTickets(ServiceRequest<String> applicantId);
+    ServiceResponse<List<UserTicket>> retrieveUserTickets(ServiceRequest<String> applicantId);
 
     /**
      *
      * @param ticketBuyRequest
      * @return UserTicket
      */
-    ServiceResponse<AirlineTicket> buyAirlineTicket(ServiceRequest<TicketBuy> ticketBuyRequest);
+    ServiceResponse<UserTicket> buyAirlineTicket(ServiceRequest<TicketBuy> ticketBuyRequest);
 
     /**
      *
-     * @param voidServiceRequest
-     * @return List of all Airport
+     * @param userTicketId
+     * @return
      */
-    ServiceResponse<List<Airport>> loadAllAirports(ServiceRequest<Void> voidServiceRequest);
-
     ServiceResponse<Boolean> sendUserTicketEmail(ServiceRequest<String> userTicketId);
 }

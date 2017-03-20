@@ -114,7 +114,7 @@ app.controller('ticketsController', ['$scope', '$http', '$cookies', '$window', f
 
     $scope.init = function () {
         var userTicketObj = JSON.parse($cookies.get('selectedTicket'));
-        $scope.airlineTicket = userTicketObj;
+        $scope.userTicket = userTicketObj;
     };
 
     var applicantId = $cookies.get('applicantId');
@@ -142,9 +142,9 @@ app.controller('ticketsController', ['$scope', '$http', '$cookies', '$window', f
     $scope.viewTicket = function (idx) {
 
         if ($scope.myTickets != null) {
-            $scope.airlineTicket = $scope.myTickets[idx];
+            $scope.userTicket = $scope.myTickets[idx];
         } else {
-            $scope.airlineTicket = $scope.usersTickets[idx];
+            $scope.userTicket = $scope.usersTickets[idx];
         }
 
         var jsonUserTicket = JSON.stringify($scope.userTicket);
@@ -465,9 +465,9 @@ app.controller('airlineOfferController', ['$scope', '$http', '$cookies', '$windo
             data: buyingRequest
         }).success(function (data) {
             $scope.submitting = false;
-            $scope.airlineTicket = data;
+            $scope.userTicket = data;
 
-            var jsonUserTicket = JSON.stringify($scope.airlineTicket);
+            var jsonUserTicket = JSON.stringify($scope.userTicket);
             $cookies.put("selectedTicket", jsonUserTicket);
 
             this.detail = data;

@@ -12,24 +12,24 @@
 
         <table class="table">
             <tr>
-                <td>Index :</td>
-                <td>{{$index + 1}}</td>
+                <td>Ticket Number :</td>
+                <td>{{userTicket.id}}</td>
             </tr>
             <tr>
                 <td>Price :</td>
-                <td>{{airlineTicket.details.price.amount}} {{airlineTicket.details.price.currency}}</td>
+                <td>{{userTicket.price}} {{userTicket.currency}}</td>
             </tr>
             <tr>
                 <td>Origin :</td>
-                <td>{{airlineTicket.details.route.from}}</td>
+                <td>{{userTicket.origin}}</td>
             </tr>
             <tr>
                 <td>Destination :</td>
-                <td>{{airlineTicket.details.route.to}}</td>
+                <td>{{userTicket.destination}}</td>
             </tr>
             <tr>
                 <td>Amount :</td>
-                <td>{{airlineTicket.amount}}</td>
+                <td>{{userTicket.ticketsAmount}}</td>
             </tr>
             <tr>
                 <td>

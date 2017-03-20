@@ -7,8 +7,10 @@ import com.crossover.techtrial.java.se.common.dto.ServiceRequest;
 import com.crossover.techtrial.java.se.common.service.StatelessServiceLogic;
 import com.crossover.techtrial.java.se.configuration.ApplicationProperties;
 import com.crossover.techtrial.java.se.dao.account.AccountDao;
+import com.crossover.techtrial.java.se.dao.user.UserDao;
 import com.crossover.techtrial.java.se.dto.account.AccountRequest;
 import com.crossover.techtrial.java.se.model.account.BankAccount;
+import com.crossover.techtrial.java.se.model.user.User;
 import com.crossover.techtrial.java.se.service.account.AccountService;
 import com.crossover.techtrial.java.se.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,9 @@ public class AccountCreateLogic extends StatelessServiceLogic<Account, AccountCr
     private AccountDao accountHibernateDao;
 
     @Autowired
+    private UserDao userDao;
+
+    @Autowired
     private ApplicationProperties applicationProperties;
 
     @Transactional
@@ -45,47 +50,12 @@ public class AccountCreateLogic extends StatelessServiceLogic<Account, AccountCr
         Account account = response.getBody();
 
         BankAccount bankAccount = new BankAccount();
-        bankAccount.setUser(criteria.getUser());
+
+        User user =  userDao.loadUserById(criteria.getUserId());
+        bankAccount.setUser(user);
         bankAccount.setAccountNumber(account.getId());
         accountHibernateDao.createAccount(bankAccount);
         return account;
-    }
-
-    private void depositInitialAmount(BankAccount bankAccount) {
-
-//        if (bankAccount.getAvailableAmount() == null || bankAccount.getAvailableAmount() == 0D) {
-//
-//            String initialPaypalletsAmount = environment.getRequiredProperty("initial.deposit.amount");
-//            String initialCurrency = environment.getRequiredProperty("initial.deposit.currency");
-//
-//            Double initialDepositAmount;
-//
-//            if (!bankAccount.getCurrency().toString().equals(initialCurrency)) {
-//
-//                CurrencyExchangeRequest exchangeRequest = new CurrencyExchangeRequest();
-//                exchangeRequest.setTargetCurrency(bankAccount.getCurrency());
-//                Price price = new Price();
-//                price.setPrice(Double.parseDouble(initialPaypalletsAmount));
-//                price.setCurrency(Currency.valueOf(initialCurrency));
-//                exchangeRequest.setMonetaryAmount(price);
-//                Price convertedPrice = accountService.exchangeCurrency(new ServiceRequest<>(exchangeRequest)).getPayload();
-//                initialDepositAmount = convertedPrice.getPrice();
-//
-//            } else {
-//                initialDepositAmount = Double.parseDouble(initialPaypalletsAmount);
-//            }
-//            bankAccount.setAvailableAmount(initialDepositAmount);
-//        }
-    }
-
-    private void validateAccount(BankAccount bankAccount) {
-
-//        ValidationUtil.validate(bankAccount, "Bank account is null");
-//        ValidationUtil.validate(bankAccount.getCurrency(), "Currency is null");
-//
-//        if (bankAccount.getAvailableAmount() == null) {
-//            bankAccount.setAvailableAmount(0D);
-//        }
     }
 
 }

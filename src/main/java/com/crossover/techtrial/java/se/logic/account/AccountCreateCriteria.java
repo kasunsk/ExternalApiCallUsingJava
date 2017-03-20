@@ -9,14 +9,14 @@ import com.crossover.techtrial.java.se.model.user.User;
 public class AccountCreateCriteria {
 
     private AccountRequest accountRequest;
-    private User user;
+    private String userId;
 
-    public User getUser() {
-        return user;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public AccountRequest getAccountRequest() {
