@@ -63,17 +63,23 @@
     <div class="form-group">
         <label for="price">Price</label>
         <i class="fa fa-key"></i>
-        <input type="text" name="price" id="price" class="form-control" data-ng-model="depositRequest.price.price"
+        <input type="text" name="price" id="price" class="form-control" data-ng-model="depositRequest.monetaryAmount.amount"
                required/>
         <span data-ng-show="form.price.$dirty && form.price.$error.required"
               class="help-block">Price is required</span>
-        <label>{{bankAccount.price.currency}}</label>
+
+        <label for="currency">Currency</label>
+        <!--<i class="fa fa-key"></i>-->
+        <select name="currencyX" id="currencyX" data-ng-model="depositRequest.monetaryAmount.currency"
+                data-ng-options="x for x in currencies"></select>
+        <span data-ng-show="form.currency.$dirty && form.currency.$error.required"
+              class="help-block">Currency is Required</span>
     </div>
 
     <div class="modal-footer">
         <img src="/images/waiting.gif" alt="waiting"/>&#160;&#160;
         <button type="submit" class="btn btn-primary" data-ng-model="$index"
-                data-ng-click="deposit(depositAccountId, accountCurrency);">Deposit Money
+                data-ng-click="deposit(depositAccountId);">Deposit Money
         </button>
     </div>
 

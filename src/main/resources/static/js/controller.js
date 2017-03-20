@@ -303,13 +303,12 @@ app.controller('accountCreateController', ['$scope', '$http', '$cookies', '$wind
 
     $scope.depositRequest = {
         accountId: null,
-        price: null
+        monetaryAmount: null
     };
 
     $scope.deposit = function (account) {
 
-        $scope.depositRequest.accountId = account.accountId;
-        $scope.depositRequest.price.currency = account.currency;
+        $scope.depositRequest.accountId = account.id;
 
         var depositUrl = '/' + applicantId + '/paypallets/account/deposit/';
 

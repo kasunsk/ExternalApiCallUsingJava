@@ -17,6 +17,7 @@ import com.crossover.techtrial.java.se.model.user.UserTicket;
 import com.crossover.techtrial.java.se.service.account.AccountService;
 import com.crossover.techtrial.java.se.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -45,18 +46,36 @@ public class AirlineTicketBuyingLogic extends StatelessServiceLogic<UserTicket, 
         String accountCreateUrl
                 = applicationProperties.getBaseAPIUrl() + applicationProperties.getApplicantId() + "/gammaairlines/tickets/buy";
         ResponseEntity<AirlineTicket> response = restTemplate.postForEntity(accountCreateUrl, request.getTicketBuyingRequest(), AirlineTicket.class);
-
         AirlineTicket airlineTicket = response.getBody();
+
+        if (response.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
+            throw new ServiceRuntimeException(ErrorCode.ACCOUNT_OR_ROUT_NOT_FOUND, "Account or route not found");
+        } else if (response.getStatusCode().equals(HttpStatus.BAD_REQUEST)) {
+            throw new ServiceRuntimeException(ErrorCode.INVALID_ACCOUNT, "Invalid account / Money not enough");
+        }
+        UserTicket userTicket = getUserTicket(request, airlineTicket);
+        accountDao.saveUserTicket(userTicket);
+        return userTicket;
+    }
+
+    private UserTicket getUserTicket(TicketBuy request, AirlineTicket airlineTicket) {
 
         UserTicket userTicket = new UserTicket();
         userTicket.setUserId(Long.parseLong(request.getUserId()));
         userTicket.setCurrency(airlineTicket.getDetails().getPrice().getCurrency());
-        userTicket.setPrice(airlineTicket.getDetails().getPrice().getAmount());
+
+        BigDecimal ticketPrice = getTicketPrice(request, airlineTicket);
+        userTicket.setPrice(ticketPrice.doubleValue());
         userTicket.setOrigin(airlineTicket.getDetails().getRoute().getFrom());
         userTicket.setDestination(airlineTicket.getDetails().getRoute().getTo());
         userTicket.setTicketsAmount(request.getTicketBuyingRequest().getAmount());
-        accountDao.saveUserTicket(userTicket);
         return userTicket;
+    }
+
+    private BigDecimal getTicketPrice(TicketBuy request, AirlineTicket airlineTicket) {
+
+        return BigDecimal.valueOf(airlineTicket.getDetails().getPrice().getAmount()).multiply(BigDecimal
+                .valueOf(request.getTicketBuyingRequest().getAmount()));
     }
 
     private void validateTicketBuyingRequest(TicketBuy request) {

@@ -6,6 +6,7 @@ import com.crossover.techtrial.java.se.common.dto.Price;
 import com.crossover.techtrial.java.se.common.dto.ServiceRequest;
 import com.crossover.techtrial.java.se.dto.account.AccountRequest;
 import com.crossover.techtrial.java.se.dto.account.DepositRequest;
+import com.crossover.techtrial.java.se.dto.account.MoneyTransferRequest;
 import com.crossover.techtrial.java.se.logic.account.Account;
 import com.crossover.techtrial.java.se.logic.account.AccountCreateCriteria;
 import com.crossover.techtrial.java.se.model.account.BankAccount;
@@ -44,15 +45,15 @@ public class AccountController {
         accountCreateCriteria.setAccountRequest(accountRequest);
         return accountService.createAccount(new ServiceRequest<>(accountCreateCriteria)).getPayload();
     }
-//
-//    @RequestMapping(value = "/{applicantId}/paypallets/account/deposit", method = RequestMethod.POST,
-//            consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-//    @ResponseBody
-//    public BankAccount deposits(@PathVariable("applicantId") String applicantId, @RequestBody DepositRequest depositRequest) {
-//
-//        validateUser(applicantId);
-//        return accountService.deposit(new ServiceRequest<>(depositRequest)).getPayload();
-//    }
+
+    @RequestMapping(value = "/{applicantId}/paypallets/account/deposit", method = RequestMethod.POST,
+            consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @ResponseBody
+    public Account deposits(@PathVariable("applicantId") String applicantId, @RequestBody MoneyTransferRequest depositRequest) {
+
+        validateUser(applicantId);
+        return accountService.deposit(new ServiceRequest<>(depositRequest)).getPayload();
+    }
 
     @RequestMapping(value = "/{applicantId}/paypallets/account/withdraw", method = RequestMethod.POST,
             consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
