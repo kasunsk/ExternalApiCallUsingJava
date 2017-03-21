@@ -1,21 +1,26 @@
 package com.crossover.techtrial.java.se.logic.airline;
 
 
-import com.crossover.techtrial.java.se.adapter.airline.AirlineOfferAdapter;
 import com.crossover.techtrial.java.se.common.execption.ServiceRuntimeException;
-import com.crossover.techtrial.java.se.dao.airline.AirlineDao;
-import com.crossover.techtrial.java.se.dto.airline.AirlineOffer;
+import com.crossover.techtrial.java.se.configuration.ApplicationProperties;
+import com.crossover.techtrial.java.se.dto.airline.GammaAirlineOffer;
 import com.crossover.techtrial.java.se.dto.airline.OfferRequest;
-import com.crossover.techtrial.java.se.model.airline.AirlineOfferModel;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
 
@@ -24,15 +29,12 @@ public class AvailableAirlineOfferRetrieveLogicUnitTest {
     @InjectMocks
     private AvailableAirlineOfferRetrieveLogic logic = new AvailableAirlineOfferRetrieveLogic();
 
+    @Mock
+    RestTemplate restTemplate;
 
     @Mock
-    private AirlineDao airlineDao;
+    ApplicationProperties applicationProperties;
 
-    @Mock
-    private AirlineOfferAdapter offerAdapter;
-
-    @Mock
-    private AirlineOfferLogicHelper logicHelper;
 
     @BeforeMethod(alwaysRun = true)
     public void init() {
@@ -49,18 +51,45 @@ public class AvailableAirlineOfferRetrieveLogicUnitTest {
         logic.invoke(new OfferRequest());
     }
 
-//    @Test(skipFailedInvocations = true)
-//    public void invokeTest() {
-//
-//        List<AirlineOfferModel> airlineOfferModels = new ArrayList<>();
-//        when(airlineDao.loadAirlineOffers(AirlineOffer.AirlineOfferStatus.AVAILABLE)).thenReturn(airlineOfferModels);
-//        List<AirlineOffer> airlineOffers = new ArrayList<>();
-//        when(offerAdapter.adaptFromModelList(airlineOfferModels)).thenReturn(airlineOffers);
-//
-//        OfferRequest offerRequest = getOfferRequest();
-//        List<AirlineOffer> result = logic.invoke(offerRequest);
-//        assertEquals(result, airlineOffers);
-//    }
+    @Test
+    public void invokeTest() {
+
+        when(applicationProperties.getBaseAPIUrl()).thenReturn("www.crosover.com/");
+        when(applicationProperties.getApplicantId()).thenReturn("aaaa");
+
+        GammaAirlineOffer gammaAirlineOfferOne = new GammaAirlineOffer();
+        GammaAirlineOffer[] gammaAirlineOffers = new GammaAirlineOffer[]{gammaAirlineOfferOne};
+        ResponseEntity<GammaAirlineOffer[]> responseEntity = new ResponseEntity<>(gammaAirlineOffers, HttpStatus.OK);
+        when(restTemplate.getForEntity(anyString(), eq(GammaAirlineOffer[].class))).thenReturn(responseEntity);
+
+        OfferRequest offerRequest = getOfferRequest();
+        List<GammaAirlineOffer> result = logic.invoke(offerRequest);
+        assertEquals(result.size(), 1);
+    }
+
+    @Test(expectedExceptions = ServiceRuntimeException.class)
+    public void invokeApplicantNotFoundFailTest() {
+
+        when(applicationProperties.getBaseAPIUrl()).thenReturn("www.crosover.com/");
+        when(applicationProperties.getApplicantId()).thenReturn("aaaa");
+
+        when(restTemplate.getForEntity(anyString(), eq(GammaAirlineOffer[].class))).thenThrow(new HttpClientErrorException(HttpStatus.NOT_FOUND));
+
+        OfferRequest offerRequest = getOfferRequest();
+        logic.invoke(offerRequest);
+    }
+
+    @Test(expectedExceptions = ServiceRuntimeException.class)
+    public void invokeFailTest() {
+
+        when(applicationProperties.getBaseAPIUrl()).thenReturn("www.crosover.com/");
+        when(applicationProperties.getApplicantId()).thenReturn("aaaa");
+
+        when(restTemplate.getForEntity(anyString(), eq(GammaAirlineOffer[].class))).thenThrow(new HttpClientErrorException(HttpStatus.FAILED_DEPENDENCY));
+
+        OfferRequest offerRequest = getOfferRequest();
+        logic.invoke(offerRequest);
+    }
 
     private OfferRequest getOfferRequest() {
         OfferRequest offerRequest = new OfferRequest();

@@ -1,22 +1,19 @@
 package com.crossover.techtrial.java.se.logic.airline;
 
-import com.crossover.techtrial.java.se.adapter.airline.AirlineOfferAdapter;
+import com.crossover.techtrial.java.se.common.execption.ErrorCode;
+import com.crossover.techtrial.java.se.common.execption.ServiceRuntimeException;
 import com.crossover.techtrial.java.se.common.service.StatelessServiceLogic;
 import com.crossover.techtrial.java.se.configuration.ApplicationProperties;
-import com.crossover.techtrial.java.se.dao.airline.AirlineDao;
-import com.crossover.techtrial.java.se.dto.airline.AirlineOffer;
 import com.crossover.techtrial.java.se.dto.airline.GammaAirlineOffer;
 import com.crossover.techtrial.java.se.dto.airline.OfferRequest;
-import com.crossover.techtrial.java.se.model.airline.AirlineOfferModel;
 import com.crossover.techtrial.java.se.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.List;
 
@@ -26,23 +23,33 @@ public class AvailableAirlineOfferRetrieveLogic extends StatelessServiceLogic<Li
     @Autowired
     private ApplicationProperties applicationProperties;
 
+    @Autowired
+    private RestTemplate restTemplate;
+
     @Override
     public List<GammaAirlineOffer> invoke(OfferRequest offerRequest) {
 
         validateOfferRequest(offerRequest);
-        RestTemplate restTemplate = new RestTemplate();
-
         String availableOfferUrl
                 = applicationProperties.getBaseAPIUrl() + applicationProperties.getApplicantId() + "/gammaairlines/offers";
 
-        ResponseEntity<GammaAirlineOffer[]> responseEntity = restTemplate.getForEntity(availableOfferUrl, GammaAirlineOffer[].class);
-        GammaAirlineOffer[] airlineOffers = responseEntity.getBody();
-        return Arrays.asList(airlineOffers);
+        try {
+            ResponseEntity<GammaAirlineOffer[]> responseEntity = restTemplate.getForEntity(availableOfferUrl, GammaAirlineOffer[].class);
+            GammaAirlineOffer[] airlineOffers = responseEntity.getBody();
+            return Arrays.asList(airlineOffers);
+
+        } catch (HttpClientErrorException ex) {
+
+            if (ex.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
+                throw new ServiceRuntimeException(ErrorCode.APPLICANT_NOT_FOUND, "Applicant not found");
+            }
+        }
+        throw new ServiceRuntimeException("Available airline offers loading fail");
     }
 
     private void validateOfferRequest(OfferRequest offerRequest) {
 
-        ValidationUtil.validate(offerRequest,"Invalid request");
-        ValidationUtil.validate(offerRequest.getUserId(), "Invalid applicant id");
+        ValidationUtil.validate(offerRequest, "Invalid request");
+        ValidationUtil.validate(offerRequest.getUserId(), "Invalid User id");
     }
 }

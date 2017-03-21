@@ -3,11 +3,8 @@ package com.crossover.techtrial.java.se.controller;
 
 import com.crossover.techtrial.java.se.common.dto.ServiceRequest;
 import com.crossover.techtrial.java.se.common.dto.ServiceResponse;
-import com.crossover.techtrial.java.se.dto.airline.AirlineOffer;
-import com.crossover.techtrial.java.se.dto.airline.AirlineTicket;
 import com.crossover.techtrial.java.se.dto.airline.GammaAirlineOffer;
 import com.crossover.techtrial.java.se.dto.airline.TicketBuyingRequest;
-import com.crossover.techtrial.java.se.model.airline.Airport;
 import com.crossover.techtrial.java.se.model.user.UserTicket;
 import com.crossover.techtrial.java.se.service.airline.AirlineService;
 import com.crossover.techtrial.java.se.service.email.EmailService;

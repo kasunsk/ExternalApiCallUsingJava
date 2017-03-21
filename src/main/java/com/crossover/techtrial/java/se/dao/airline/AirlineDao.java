@@ -1,8 +1,5 @@
 package com.crossover.techtrial.java.se.dao.airline;
 
-import com.crossover.techtrial.java.se.dto.airline.AirlineOffer;
-import com.crossover.techtrial.java.se.model.airline.AirlineOfferModel;
-import com.crossover.techtrial.java.se.model.airline.Airport;
 import com.crossover.techtrial.java.se.model.user.UserTicket;
 
 import java.util.List;

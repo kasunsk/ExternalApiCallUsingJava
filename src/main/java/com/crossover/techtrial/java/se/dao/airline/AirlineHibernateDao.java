@@ -1,19 +1,16 @@
 package com.crossover.techtrial.java.se.dao.airline;
 
 import com.crossover.techtrial.java.se.dao.AbstractDao;
-import com.crossover.techtrial.java.se.dto.airline.AirlineOffer;
-import com.crossover.techtrial.java.se.model.airline.AirlineOfferModel;
-import com.crossover.techtrial.java.se.model.airline.Airport;
+import com.crossover.techtrial.java.se.dto.airline.GammaAirlineOffer;
 import com.crossover.techtrial.java.se.model.user.UserTicket;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
 @Repository("airlineHibernateDao")
-public class AirlineHibernateDao extends AbstractDao<Long, AirlineOfferModel> implements AirlineDao {
+public class AirlineHibernateDao extends AbstractDao<Long, GammaAirlineOffer> implements AirlineDao {
 
 
     @Override

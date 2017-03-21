@@ -3,8 +3,6 @@ package com.crossover.techtrial.java.se.logic.airline;
 import com.crossover.techtrial.java.se.common.dto.ServiceRequest;
 import com.crossover.techtrial.java.se.common.execption.ServiceRuntimeException;
 import com.crossover.techtrial.java.se.dao.airline.AirlineDao;
-import com.crossover.techtrial.java.se.model.airline.AirlineOfferModel;
-import com.crossover.techtrial.java.se.model.airline.Route;
 import com.crossover.techtrial.java.se.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

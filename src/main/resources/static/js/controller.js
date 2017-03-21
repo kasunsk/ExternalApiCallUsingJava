@@ -384,10 +384,12 @@ app.controller('airlineOfferController', ['$scope', '$http', '$cookies', '$windo
             url: requestUrl
         }).success(function (data) {
             $scope.submitting = false;
+            $scope.error = false;
             $scope.availableOffers = data;
 
         }).error(function (data, status) {
             $scope.submitting = false;
+            $scope.error = data.message;
             if (status === 400)
                 $scope.badRequest = data;
             else if (status === 409)
