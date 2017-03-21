@@ -15,20 +15,6 @@ import java.util.List;
 @Repository("airlineHibernateDao")
 public class AirlineHibernateDao extends AbstractDao<Long, AirlineOfferModel> implements AirlineDao {
 
-    @SuppressWarnings("unchecked")
-    public List<AirlineOfferModel> loadAirlineOffers(AirlineOffer.AirlineOfferStatus airlineOfferStatus) {
-
-        StringBuilder queryBuilder = new StringBuilder();
-        queryBuilder.append("from AirlineOfferModel AM");
-
-        if (airlineOfferStatus != null) {
-            queryBuilder.append(" WHERE ");
-            queryBuilder.append("airlineOfferStatus=:airlineOfferStatus");
-        }
-        Query query = getSession().createQuery(queryBuilder.toString());
-        return query.list();
-    }
-
 
     @Override
     @SuppressWarnings("unchecked")
@@ -60,6 +46,10 @@ public class AirlineHibernateDao extends AbstractDao<Long, AirlineOfferModel> im
         } else if (userId != null && origin == null && destination == null) {
             query = getSession().createQuery("from UserTicket where userId=:userId");
             query.setParameter("userId", userId);
+            return query.list();
+        } else if (userId == null && origin != null && destination == null) {
+            query = getSession().createQuery("from UserTicket where origin=:origin");
+            query.setParameter("origin", origin);
             return query.list();
         } else if (userId != null && origin != null && destination == null) {
             query = getSession().createQuery("from UserTicket where userId=:userId and origin=:origin");

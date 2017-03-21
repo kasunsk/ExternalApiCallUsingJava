@@ -40,6 +40,95 @@ public class AirlineHibernateDaoUnitTest {
         MockitoAnnotations.initMocks(this);
     }
 
+    @Test
+    public void searchUserTicketAllInputNullTest() {
+
+        when(sessionFactory.getCurrentSession()).thenReturn(session);
+        when(session.createQuery("from UserTicket")).thenReturn(query);
+        List<UserTicket> userTickets = new ArrayList<>();
+        when(query.uniqueResult()).thenReturn(userTickets);
+        List<UserTicket> result = airlineDao.searchUserTicket(null, null, null);
+        assertEquals(result, userTickets);
+    }
+
+    @Test
+    public void searchUserTicketUserIdTest() {
+
+        when(sessionFactory.getCurrentSession()).thenReturn(session);
+        when(session.createQuery("from UserTicket where userId=:userId")).thenReturn(query);
+        List<UserTicket> userTickets = new ArrayList<>();
+        when(query.uniqueResult()).thenReturn(userTickets);
+        List<UserTicket> result = airlineDao.searchUserTicket(2L, null, null);
+        assertEquals(result, userTickets);
+    }
+
+    @Test
+    public void searchUserTicketUserIdOriginTest() {
+
+        when(sessionFactory.getCurrentSession()).thenReturn(session);
+        when(session.createQuery("from UserTicket where userId=:userId and origin=:origin")).thenReturn(query);
+        List<UserTicket> userTickets = new ArrayList<>();
+        when(query.uniqueResult()).thenReturn(userTickets);
+        List<UserTicket> result = airlineDao.searchUserTicket(2L, "Landon", null);
+        assertEquals(result, userTickets);
+    }
+
+    @Test
+    public void searchUserTicketUserIdOriginDestinationTest() {
+
+        when(sessionFactory.getCurrentSession()).thenReturn(session);
+        when(session.createQuery("from UserTicket where userId=:userId and origin=:origin and destination=:destination")).thenReturn(query);
+        List<UserTicket> userTickets = new ArrayList<>();
+        when(query.uniqueResult()).thenReturn(userTickets);
+        List<UserTicket> result = airlineDao.searchUserTicket(2L, "Landon", "New York");
+        assertEquals(result, userTickets);
+    }
+
+
+    @Test
+    public void searchUserTicketOriginDestinationTest() {
+
+        when(sessionFactory.getCurrentSession()).thenReturn(session);
+        when(session.createQuery("from UserTicket where origin=:origin and destination=:destination")).thenReturn(query);
+        List<UserTicket> userTickets = new ArrayList<>();
+        when(query.uniqueResult()).thenReturn(userTickets);
+        List<UserTicket> result = airlineDao.searchUserTicket(null, "Landon", "New York");
+        assertEquals(result, userTickets);
+    }
+
+    @Test
+    public void searchUserTicketDestinationTest() {
+
+        when(sessionFactory.getCurrentSession()).thenReturn(session);
+        when(session.createQuery("from UserTicket where destination=:destination")).thenReturn(query);
+        List<UserTicket> userTickets = new ArrayList<>();
+        when(query.uniqueResult()).thenReturn(userTickets);
+        List<UserTicket> result = airlineDao.searchUserTicket(null, null, "New York");
+        assertEquals(result, userTickets);
+    }
+
+    @Test
+    public void searchUserTicketUserIdDestinationTest() {
+
+        when(sessionFactory.getCurrentSession()).thenReturn(session);
+        when(session.createQuery("from UserTicket where userId=:userId and destination=:destination")).thenReturn(query);
+        List<UserTicket> userTickets = new ArrayList<>();
+        when(query.uniqueResult()).thenReturn(userTickets);
+        List<UserTicket> result = airlineDao.searchUserTicket(2L, null, "New York");
+        assertEquals(result, userTickets);
+    }
+
+    @Test
+    public void searchUserTicketOriginTest() {
+
+        when(sessionFactory.getCurrentSession()).thenReturn(session);
+        when(session.createQuery("from UserTicket where origin=:origin")).thenReturn(query);
+        List<UserTicket> userTickets = new ArrayList<>();
+        when(query.uniqueResult()).thenReturn(userTickets);
+        List<UserTicket> result = airlineDao.searchUserTicket(null, "London", null);
+        assertEquals(result, userTickets);
+    }
+
 
     @Test
     public void loadApplicantAirlineOffersTest() {
