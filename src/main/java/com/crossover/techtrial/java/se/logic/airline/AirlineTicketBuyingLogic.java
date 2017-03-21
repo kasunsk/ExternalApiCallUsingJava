@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
@@ -42,13 +43,20 @@ public class AirlineTicketBuyingLogic extends StatelessServiceLogic<UserTicket, 
                 = applicationProperties.getBaseAPIUrl() + applicationProperties.getApplicantId() + "/gammaairlines/tickets/buy";
 
         UserTicket userTicket;
-        ResponseEntity<AirlineTicket> response = restTemplate.postForEntity(ticketBiyUrl, request.getTicketBuyingRequest(), AirlineTicket.class);
+        ResponseEntity<AirlineTicket> response = null;
 
-        if (response.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
-            throw new ServiceRuntimeException(ErrorCode.ACCOUNT_OR_ROUT_NOT_FOUND, "Account or route not found");
-        } else if (response.getStatusCode().equals(HttpStatus.BAD_REQUEST)) {
-            throw new ServiceRuntimeException(ErrorCode.INVALID_ACCOUNT, "Invalid account / Money not enough");
+        try {
+            response = restTemplate.postForEntity(ticketBiyUrl, request.getTicketBuyingRequest(),
+                    AirlineTicket.class);
+        } catch (HttpClientErrorException ex) {
+
+            if (ex.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
+                throw new ServiceRuntimeException(ErrorCode.ACCOUNT_OR_ROUT_NOT_FOUND, "Account or route not found");
+            } else if (ex.getStatusCode().equals(HttpStatus.BAD_REQUEST)) {
+                throw new ServiceRuntimeException(ErrorCode.INVALID_ACCOUNT, "Invalid account / Money not enough");
+            }
         }
+
 
         AirlineTicket airlineTicket = response.getBody();
         userTicket = getUserTicket(request, airlineTicket);

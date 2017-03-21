@@ -15,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -98,7 +99,7 @@ public class AirlineTicketBuyingLogicUnitTest {
 
         ResponseEntity<AirlineTicket> response = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         TicketBuy ticketBuy = getTicketBuy();
-        when(restTemplate.postForEntity(anyString(), any(), eq(AirlineTicket.class))).thenReturn(response);
+        when(restTemplate.postForEntity(anyString(), any(), eq(AirlineTicket.class))).thenThrow(new HttpClientErrorException(HttpStatus.BAD_REQUEST));
         logic.invoke(ticketBuy);
     }
 
@@ -108,9 +109,8 @@ public class AirlineTicketBuyingLogicUnitTest {
         when(applicationProperties.getBaseAPIUrl()).thenReturn("https://api-forest.crossover.com/");
         when(applicationProperties.getApplicantId()).thenReturn("zzzz");
 
-        ResponseEntity<AirlineTicket> response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
         TicketBuy ticketBuy = getTicketBuy();
-        when(restTemplate.postForEntity(anyString(), any(), eq(AirlineTicket.class))).thenReturn(response);
+        when(restTemplate.postForEntity(anyString(), any(), eq(AirlineTicket.class))).thenThrow(new HttpClientErrorException(HttpStatus.NOT_FOUND));
         logic.invoke(ticketBuy);
     }
 
