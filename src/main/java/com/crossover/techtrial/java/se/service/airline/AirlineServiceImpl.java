@@ -1,12 +1,10 @@
 package com.crossover.techtrial.java.se.service.airline;
 
 import com.crossover.techtrial.java.se.common.dto.*;
-import com.crossover.techtrial.java.se.common.dto.Void;
 import com.crossover.techtrial.java.se.common.service.RequestAssembler;
 import com.crossover.techtrial.java.se.dto.airline.*;
 import com.crossover.techtrial.java.se.dto.user.UserTicketSearchCriteria;
 import com.crossover.techtrial.java.se.logic.airline.*;
-import com.crossover.techtrial.java.se.model.airline.Airport;
 import com.crossover.techtrial.java.se.model.user.UserTicket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +19,7 @@ public class AirlineServiceImpl implements AirlineService {
     private AvailableAirlineOfferRetrieveLogic availableAirlineOfferRetrieveLogic;
 
     @Autowired
-    private ApplicantTicketsRetrieveLogic applicantTicketsRetrieveLogic;
+    private UserTicketsRetrieveLogic userTicketsRetrieveLogic;
 
     @Autowired
     private AirlineTicketBuyingLogic airlineTicketBuyingLogic;
@@ -41,7 +39,7 @@ public class AirlineServiceImpl implements AirlineService {
     @Override
     public ServiceResponse<List<UserTicket>> retrieveUserTickets(ServiceRequest<String> userId) {
 
-        return RequestAssembler.assemble(applicantTicketsRetrieveLogic, userId);
+        return RequestAssembler.assemble(userTicketsRetrieveLogic, userId);
     }
 
 

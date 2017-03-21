@@ -16,10 +16,10 @@ import java.util.List;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
 
-public class ApplicantTicketsRetrieveLogicUnitTest {
+public class UserTicketsRetrieveLogicUnitTest {
 
     @InjectMocks
-    ApplicantTicketsRetrieveLogic logic = new ApplicantTicketsRetrieveLogic();
+    UserTicketsRetrieveLogic logic = new UserTicketsRetrieveLogic();
 
     @Mock
     private AirlineDao airlineDao;
@@ -37,9 +37,9 @@ public class ApplicantTicketsRetrieveLogicUnitTest {
     @Test
     public void retrieveTest() {
 
-//        List<UserTicket> userTickets = new ArrayList<>();
-//        when(airlineDao.loadApplicantAirlineOffers(12L)).thenReturn(userTickets);
-//        List<UserTicket> result = logic.invoke("12");
-//        assertEquals(result, userTickets);
+        List<UserTicket> userTickets = new ArrayList<>();
+        when(airlineDao.loadUserTicketsByUserId(12L)).thenReturn(userTickets);
+        List<UserTicket> result = logic.invoke("12");
+        assertEquals(result, userTickets);
     }
 }

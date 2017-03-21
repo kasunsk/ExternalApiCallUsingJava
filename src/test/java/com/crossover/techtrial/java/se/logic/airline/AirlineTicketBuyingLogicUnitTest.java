@@ -113,6 +113,17 @@ public class AirlineTicketBuyingLogicUnitTest {
         logic.invoke(ticketBuy);
     }
 
+    @Test(expectedExceptions = ServiceRuntimeException.class)
+    public void invokeFailTest() {
+
+        when(applicationProperties.getBaseAPIUrl()).thenReturn("https://api-forest.crossover.com/");
+        when(applicationProperties.getApplicantId()).thenReturn("zzzz");
+
+        TicketBuy ticketBuy = getTicketBuy();
+        when(restTemplate.postForEntity(anyString(), any(), eq(AirlineTicket.class))).thenThrow(new HttpClientErrorException(HttpStatus.BAD_GATEWAY));
+        logic.invoke(ticketBuy);
+    }
+
     @Test
     public void invokeTest() {
 

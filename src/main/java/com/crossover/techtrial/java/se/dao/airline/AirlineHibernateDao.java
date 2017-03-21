@@ -15,10 +15,10 @@ public class AirlineHibernateDao extends AbstractDao<Long, GammaAirlineOffer> im
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<UserTicket> loadApplicantAirlineOffers(Long applicantId) {
+    public List<UserTicket> loadUserTicketsByUserId(Long userId) {
 
         Query query = getSession().createQuery("from UserTicket UT where UT.userId=:userId");
-        query.setLong("userId", applicantId);
+        query.setLong("userId", userId);
         return query.list();
     }
 

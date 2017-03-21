@@ -42,26 +42,22 @@ public class AirlineTicketBuyingLogic extends StatelessServiceLogic<UserTicket, 
         String ticketBiyUrl
                 = applicationProperties.getBaseAPIUrl() + applicationProperties.getApplicantId() + "/gammaairlines/tickets/buy";
 
-        UserTicket userTicket;
-        ResponseEntity<AirlineTicket> response = null;
-
         try {
-            response = restTemplate.postForEntity(ticketBiyUrl, request.getTicketBuyingRequest(),
+            ResponseEntity<AirlineTicket> response = restTemplate.postForEntity(ticketBiyUrl, request.getTicketBuyingRequest(),
                     AirlineTicket.class);
+            AirlineTicket airlineTicket = response.getBody();
+            UserTicket userTicket = getUserTicket(request, airlineTicket);
+            accountDao.saveUserTicket(userTicket);
+            return userTicket;
         } catch (HttpClientErrorException ex) {
 
             if (ex.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
                 throw new ServiceRuntimeException(ErrorCode.ACCOUNT_OR_ROUT_NOT_FOUND, "Account or route not found");
             } else if (ex.getStatusCode().equals(HttpStatus.BAD_REQUEST)) {
-                throw new ServiceRuntimeException(ErrorCode.INVALID_ACCOUNT, "Invalid account / Money not enough");
+                throw new ServiceRuntimeException(ErrorCode.INVALID_ACCOUNT, "Invalid account or Money not enough");
             }
         }
-
-
-        AirlineTicket airlineTicket = response.getBody();
-        userTicket = getUserTicket(request, airlineTicket);
-        accountDao.saveUserTicket(userTicket);
-        return userTicket;
+        throw new ServiceRuntimeException("Airline ticket buying fail");
     }
 
     private UserTicket getUserTicket(TicketBuy request, AirlineTicket airlineTicket) {

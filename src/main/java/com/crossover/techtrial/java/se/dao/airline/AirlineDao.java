@@ -10,7 +10,7 @@ import java.util.List;
 public interface AirlineDao {
 
 
-    List<UserTicket> loadApplicantAirlineOffers(Long applicantId);
+    List<UserTicket> loadUserTicketsByUserId(Long userId);
 
     UserTicket loadUserTicketById(Long userTicketId);
 

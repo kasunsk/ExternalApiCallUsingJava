@@ -133,7 +133,7 @@ public class AirlineHibernateDaoUnitTest {
         when(session.createQuery("from UserTicket UT where UT.userId=:userId")).thenReturn(query);
         List<UserTicket> userTickets = new ArrayList<>();
         when(query.uniqueResult()).thenReturn(userTickets);
-        assertEquals(userTickets, airlineDao.loadApplicantAirlineOffers(25L));
+        assertEquals(userTickets, airlineDao.loadUserTicketsByUserId(25L));
     }
 
     @Test
