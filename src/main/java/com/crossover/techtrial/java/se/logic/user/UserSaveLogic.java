@@ -89,7 +89,7 @@ public class UserSaveLogic extends StatelessServiceLogic<String, User> {
         User currentUser = userHibernateDao.loadUserByEmail(user.getEmail());
 
         if (currentUser != null) {
-            throw new ServiceRuntimeException(ErrorCode.USER_ALREADY_EXIST, "User already exist");
+            throw new ServiceRuntimeException(ErrorCode.EMAIL_ALREADY_USED, "Email address already used by another user");
         }
     }
 }

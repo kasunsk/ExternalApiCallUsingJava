@@ -22,4 +22,5 @@ public interface ErrorCode {
     String INVALIDA_LOGIN = "Invalid Login";
     String AMOUNT_ACCOUNT_EXCHANGE_RATE_NOT_FOUND = "Amount, Account or Exchange rate not found ";
     String AMOUNT_OR_CURRENCY = "Amount or Currency not valid";
+    String EMAIL_ALREADY_USED = "Email already used";
 }

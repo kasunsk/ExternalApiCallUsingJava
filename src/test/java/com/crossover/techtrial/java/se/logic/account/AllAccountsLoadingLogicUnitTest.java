@@ -62,9 +62,11 @@ public class AllAccountsLoadingLogicUnitTest {
         bankAccount.setAccountNumber("aaaa");
         accounts.add(bankAccount);
 
-        Account account = new Account();
-        account.setId("aaaa");
-        Account[] accountArray = new Account[] {account};
+        Account accountOne = new Account();
+        accountOne.setId("aaaa");
+        Account accountTwo = new Account();
+        accountTwo.setId("asasas");
+        Account[] accountArray = new Account[] {accountOne, accountTwo};
         ResponseEntity<Account[]> responseEntity = new ResponseEntity<>(accountArray, HttpStatus.OK);
         when(applicationProperties.getBaseAPIUrl()).thenReturn("baseUrl");
         when(applicationProperties.getApplicantId()).thenReturn("aaaa");

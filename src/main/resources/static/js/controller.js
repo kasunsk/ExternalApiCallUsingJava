@@ -325,6 +325,7 @@ app.controller('accountCreateController', ['$scope', '$http', '$cookies', '$wind
             $scope.displayDeposit = false;
         }).error(function (data, status) {
             $scope.submitting = false;
+            $scope.error = data.message;
             if (status === 400)
                 $scope.badRequest = data;
             else if (status === 409)

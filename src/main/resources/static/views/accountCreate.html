@@ -8,7 +8,7 @@
 
 <div class="section" data-ng-show="showViewAccounts">
     <h3>{{headingTitle}}</h3>
-
+    <div data-ng-show="error" class="alert alert-danger">{{error}}</div>
     <div data-ng-init="accountList();">
         <table class="table">
             <tr class="tr">
