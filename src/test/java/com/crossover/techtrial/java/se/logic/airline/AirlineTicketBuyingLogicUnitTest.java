@@ -97,7 +97,6 @@ public class AirlineTicketBuyingLogicUnitTest {
         when(applicationProperties.getBaseAPIUrl()).thenReturn("https://api-forest.crossover.com/");
         when(applicationProperties.getApplicantId()).thenReturn("zzzz");
 
-        ResponseEntity<AirlineTicket> response = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         TicketBuy ticketBuy = getTicketBuy();
         when(restTemplate.postForEntity(anyString(), any(), eq(AirlineTicket.class))).thenThrow(new HttpClientErrorException(HttpStatus.BAD_REQUEST));
         logic.invoke(ticketBuy);
