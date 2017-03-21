@@ -293,8 +293,10 @@ app.controller('accountCreateController', ['$scope', '$http', '$cookies', '$wind
             //$timeout($scope.showSuccessAlert = true, 3000);
             $scope.bankAccount = data;
             $scope.accountList();
+            $scope.error = false;
 
         }).error(function (data, status) {
+            $scope.error = data.message;
             $scope.submitting = false;
             if (status === 400)
                 $scope.badRequest = data;
@@ -322,6 +324,7 @@ app.controller('accountCreateController', ['$scope', '$http', '$cookies', '$wind
             $scope.successDepositeTextAlert = "Money deposited successfully!";
             $scope.showDepositeSuccessAlert = true;
             $scope.accountList();
+            $scope.error = false;
             $scope.displayDeposit = false;
         }).error(function (data, status) {
             $scope.submitting = false;
@@ -359,24 +362,6 @@ app.controller('accountCreateController', ['$scope', '$http', '$cookies', '$wind
         });
     };
 
-    $scope.deleteAccount = function (idx) {
-
-        var accountId = $scope.allAccounts[idx].accountId;
-        var accountUrl = '/' + applicantId + '/paypallets/account/remove/' + accountId;
-
-        $http({
-            method: 'GET',
-            url: accountUrl
-        }).success(function (data) {
-            $scope.accountList();
-        }).error(function (data, status) {
-            $scope.submitting = false;
-            if (status === 400)
-                $scope.badRequest = data;
-            else if (status === 409)
-                $scope.badRequest = '';
-        });
-    };
 }]);
 
 app.controller('airlineOfferController', ['$scope', '$http', '$cookies', '$window', function ($scope, $http, $cookies, $window) {

@@ -16,7 +16,6 @@
                 <th>Available Amount</th>
                 <th>Currency</th>
                 <th>Deposit</th>
-                <th>Delete</th>
             </tr>
             <tbody data-ng-repeat="account in allAccounts">
             <tr>
@@ -25,9 +24,6 @@
                 <td>{{account.balance.currency}}</td>
                 <td>
                     <button class="btn btn-primary" data-ng-click="showInput($index);">Deposit</button>
-                </td>
-                <td>
-                    <button class="btn btn-primary" data-ng-click="deleteAccount($index);">Delete</button>
                 </td>
             </tr>
             </tbody>
