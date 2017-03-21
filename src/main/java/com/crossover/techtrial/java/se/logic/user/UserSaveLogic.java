@@ -41,9 +41,9 @@ public class UserSaveLogic extends StatelessServiceLogic<String, User> {
     public String invoke(User user) {
         validateUser(user);
         encryptUserPassword(user);
+        userHibernateDao.saveUser(user);
         Account account = createInitialAccountForUser(user);
         depositInitialAmount(account);
-        userHibernateDao.saveUser(user);
         return user.getName();
     }
 
