@@ -1,9 +1,6 @@
 package com.crossover.techtrial.java.se.dao.airline;
 
 
-import com.crossover.techtrial.java.se.dto.airline.AirlineOffer;
-import com.crossover.techtrial.java.se.model.airline.AirlineOfferModel;
-import com.crossover.techtrial.java.se.model.airline.Airport;
 import com.crossover.techtrial.java.se.model.user.UserTicket;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -17,7 +14,6 @@ import org.testng.annotations.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.assertEquals;
 
