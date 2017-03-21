@@ -56,7 +56,7 @@ public class UserLoginLogicUnitTest {
 
         User user = new User();
         user.setPassword("xxx");
-        when(logicHelper.loadUser("email")).thenReturn(user);
+        when(logicHelper.loadUserByEmail("email")).thenReturn(user);
 
         ServiceResponse<String> encryptResponse = new ServiceResponse<>();
         encryptResponse.setPayload("aaaa");
@@ -72,7 +72,7 @@ public class UserLoginLogicUnitTest {
 
         User user = new User();
         user.setPassword("xxx");
-        when(logicHelper.loadUser("email")).thenReturn(user);
+        when(logicHelper.loadUserByEmail("email")).thenReturn(user);
 
         ServiceResponse<String> encryptResponse = new ServiceResponse<>();
         encryptResponse.setPayload("xxx");

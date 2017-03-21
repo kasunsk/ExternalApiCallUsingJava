@@ -31,7 +31,7 @@ public class UserLogicHelperUnitTest {
 
         String email = "test@test.com";
         when(userHibernateDao.loadUserByEmail(email)).thenReturn(null);
-        helper.loadUser(email);
+        helper.loadUserByEmail(email);
     }
 
     @Test
@@ -40,7 +40,7 @@ public class UserLogicHelperUnitTest {
         String email = "test@test.com";
         User expected = new User();
         when(userHibernateDao.loadUserByEmail(email)).thenReturn(expected);
-        User result = helper.loadUser(email);
+        User result = helper.loadUserByEmail(email);
         assertEquals(result, expected);
     }
 }

@@ -16,7 +16,7 @@ public class UserLogicHelper {
     @Autowired
     private UserDao userHibernateDao;
 
-    protected User loadUser(String email) {
+    public User loadUserByEmail(String email) {
 
         User user = userHibernateDao.loadUserByEmail(email);
 

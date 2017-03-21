@@ -29,7 +29,7 @@ public class UserLoginLogic extends StatelessServiceLogic<User, LoginRequest> {
         validateLoginRequest(loginRequest);
         User user;
         try {
-            user = logicHelper.loadUser(loginRequest.getEmail());
+            user = logicHelper.loadUserByEmail(loginRequest.getEmail());
         } catch (ServiceRuntimeException ex) {
             throw new ServiceRuntimeException(ErrorCode.INVALIDA_LOGIN, "Invalid Login");
         }
