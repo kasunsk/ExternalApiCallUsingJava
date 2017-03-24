@@ -14,10 +14,6 @@ app.controller('usersController', ['$scope', '$http', '$window', '$cookies', fun
 
         }).error(function (data, status) {
             $scope.submitting = false;
-            if (status === 400)
-                $scope.badRequest = data;
-            else if (status === 409)
-                $scope.badRequest = 'Unbale to recieve users';
         });
     };
 
@@ -35,17 +31,13 @@ app.controller('usersController', ['$scope', '$http', '$window', '$cookies', fun
 
         }).error(function (data, status) {
             $scope.submitting = false;
-            if (status === 400)
-                $scope.badRequest = data;
-            else if (status === 409)
-                $scope.badRequest = 'Unable to remove User';
         });
     };
 
     $scope.searchUsers = function (userSearchCriteria) {
 
-        var applicantId = $cookies.get('applicantId');
-        var userSearchUrl = '/user/' + applicantId + '/search';
+        var userId = $cookies.get('userId');
+        var userSearchUrl = '/user/' + userId + '/search';
 
         $http({
             method: 'POST',
@@ -57,26 +49,19 @@ app.controller('usersController', ['$scope', '$http', '$window', '$cookies', fun
 
         }).error(function (data, status) {
             $scope.submitting = false;
-            if (status === 400)
-                $scope.badRequest = data;
-            else if (status === 409)
-                $scope.badRequest = 'Users search fail.';
         });
     };
 }]);
 
-app.controller('rolesController', function ($scope) {
-    $scope.headingTitle = "Roles List";
-});
 
 app.controller('ticketController', ['$scope', '$http', '$cookies', '$window', function ($scope, $http, $cookies, $window) {
     $scope.headingTitle = "My Tickets";
 
-    var applicantId = $cookies.get('applicantId');
+    var userId = $cookies.get('userId');
 
     $scope.getMyTickets = function () {
 
-        var myTicketUrl = '/' + applicantId + '/gammaairlines/tickets';
+        var myTicketUrl = '/' + userId + '/gammaairlines/tickets';
 
         $scope.submitting = true;
         $http({
@@ -87,10 +72,6 @@ app.controller('ticketController', ['$scope', '$http', '$cookies', '$window', fu
 
         }).error(function (data, status) {
             $scope.submitting = false;
-            if (status === 400)
-                $scope.badRequest = data;
-            else if (status === 409)
-                $scope.badRequest = 'User tickets receive faul';
         });
     };
 
@@ -111,17 +92,18 @@ app.controller('ticketController', ['$scope', '$http', '$cookies', '$window', fu
 
 app.controller('ticketsController', ['$scope', '$http', '$cookies', '$window', function ($scope, $http, $cookies, $window) {
     $scope.headingTitle = "My Tickets";
+    $scope.submitting = false;
 
     $scope.init = function () {
         var userTicketObj = JSON.parse($cookies.get('selectedTicket'));
         $scope.userTicket = userTicketObj;
     };
 
-    var applicantId = $cookies.get('applicantId');
+    var userId = $cookies.get('userId');
 
     $scope.getMyTickets = function () {
 
-        var myTicketUrl = '/' + applicantId + '/gammaairlines/tickets';
+        var myTicketUrl = '/' + userId + '/gammaairlines/tickets';
 
         $scope.submitting = true;
         $http({
@@ -132,10 +114,6 @@ app.controller('ticketsController', ['$scope', '$http', '$cookies', '$window', f
 
         }).error(function (data, status) {
             $scope.submitting = false;
-            if (status === 400)
-                $scope.badRequest = data;
-            else if (status === 409)
-                $scope.badRequest = '';
         });
     };
 
@@ -155,6 +133,9 @@ app.controller('ticketsController', ['$scope', '$http', '$cookies', '$window', f
 
     $scope.emailTicket = function (ticketId) {
 
+        $scope.success = false;
+        $scope.error = false;
+
         var emailTicketUrl = '/gammaairlines/userTicket/email/send/' + ticketId;
 
         $scope.submitting = true;
@@ -163,12 +144,15 @@ app.controller('ticketsController', ['$scope', '$http', '$cookies', '$window', f
             url: emailTicketUrl
         }).success(function (data) {
 
+            if (data) {
+                $scope.success = "Email send success !"
+            } else {
+                $scope.error = "Email sending failed"
+            }
         }).error(function (data, status) {
+            $scope.error = data.message;
+            $scope.success = false;
             $scope.submitting = false;
-            if (status === 400)
-                $scope.badRequest = data;
-            else if (status === 409)
-                $scope.badRequest = 'Email sending fail';
         });
     }
 }]);
@@ -190,7 +174,7 @@ app.controller('loginController', ['$scope', '$http', '$cookies', '$window', fun
             data: $scope.loginRequest
         }).success(function (data) {
             $scope.submitting = false;
-            $cookies.put('applicantId', data.userId);
+            $cookies.put('userId', data.userId);
             $cookies.put('applicantName', data.name);
             $cookies.put('applicantRole', data.role);
             $window.location.href = 'homepage.html#/airlineOffer';
@@ -205,15 +189,11 @@ app.controller('loginController', ['$scope', '$http', '$cookies', '$window', fun
         }).error(function (data, status) {
             $scope.submitting = false;
             $scope.error = data.message;
-            if (status === 400)
-                $scope.badRequest = data;
-            else if (status === 409)
-                $scope.badRequest = '';
         });
     };
 
     $scope.logout = function () {
-        $cookies.remove('applicantId');
+        $cookies.remove('userId');
         $cookies.remove('applicantName');
         $cookies.remove('applicantRole');
         $window.location.href = '/index.html';
@@ -245,18 +225,13 @@ app.controller('registerController', ['$scope', '$http', '$window', function ($s
         }).error(function (data, status) {
             $scope.submitting = false;
             $scope.error = data.message;
-            if (status === 400)
-                $scope.badRequest = data;
-            else if (status === 409)
-                $scope.badRequest = 'The name is already used.';
         });
     };
 }]);
 
 app.controller('accountCreateController', ['$scope', '$http', '$cookies', '$window', '$timeout', function ($scope, $http, $cookies, $window, $timeout) {
     $scope.headingTitle = "My Accounts";
-    $scope.showSuccessAlert = false;
-
+    $scope.submitting = false;
 
     $scope.availableCurrencies = function () {
         $http({
@@ -267,15 +242,11 @@ app.controller('accountCreateController', ['$scope', '$http', '$cookies', '$wind
 
         }).error(function (data, status) {
             $scope.submitting = false;
-            if (status === 400)
-                $scope.badRequest = data;
-            else if (status === 409)
-                $scope.badRequest = '';
         });
     };
 
-    var applicantId = $cookies.get('applicantId');
-    var accountCreateUrl = '/' + applicantId + '/paypallets/account';
+    var userId = $cookies.get('userId');
+    var accountCreateUrl = '/' + userId + '/paypallets/account';
 
     $scope.accountCreateRequest = {
         currency: null
@@ -288,20 +259,16 @@ app.controller('accountCreateController', ['$scope', '$http', '$cookies', '$wind
             url: accountCreateUrl,
             data: $scope.accountCreateRequest
         }).success(function (data) {
-            $scope.successTextAlert = "Bank account created successfully!";
-            $scope.showSuccessAlert = true;
-            //$timeout($scope.showSuccessAlert = true, 3000);
             $scope.bankAccount = data;
             $scope.accountList();
-            $scope.error = false;
+            $scope.error_create_account = false;
+            $scope.success_create_account = "Account crated";
+            $scope.submitting = true;
 
         }).error(function (data, status) {
-            $scope.error = data.message;
+            $scope.error_create_account = data.message;
+            $scope. $scope.success_create_account = false;
             $scope.submitting = false;
-            if (status === 400)
-                $scope.badRequest = data;
-            else if (status === 409)
-                $scope.badRequest = '';
         });
     };
 
@@ -314,25 +281,22 @@ app.controller('accountCreateController', ['$scope', '$http', '$cookies', '$wind
 
         $scope.depositRequest.accountId = account.id;
 
-        var depositUrl = '/' + applicantId + '/paypallets/account/deposit/';
+        var depositUrl = '/' + userId + '/paypallets/account/deposit/';
 
         $http({
             method: 'POST',
             url: depositUrl,
             data: $scope.depositRequest
         }).success(function (data) {
-            $scope.successDepositeTextAlert = "Money deposited successfully!";
-            $scope.showDepositeSuccessAlert = true;
             $scope.accountList();
-            $scope.error = false;
+            $scope.error_deposit = false;
+            $scope.success_deposit = "Money deposited successfully!";
             $scope.displayDeposit = false;
-        }).error(function (data, status) {
             $scope.submitting = false;
-            $scope.error = data.message;
-            if (status === 400)
-                $scope.badRequest = data;
-            else if (status === 409)
-                $scope.badRequest = '';
+        }).error(function (data, status) {
+            $scope.error_deposit = data.message;
+            $scope.success_deposit = false;
+            $scope.submitting = false;
         });
     };
 
@@ -343,10 +307,17 @@ app.controller('accountCreateController', ['$scope', '$http', '$cookies', '$wind
         $scope.displayDeposit = true;
         $scope.depositAccountId = accountId;
         $scope.accountCurrency = currency;
+
+        $scope.error_deposit = false;
+        $scope.success_deposit = false;
+        $scope.error = false;
+        $scope.error_create_account = false;
+        $scope.success_create_account = false;
+
     };
 
     $scope.accountList = function () {
-        var accountUrl = '/' + applicantId + '/paypallets/account/all';
+        var accountUrl = '/' + userId + '/paypallets/account/all';
         $http({
             method: 'GET',
             url: accountUrl
@@ -354,11 +325,7 @@ app.controller('accountCreateController', ['$scope', '$http', '$cookies', '$wind
             $scope.showViewAccounts = true;
             $scope.allAccounts = data;
         }).error(function (data, status) {
-            $scope.submitting = false;
-            if (status === 400)
-                $scope.badRequest = data;
-            else if (status === 409)
-                $scope.badRequest = '';
+            $scope.error = data.message;
         });
     };
 
@@ -366,10 +333,11 @@ app.controller('accountCreateController', ['$scope', '$http', '$cookies', '$wind
 
 app.controller('airlineOfferController', ['$scope', '$http', '$cookies', '$window', function ($scope, $http, $cookies, $window) {
     $scope.headingTitle = "Available Offers";
+    $scope.submitting = false;
 
     var applicantRole = $cookies.get('applicantRole');
-    var applicantId = $cookies.get('applicantId');
-    var requestUrl = '/' + applicantId + '/gammaairlines/offers';
+    var userId = $cookies.get('userId');
+    var requestUrl = '/' + userId + '/gammaairlines/offers';
 
     if (applicantRole == 'ADMIN') {
         $scope.isAdmin = true;
@@ -383,36 +351,15 @@ app.controller('airlineOfferController', ['$scope', '$http', '$cookies', '$windo
             method: 'GET',
             url: requestUrl
         }).success(function (data) {
-            $scope.submitting = false;
             $scope.error = false;
             $scope.availableOffers = data;
 
         }).error(function (data, status) {
-            $scope.submitting = false;
             $scope.error = data.message;
-            if (status === 400)
-                $scope.badRequest = data;
-            else if (status === 409)
-                $scope.badRequest = '';
         });
     };
 
     $scope.init = function () {
-
-        var airportListUrl = '/gammaairlines/country/all';
-
-        $http({
-            method: 'GET',
-            url: airportListUrl
-        }).success(function (data) {
-            $scope.availableAirports = data;
-
-        }).error(function (data, status) {
-            if (status === 400)
-                $scope.badRequest = data;
-            else if (status === 409)
-                $scope.badRequest = '';
-        });
 
         $http({
             method: 'GET',
@@ -422,10 +369,6 @@ app.controller('airlineOfferController', ['$scope', '$http', '$cookies', '$windo
 
         }).error(function (data, status) {
             $scope.submitting = false;
-            if (status === 400)
-                $scope.badRequest = data;
-            else if (status === 409)
-                $scope.badRequest = '';
         });
     };
 
@@ -433,25 +376,31 @@ app.controller('airlineOfferController', ['$scope', '$http', '$cookies', '$windo
 
         $scope.offer_to_buy = $scope.availableOffers[idx];
         $scope.displayAccounts = true;
+        $scope.error = false;
+    };
+
+    $scope.buyingRequest = {
+        accountId: null,
+        route: null,
+        amount : null
     };
 
 
-    $scope.buy = function (account, buyingRequest) {
+    $scope.buy = function (accountId) {
 
         var rout_to_buy = $scope.offer_to_buy.route;
-        var applicantId = $cookies.get('applicantId');
-        var accountId = account.id;
+        var userId = $cookies.get('userId');
 
-        buyingRequest.accountId = accountId;
-        buyingRequest.route = rout_to_buy;
+        $scope.buyingRequest.accountId = accountId;
+        $scope.buyingRequest.route = rout_to_buy;
 
-        var buyingRequestUrl = '/' + applicantId + '/gammaairlines/offers/buy';
+        var buyingRequestUrl = '/' + userId + '/gammaairlines/offers/buy';
 
         $scope.submitting = true;
         $http({
             method: 'POST',
             url: buyingRequestUrl,
-            data: buyingRequest
+            data: $scope.buyingRequest
         }).success(function (data) {
             $scope.submitting = false;
             $scope.userTicket = data;
@@ -459,63 +408,15 @@ app.controller('airlineOfferController', ['$scope', '$http', '$cookies', '$windo
             var jsonUserTicket = JSON.stringify($scope.userTicket);
             $cookies.put("selectedTicket", jsonUserTicket);
 
-            this.detail = data;
             $window.location.href = '#/ticket';
 
         }).error(function (data, status) {
             $scope.submitting = false;
             $scope.error = data.message;
-            if (status === 400)
-                $scope.badRequest = data;
-            else if (status === 409)
-                $scope.badRequest = '';
+            $scope.displayAccounts = false;
         });
     };
 
-    $scope.remove = function (idx) {
-
-        var offerIdToRemove = $scope.availableOffers[idx];
-
-        var removeRequestUrl = '/gammaairlines/offer/remove/' + offerIdToRemove.offerId;
-
-        $scope.submitting = true;
-        $http({
-            method: 'GET',
-            url: removeRequestUrl
-        }).success(function (data) {
-            $scope.submitting = false;
-            $scope.availableAirlineOffers();
-
-        }).error(function (data, status) {
-            $scope.submitting = false;
-            if (status === 400)
-                $scope.badRequest = data;
-            else if (status === 409)
-                $scope.badRequest = '';
-        });
-    };
-
-    $scope.addAirlineOffer = function (offer) {
-
-        var createAirlineOfferRequestUrl = '/gammaairlines/offers/save';
-
-        $scope.submitting = true;
-        $http({
-            method: 'POST',
-            url: createAirlineOfferRequestUrl,
-            data: offer
-        }).success(function (data) {
-            $scope.submitting = false;
-            $scope.availableAirlineOffers();
-
-        }).error(function (data, status) {
-            $scope.submitting = false;
-            if (status === 400)
-                $scope.badRequest = data;
-            else if (status === 409)
-                $scope.badRequest = '';
-        });
-    };
 }]);
 
 app.controller('homeController', ['$scope', '$http', '$cookies', '$window', function ($scope, $http, $cookies, $window) {
@@ -534,8 +435,9 @@ app.controller('homeController', ['$scope', '$http', '$cookies', '$window', func
 
 app.controller('usersTicketsController', ['$scope', '$http', '$cookies', '$window', function ($scope, $http, $cookies, $window) {
     $scope.headingTitle = "Users Tickets";
+    $scope.submitting = false;
 
-    var applicantId = $cookies.get('applicantId');
+    var userId = $cookies.get('userId');
     var applicantRole = $cookies.get('applicantRole');
 
     if (applicantRole == 'ADMIN') {
@@ -546,7 +448,7 @@ app.controller('usersTicketsController', ['$scope', '$http', '$cookies', '$windo
 
     $scope.loadUserTickets = function (userId) {
 
-        var userTicketsUrl = '/' + applicantId + 'gammaairlines/tickets';
+        var userTicketsUrl = '/' + userId + 'gammaairlines/tickets';
 
         $scope.submitting = true;
         $http({
@@ -558,11 +460,6 @@ app.controller('usersTicketsController', ['$scope', '$http', '$cookies', '$windo
 
         }).error(function (data, status) {
             $scope.submitting = false;
-
-            if (status === 400)
-                $scope.badRequest = data;
-            else if (status === 409)
-                $scope.badRequest = '';
         });
     };
 
@@ -572,7 +469,7 @@ app.controller('usersTicketsController', ['$scope', '$http', '$cookies', '$windo
 
     $scope.searchUsersTickets = function (userTicketSearchCriteria) {
 
-        var emailTicketUrl = '/' + applicantId + '/gammaairlines/userTicket/search/';
+        var emailTicketUrl = '/' + userId + '/gammaairlines/userTicket/search/';
 
         $scope.submitting = true;
         $http({
@@ -581,67 +478,9 @@ app.controller('usersTicketsController', ['$scope', '$http', '$cookies', '$windo
             data:userTicketSearchCriteria
         }).success(function (data) {
             $scope.usersTickets = data;
+            $scope.submitting = false;
         }).error(function (data, status) {
             $scope.submitting = false;
-            if (status === 400)
-                $scope.badRequest = data;
-            else if (status === 409)
-                $scope.badRequest = 'Email sending fail';
-        });
-    }
-
-}]);
-
-app.controller('moneyExchangeController', ['$scope', '$http', '$cookies', '$window', function ($scope, $http, $cookies, $window) {
-
-    $scope.headingTitle = "Money Exchange";
-
-    var applicantId = $cookies.get('applicantId');
-    var applicantRole = $cookies.get('applicantRole');
-
-    $scope.init = function () {
-        $http({
-            method: 'GET',
-            url: '/account/availableCurrency'
-        }).success(function (data) {
-            $scope.currencies = data;
-
-        }).error(function (data, status) {
-            $scope.submitting = false;
-            if (status === 400)
-                $scope.badRequest = data;
-            else if (status === 409)
-                $scope.badRequest = '';
-        });
-    };
-
-    $scope.exchangeRequest = {
-
-        monetaryAmount: {
-            price: null,
-            currency: null
-        },
-        targetCurrency: null
-    };
-
-    $scope.exchange = function () {
-
-        var currencyExchangeUrl = '/' + applicantId + '/moneyexchange/exchange';
-
-        $http({
-            method: 'POST',
-            url: currencyExchangeUrl,
-            data: $scope.exchangeRequest
-        }).success(function (data) {
-            $scope.submitting = false;
-            $scope.exchangeResult = data;
-
-        }).error(function (data, status) {
-            $scope.submitting = false;
-            if (status === 400)
-                $scope.badRequest = data;
-            else if (status === 409)
-                $scope.badRequest = '';
         });
     }
 

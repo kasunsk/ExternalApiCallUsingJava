@@ -62,19 +62,17 @@ public class UserSaveLogicUnitTest {
 
     @Test(expectedExceptions = ServiceRuntimeException.class)
     public void userNameValidateTest() throws Exception {
-        User user = new User();
-        user.setEmail("test@email.com");
+        User user = getUser();
         userSaveLogic.validateUser(user);
     }
-
 
     @Test(expectedExceptions = ServiceRuntimeException.class)
     public void userPasswordValidateTest() throws Exception {
-        User user = new User();
-        user.setEmail("test@email.com");
+        User user = getUser();
         user.setName("name");
         userSaveLogic.validateUser(user);
     }
+
 
     @Test(expectedExceptions = ServiceRuntimeException.class)
     public void userAlreadyExistValidateTest() throws Exception {
@@ -84,7 +82,6 @@ public class UserSaveLogicUnitTest {
         when(userDao.loadUserByEmail("test@email.com")).thenReturn(new User());
         userSaveLogic.validateUser(user);
     }
-
 
     @Test
     public void userAlreadyExistValidateSuccessTest() throws Exception {
@@ -103,22 +100,9 @@ public class UserSaveLogicUnitTest {
     public void encryptUserPasswordTest() {
         User user = new User();
         user.setPassword("test");
-        ServiceResponse<String> response = new ServiceResponse<>();
-        response.setPayload("encryptedTest");
-        when(applicationProperties.getInitialDepositAmount()).thenReturn(1000D);
-        when(applicationProperties.getInitialDepositCurrency()).thenReturn(Currency.USD);
-        when(securityService.encrypt(Matchers.any(ServiceRequest.class))).thenReturn(response);
+        preFunctionality();
         userSaveLogic.encryptUserPassword(user);
         assertEquals(user.getPassword(), "encryptedTest");
-    }
-
-    private User getCompletedUser() {
-        User user = new User();
-        user.setEmail("test@email.com");
-        user.setName("name");
-        user.setPassword("password");
-        user.setUserId(12L);
-        return user;
     }
 
     @SuppressWarnings("unchecked")
@@ -126,15 +110,34 @@ public class UserSaveLogicUnitTest {
     public void invokeTest() {
         User user = getCompletedUser();
         when(userDao.loadUserByEmail("test@email.com")).thenReturn(null);
+        preFunctionality();
+        ServiceResponse<Account> accountResponse = getAccountServiceResponse();
+        when(accountService.createAccount(Matchers.<ServiceRequest>any())).thenReturn(accountResponse);
+        String resultName = userSaveLogic.invoke(user);
+        assertEquals("name", resultName);
+    }
+
+    @SuppressWarnings("unchecked")
+    private void preFunctionality() {
         ServiceResponse<String> response = new ServiceResponse<>();
         response.setPayload("encryptedTest");
         when(applicationProperties.getInitialDepositAmount()).thenReturn(1000D);
         when(applicationProperties.getInitialDepositCurrency()).thenReturn(Currency.USD);
         when(securityService.encrypt(Matchers.any(ServiceRequest.class))).thenReturn(response);
-        ServiceResponse<Account> accountResponse = getAccountServiceResponse();
-        when(accountService.createAccount(Matchers.<ServiceRequest>any())).thenReturn(accountResponse);
-        String resultName = userSaveLogic.invoke(user);
-        assertEquals("name", resultName);
+    }
+
+    private User getUser() {
+        User user = new User();
+        user.setEmail("test@email.com");
+        return user;
+    }
+
+    private User getCompletedUser() {
+        User user = getUser();
+        user.setName("name");
+        user.setPassword("password");
+        user.setUserId(12L);
+        return user;
     }
 
     private ServiceResponse<Account> getAccountServiceResponse() {

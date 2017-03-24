@@ -42,16 +42,14 @@ public class UserTicketSearchLogicUnitTest {
 
     @Test(expectedExceptions = ServiceRuntimeException.class)
     public void invokeFailTest() {
-        UserTicketSearchCriteria criteria = new UserTicketSearchCriteria();
-        criteria.setEmail("email");
+        UserTicketSearchCriteria criteria = getUserTicketSearchCriteria();
         when(userLogicHelper.loadUserByEmail("email")).thenThrow(new ServiceRuntimeException("User Not Found"));
         logic.invoke(criteria);
     }
 
     @Test
     public void invokeTest() {
-        UserTicketSearchCriteria criteria = new UserTicketSearchCriteria();
-        criteria.setEmail("email");
+        UserTicketSearchCriteria criteria = getUserTicketSearchCriteria();
         User user = new User();
         user.setUserId(5L);
         when(userLogicHelper.loadUserByEmail("email")).thenReturn(user);
@@ -66,5 +64,11 @@ public class UserTicketSearchLogicUnitTest {
         List<UserTicket> userTickets = new ArrayList<>();
         when(airlineDao.searchUserTicket(null, null, null)).thenReturn(userTickets);
         assertEquals(logic.invoke(criteria), userTickets);
+    }
+
+    private UserTicketSearchCriteria getUserTicketSearchCriteria() {
+        UserTicketSearchCriteria criteria = new UserTicketSearchCriteria();
+        criteria.setEmail("email");
+        return criteria;
     }
 }

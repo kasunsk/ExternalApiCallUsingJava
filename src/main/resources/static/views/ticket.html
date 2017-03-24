@@ -8,6 +8,8 @@
 <div class="section">
     <h3>E Ticket</h3>
     <!--data-ng-init="getTicketDetail();-->
+    <div data-ng-show="error" class="alert alert-danger"><strong>Error!</strong> {{error}}</div>
+    <div data-ng-show="success" class="alert alert-success"><strong>Success!</strong> {{success}}</div>
     <div data-ng-init="init();">
 
         <table class="table">

@@ -31,7 +31,7 @@ public class HibernateConfiguration {
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
-        sessionFactory.setPackagesToScan(new String[] { "com.crossover.techtrial.java.se.model" });
+        sessionFactory.setPackagesToScan("com.crossover.techtrial.java.se.model");
         sessionFactory.setHibernateProperties(hibernateProperties());
         return sessionFactory;
      }

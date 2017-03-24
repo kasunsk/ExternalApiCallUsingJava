@@ -59,16 +59,14 @@ public class MoneyDepositLogicUnitTest {
     @Test(expectedExceptions = ServiceRuntimeException.class)
     public void validatePriceNullTest() {
 
-        MoneyTransferRequest request = new MoneyTransferRequest();
-        request.setAccountId("test");
+        MoneyTransferRequest request = getMoneyTransferRequest();
         logic.invoke(request);
     }
 
     @Test(expectedExceptions = ServiceRuntimeException.class)
     public void validatePriceCurrencyNullTest() {
 
-        MoneyTransferRequest request = new MoneyTransferRequest();
-        request.setAccountId("test");
+        MoneyTransferRequest request = getMoneyTransferRequest();
         request.setMonetaryAmount(new Price());
         logic.invoke(request);
     }
@@ -76,8 +74,7 @@ public class MoneyDepositLogicUnitTest {
     @Test(expectedExceptions = ServiceRuntimeException.class)
     public void validatePriceAmountNullTest() {
 
-        MoneyTransferRequest request = new MoneyTransferRequest();
-        request.setAccountId("test");
+        MoneyTransferRequest request = getMoneyTransferRequest();
         Price price = new Price();
         price.setCurrency(Currency.AUD);
         request.setMonetaryAmount(price);
@@ -94,11 +91,8 @@ public class MoneyDepositLogicUnitTest {
         ResponseEntity<Account> response = new ResponseEntity<>(account, HttpStatus.OK);
         when(restTemplate.postForEntity(anyString(), any(), eq(Account.class))).thenReturn(response);
 
-        MoneyTransferRequest request = new MoneyTransferRequest();
-        request.setAccountId("test");
-        Price price = new Price();
-        price.setCurrency(Currency.AUD);
-        price.setAmount(100D);
+        MoneyTransferRequest request = getMoneyTransferRequest();
+        Price price = getPrice();
         request.setMonetaryAmount(price);
         Account result = logic.invoke(request);
         assertEquals(account, result);
@@ -111,11 +105,8 @@ public class MoneyDepositLogicUnitTest {
         when(applicationProperties.getBaseAPIUrl()).thenReturn("www.crosover.com");
         when(restTemplate.postForEntity(anyString(), any(), eq(Account.class))).thenThrow(new HttpClientErrorException(HttpStatus.BAD_REQUEST));
 
-        MoneyTransferRequest request = new MoneyTransferRequest();
-        request.setAccountId("test");
-        Price price = new Price();
-        price.setCurrency(Currency.AUD);
-        price.setAmount(100D);
+        MoneyTransferRequest request = getMoneyTransferRequest();
+        Price price = getPrice();
         request.setMonetaryAmount(price);
         logic.invoke(request);
     }
@@ -127,11 +118,8 @@ public class MoneyDepositLogicUnitTest {
         when(applicationProperties.getBaseAPIUrl()).thenReturn("www.crosover.com");
         when(restTemplate.postForEntity(anyString(), any(), eq(Account.class))).thenThrow(new HttpClientErrorException(HttpStatus.NOT_FOUND));
 
-        MoneyTransferRequest request = new MoneyTransferRequest();
-        request.setAccountId("test");
-        Price price = new Price();
-        price.setCurrency(Currency.AUD);
-        price.setAmount(100D);
+        MoneyTransferRequest request = getMoneyTransferRequest();
+        Price price = getPrice();
         request.setMonetaryAmount(price);
         logic.invoke(request);
     }
@@ -143,12 +131,22 @@ public class MoneyDepositLogicUnitTest {
         when(applicationProperties.getBaseAPIUrl()).thenReturn("www.crosover.com");
         when(restTemplate.postForEntity(anyString(), any(), eq(Account.class))).thenThrow(new HttpClientErrorException(HttpStatus.METHOD_NOT_ALLOWED));
 
-        MoneyTransferRequest request = new MoneyTransferRequest();
-        request.setAccountId("test");
+        MoneyTransferRequest request = getMoneyTransferRequest();
+        Price price = getPrice();
+        request.setMonetaryAmount(price);
+        logic.invoke(request);
+    }
+
+    private Price getPrice() {
         Price price = new Price();
         price.setCurrency(Currency.AUD);
         price.setAmount(100D);
-        request.setMonetaryAmount(price);
-        logic.invoke(request);
+        return price;
+    }
+
+    private MoneyTransferRequest getMoneyTransferRequest() {
+        MoneyTransferRequest request = new MoneyTransferRequest();
+        request.setAccountId("test");
+        return request;
     }
 }

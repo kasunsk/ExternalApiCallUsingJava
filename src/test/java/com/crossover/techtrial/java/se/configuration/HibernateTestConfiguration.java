@@ -32,7 +32,7 @@ public class HibernateTestConfiguration {
 	public LocalSessionFactoryBean sessionFactory() {
 		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
 		sessionFactory.setDataSource(dataSource());
-		sessionFactory.setPackagesToScan(new String[] { "com.kasun.airline.model" });
+		sessionFactory.setPackagesToScan("com.kasun.airline.model");
 		sessionFactory.setHibernateProperties(hibernateProperties());
 		return sessionFactory;
 	}

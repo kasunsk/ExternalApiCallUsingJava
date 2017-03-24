@@ -70,7 +70,7 @@ public class EmailSendLogic extends StatelessServiceLogic<Boolean, EmailParam> {
         return props;
     }
 
-    private class SMTPAuthenticator extends javax.mail.Authenticator {
+    private static class SMTPAuthenticator extends javax.mail.Authenticator {
 
         public PasswordAuthentication getPasswordAuthentication() {
             return new PasswordAuthentication(senderEmail, senderPassword);

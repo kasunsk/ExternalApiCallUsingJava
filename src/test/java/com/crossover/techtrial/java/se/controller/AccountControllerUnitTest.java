@@ -42,9 +42,8 @@ public class AccountControllerUnitTest {
     @Test
     public void createAccountTest() {
 
-        ServiceResponse<Account> accountResponse = new ServiceResponse<>();
         Account account = new Account();
-        accountResponse.setPayload(account);
+        ServiceResponse<Account> accountResponse = buildAccountServiceResponse(account);
         when(accountService.createAccount(org.mockito.Matchers.<ServiceRequest>any())).thenReturn(accountResponse);
         ServiceResponse<User> userResponse = new ServiceResponse<>();
         userResponse.setPayload(new User());
@@ -58,9 +57,8 @@ public class AccountControllerUnitTest {
     @Test
     public void depositsTest() {
 
-        ServiceResponse<Account> accountResponse = new ServiceResponse<>();
         Account account = new Account();
-        accountResponse.setPayload(account);
+        ServiceResponse<Account> accountResponse = buildAccountServiceResponse(account);
         when(accountService.deposit(org.mockito.Matchers.<ServiceRequest>any())).thenReturn(accountResponse);
         MoneyTransferRequest request = new MoneyTransferRequest();
         request.setAccountId("A12S");
@@ -68,18 +66,24 @@ public class AccountControllerUnitTest {
         assertEquals(controller.deposits("23", request), account);
     }
 
-
     @SuppressWarnings("unchecked")
     @Test
     public void viewAllAccountsTest() {
 
-        ServiceResponse<List<Account>> accountResponse = new ServiceResponse<>();
         List<Account> accounts = new ArrayList<>();
         Account account = new Account();
+        ServiceResponse<List<Account>> accountResponse = new ServiceResponse<>();
         accounts.add(account);
         accountResponse.setPayload(accounts);
         when(accountService.loadAllAccounts(Matchers.<ServiceRequest>any())).thenReturn(accountResponse);
         assertEquals(controller.viewAllAccounts("23"), accounts);
+    }
+
+
+    private ServiceResponse<Account> buildAccountServiceResponse(Account account) {
+        ServiceResponse<Account> accountResponse = new ServiceResponse<>();
+        accountResponse.setPayload(account);
+        return accountResponse;
     }
 
 }

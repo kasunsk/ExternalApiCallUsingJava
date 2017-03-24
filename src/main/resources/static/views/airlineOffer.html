@@ -17,23 +17,28 @@
         <br>
         <label>To : {{offer.route.to}}</label>
         <br>
-        <button class="button" data-ng-click="select($index);">Select</button>
+        <button data-ng-show="!isAdmin" class="button" data-ng-click="select($index);">Select</button>
     </div>
 </div>
-<div class="section_div" data-ng-controller="accountCreateController" data-ng-show="displayAccounts"
-     data-ng-init="accountList();">
-    <div>
-        <div class="section_div">
-            <div data-ng-show="error" class="alert alert-danger">{{error}}</div>
-        </div>
-        <label for="account">Account</label>
-        <select name="account" id="account" data-ng-model="account" class="small_select"
-                data-ng-options="account as account.balance.amount +' '+ account.balance.currency for account in allAccounts"></select>
-        <label for="amount">Number of Tickets</label>
-        <input type="text" name="amount" id="amount"
-               data-ng-model="buyingRequest.amount"/>
-        <br>
-        <button class="button" data-ng-click="buy(account, buyingRequest);">Buy</button>
+<div class="section_div" data-ng-controller="accountCreateController" data-ng-show="displayAccounts" data-ng-init="accountList();">
+    <form name="form" role="form">
+            <div>
+                <label for="accountId">Account</label>
+                <select name="accountId" id="accountId" data-ng-model="accountId" class="small_select"
+                        data-ng-options="account.id as account.balance.amount +' '+ account.balance.currency for account in allAccounts"></select>
+                <label for="amount">Number of Tickets</label>
+                <input type="text" name="amount" id="amount" data-ng-model="buyingRequest.amount"/>
+            <span class="help-block"
+                  data-ng-show="form.amount.$dirty && form.amount.$error.required">Ticket Amount is required</span>
+            </div>
+    </form>
+    <div class="form-group">
+        <img src="/images/waiting.gif" alt="waiting" data-ng-show="submitting"/>&#160;&#160;
+        <button type="submit" data-ng-disabled="form.$invalid || dataLoading" class="btn btn-primary"
+                data-ng-click=buy(accountId)>Buy
+        </button>
+        <img data-ng-if="dataLoading"
+             src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="/>
     </div>
 </div>
 </body>

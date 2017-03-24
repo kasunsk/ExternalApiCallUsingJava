@@ -10,10 +10,7 @@ public class ServiceResponse<T> {
 
     public boolean hasError () {
 
-        if (error != null) {
-            return true;
-        }
-        return false;
+        return error != null;
     }
 
     public T getPayload() {

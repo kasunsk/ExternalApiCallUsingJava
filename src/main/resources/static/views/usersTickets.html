@@ -20,6 +20,7 @@
         <label for="destination">Destination</label>
         <input type="text" name="destination" id="destination" data-ng-model="userTicketSearchCriteria.destination"
                required/>
+        <img src="/images/waiting.gif" alt="waiting" data-ng-show="submitting"/>&#160;&#160;
         <button class="btn btn-primary" data-ng-click="searchUsersTickets(userTicketSearchCriteria);">Search</button>
     </div>
 

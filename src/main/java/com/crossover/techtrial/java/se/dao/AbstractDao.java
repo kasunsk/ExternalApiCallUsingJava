@@ -26,7 +26,7 @@ public abstract class AbstractDao<PK extends Serializable, T> {
 
 	@SuppressWarnings("unchecked")
 	public T getByKey(PK key) {
-		return (T) getSession().get(persistentClass, key);
+		return getSession().get(persistentClass, key);
 	}
 
 	public void persist(T entity) {

@@ -9,6 +9,7 @@
 <div class="section" data-ng-show="showViewAccounts">
     <h3>{{headingTitle}}</h3>
     <div data-ng-show="error" class="alert alert-danger">{{error}}</div>
+    <div data-ng-show="success_deposit" class="alert alert-success"><strong>Success!</strong> {{success_deposit}}</div>
     <div data-ng-init="accountList();">
         <table class="table">
             <tr class="tr">
@@ -32,30 +33,28 @@
 </div>
 
 <div class="section">
-    <form name="form" data-ng-submit="createAccount();" role="form">
+    <div data-ng-show="error_create_account" class="alert alert-danger"><strong>Error!</strong> {{error_create_account}}</div>
+    <div data-ng-show="success_create_account" class="alert alert-success"><strong>Success!</strong> {{success_create_account}}</div>
+    <form name="form" role="form">
         <div class="form-group" data-ng-init="availableCurrencies();">
             <label for="currency">Currency</label>
             <!--<i class="fa fa-key"></i>-->
-            <select name="currency" id="currency" data-ng-model="accountCreateRequest.currency"
+            <select class="form-control" name="currency" id="currency" data-ng-model="accountCreateRequest.currency"
                     data-ng-options="x for x in currencies"></select>
         <span data-ng-show="form.currency.$dirty && form.currency.$error.required"
               class="help-block">Currency is Required</span>
+
+            <img src="/images/waiting.gif" alt="waiting" data-ng-show="submitting"/>&#160;&#160;
+            <button type="submit" class="btn btn-primary"
+                    data-ng-click="createAccount();">Create Bank Account
+            </button>
         </div>
     </form>
 </div>
 
-<div class="alert alert-success" data-ng-show="showSuccessAlert">
-    <strong>Done! </strong> {{successTextAlert}}
-</div>
-
-<div class="modal-footer">
-    <img src="/images/waiting.gif" alt="waiting"/>&#160;&#160;
-    <button type="submit" class="btn btn-primary"
-            data-ng-click="createAccount();">Create Bank Account
-    </button>
-</div>
 
 <div class="section" data-ng-show="displayDeposit">
+    <div data-ng-show="error_deposit" class="alert alert-danger"><strong>Error!</strong> {{error_deposit}}</div>
     <div class="form-group">
         <label for="price">Price</label>
         <i class="fa fa-key"></i>
@@ -64,23 +63,18 @@
         <span data-ng-show="form.price.$dirty && form.price.$error.required"
               class="help-block">Price is required</span>
 
-        <label for="currency">Currency</label>
-        <!--<i class="fa fa-key"></i>-->
-        <select name="currencyX" id="currencyX" data-ng-model="depositRequest.monetaryAmount.currency"
+        <label for="currencyX">Currency</label>
+        <select class="form-control" name="currencyX" id="currencyX" data-ng-model="depositRequest.monetaryAmount.currency"
                 data-ng-options="x for x in currencies"></select>
         <span data-ng-show="form.currency.$dirty && form.currency.$error.required"
               class="help-block">Currency is Required</span>
     </div>
 
     <div class="modal-footer">
-        <img src="/images/waiting.gif" alt="waiting"/>&#160;&#160;
+        <img src="/images/waiting.gif" alt="waiting" data-ng-show="submitting"/>&#160;&#160;
         <button type="submit" class="btn btn-primary" data-ng-model="$index"
                 data-ng-click="deposit(depositAccountId);">Deposit Money
         </button>
-    </div>
-
-    <div class="alert alert-success" data-ng-show="showDepositeSuccessAlert">
-        <strong>Done! </strong>
     </div>
 </div>
 </body>

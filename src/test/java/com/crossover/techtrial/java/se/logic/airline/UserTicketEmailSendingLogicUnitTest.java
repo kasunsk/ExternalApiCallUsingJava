@@ -53,14 +53,8 @@ public class UserTicketEmailSendingLogicUnitTest {
     @Test
     public void emailSendSuccessTest() {
 
-        UserTicket userTicket = new UserTicket();
-        userTicket.setUserId(25L);
-        when(airlineHibernateDao.loadUserTicketById(12L)).thenReturn(userTicket);
-
-        ServiceResponse<User> userResponse = new ServiceResponse<>();
-        User user = new User();
-        user.setEmail("test@gmail.com");
-        userResponse.setPayload(user);
+        predefineFunctionality();
+        ServiceResponse<User> userResponse = getUserServiceResponse();
         when(userService.loadUserById(Matchers.<ServiceRequest>any())).thenReturn(userResponse);
         Boolean result = logic.invoke("12");
         verify(emailService, times(1)).sendEmail(Matchers.<ServiceRequest>any());
@@ -72,18 +66,32 @@ public class UserTicketEmailSendingLogicUnitTest {
     @Test
     public void emailSendFailTest() {
 
-        UserTicket userTicket = new UserTicket();
-        userTicket.setUserId(25L);
-        when(airlineHibernateDao.loadUserTicketById(12L)).thenReturn(userTicket);
-
-        ServiceResponse<User> userResponse = new ServiceResponse<>();
-        User user = new User();
-        user.setEmail("test@gmail.com");
-        userResponse.setPayload(user);
+        predefineFunctionality();
+        ServiceResponse<User> userResponse = getUserServiceResponse();
         when(userService.loadUserById(Matchers.<ServiceRequest>any())).thenReturn(userResponse);
         when(emailService.sendEmail(Matchers.<ServiceRequest>any())).thenThrow(new ServiceRuntimeException("Error sending mail"));
         assertFalse(logic.invoke("12"));
         verify(emailHibernateDao, times(1)).saveEmailData(Matchers.<EmailModel>any());
+    }
+
+    private void predefineFunctionality() {
+
+        UserTicket userTicket = getUserTicket(25L);
+        when(airlineHibernateDao.loadUserTicketById(12L)).thenReturn(userTicket);
+    }
+
+    private ServiceResponse<User> getUserServiceResponse() {
+        ServiceResponse<User> userResponse = new ServiceResponse<>();
+        User user = new User();
+        user.setEmail("test@gmail.com");
+        userResponse.setPayload(user);
+        return userResponse;
+    }
+
+    private UserTicket getUserTicket(Long userId) {
+        UserTicket userTicket = new UserTicket();
+        userTicket.setUserId(userId);
+        return userTicket;
     }
 
 }

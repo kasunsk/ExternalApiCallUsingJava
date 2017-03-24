@@ -27,7 +27,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
 
-public class AccountCreateLogicUnitTest  {
+public class AccountCreateLogicUnitTest {
 
     @InjectMocks
     AccountCreateLogic logic = new AccountCreateLogic();
@@ -45,7 +45,7 @@ public class AccountCreateLogicUnitTest  {
     UserDao userDao;
 
 
-    @BeforeMethod(alwaysRun=true)
+    @BeforeMethod(alwaysRun = true)
     public void init() {
         MockitoAnnotations.initMocks(this);
     }
@@ -67,16 +67,14 @@ public class AccountCreateLogicUnitTest  {
 
     @Test(expectedExceptions = ServiceRuntimeException.class)
     public void validateAccountRequestNullTest() {
-        AccountCreateCriteria criteria = new AccountCreateCriteria();
-        criteria.setUserId("5");
+        AccountCreateCriteria criteria = getAccountCreateCriteria();
         logic.invoke(criteria);
     }
 
     @Test(expectedExceptions = ServiceRuntimeException.class)
     public void validateCurrencyNullTest() {
 
-        AccountCreateCriteria criteria = new AccountCreateCriteria();
-        criteria.setUserId("5");
+        AccountCreateCriteria criteria = getAccountCreateCriteria();
         criteria.setAccountRequest(new AccountRequest());
         logic.invoke(criteria);
     }
@@ -84,10 +82,8 @@ public class AccountCreateLogicUnitTest  {
     @Test(expectedExceptions = ServiceRuntimeException.class)
     public void invokeBadRequestFailTest() {
 
-        AccountCreateCriteria criteria = new AccountCreateCriteria();
-        criteria.setUserId("5");
-        AccountRequest accountRequest = new AccountRequest();
-        accountRequest.setCurrency(Currency.AED);
+        AccountCreateCriteria criteria = getAccountCreateCriteria();
+        AccountRequest accountRequest = getAccountRequest();
         criteria.setAccountRequest(accountRequest);
 
         ResponseEntity<Account> response = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -99,10 +95,8 @@ public class AccountCreateLogicUnitTest  {
     @Test(expectedExceptions = ServiceRuntimeException.class)
     public void invokeNotFoundFailTest() {
 
-        AccountCreateCriteria criteria = new AccountCreateCriteria();
-        criteria.setUserId("5");
-        AccountRequest accountRequest = new AccountRequest();
-        accountRequest.setCurrency(Currency.AED);
+        AccountCreateCriteria criteria = getAccountCreateCriteria();
+        AccountRequest accountRequest = getAccountRequest();
         criteria.setAccountRequest(accountRequest);
 
         ResponseEntity<Account> response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -111,15 +105,12 @@ public class AccountCreateLogicUnitTest  {
 
     }
 
-
     @SuppressWarnings("unchecked")
     @Test
     public void invokeTest() {
 
-        AccountCreateCriteria criteria = new AccountCreateCriteria();
-        criteria.setUserId("5");
-        AccountRequest accountRequest = new AccountRequest();
-        accountRequest.setCurrency(Currency.AED);
+        AccountCreateCriteria criteria = getAccountCreateCriteria();
+        AccountRequest accountRequest = getAccountRequest();
         criteria.setAccountRequest(accountRequest);
 
         Account account = new Account();
@@ -130,6 +121,18 @@ public class AccountCreateLogicUnitTest  {
         assertEquals(logic.invoke(criteria), account);
         verify(accountDao, times(1)).createAccount(any());
 
+    }
+
+    private AccountCreateCriteria getAccountCreateCriteria() {
+        AccountCreateCriteria criteria = new AccountCreateCriteria();
+        criteria.setUserId("5");
+        return criteria;
+    }
+
+    private AccountRequest getAccountRequest() {
+        AccountRequest accountRequest = new AccountRequest();
+        accountRequest.setCurrency(Currency.AED);
+        return accountRequest;
     }
 
 }

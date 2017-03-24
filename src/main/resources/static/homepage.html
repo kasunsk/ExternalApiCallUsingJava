@@ -21,14 +21,14 @@
     <p>Hello {{applicantName}}</p>
 <button margin-lef="10%" type="submit" data-ng-controller="loginController" data-ng-click="logout()">Sign out</button>
 </div>
-
+<hr>
 <div class="home-section">
     <ul class="menu-list">
         <li data-ng-show="isAdmin" data-ng-controller="homeController"><a href="#/users">Users</a></li>
         <li data-ng-show="isAdmin" data-ng-controller="homeController"><a href="#/usersTickets">Users Tickets</a></li>
         <li><a href="#/airlineOffer">Airline Offers</a></li>
-        <li><a href="#/accountCreate">My Accounts</a></li>
-        <li><a href="#/myTickets">My Tickets</a></li>
+        <li data-ng-show="!isAdmin" data-ng-controller="homeController"><a href="#/accountCreate">My Accounts</a></li>
+        <li data-ng-show="!isAdmin" data-ng-controller="homeController"><a href="#/myTickets">My Tickets</a></li>
     </ul>
 </div>
 <div data-ng-view></div>

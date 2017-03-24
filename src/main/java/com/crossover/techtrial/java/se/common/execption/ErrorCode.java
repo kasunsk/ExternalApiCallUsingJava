@@ -5,7 +5,6 @@ package com.crossover.techtrial.java.se.common.execption;
  */
 public interface ErrorCode {
 
-    String NO_ENOUGH_INV = "No enough inventory";
     String INVALID_OFFER_ROUT = "Invalid offer route";
     String NOT_ENOUGH_CREDIT = "Credit not enough";
     String ROUTE_ALREADY_EXIST = "Rout already exist";

@@ -18,4 +18,12 @@ public class ServiceRuntimeException extends RuntimeException{
         this.errorCode = errorCode;
         this.errorMsg = errorMsg;
     }
+
+    public String getErrorMsg() {
+        return errorMsg;
+    }
+
+    public String getErrorCode() {
+        return errorCode;
+    }
 }
