@@ -1,5 +1,5 @@
-Trial Application
-=================
+External API Call by Java
+=========================
 
 Set up Gide
 -----------
